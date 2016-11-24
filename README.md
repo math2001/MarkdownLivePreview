@@ -34,6 +34,10 @@ Sometimes, you just want to open a markdown file to edit it quickly, you don't c
 
 This plugin is not finished, there's still some things to fix (custom css, focus, etc). So, don't run away if you have any trouble, just submit an issue [here](http://github.com/math2001/MarkdownLivePreview/issues).
 
+### Demo
+
+![demo](demo.gif)
+
 ### How to open the [README](http://github.com/math2001/MarkdownLivePreview/README.md)
 
 Some of the package add a command in the menus, others in the command palette, or other nowhere. None of those options are really good, especially the last one on ST3 because the packages are compressed. But, fortunately, there is plugin that exists and **will solve this problem** for us (and he has a really cute name, don't you think?): [ReadmePlease](https://packagecontrol.io/packages/ReadmePlease).

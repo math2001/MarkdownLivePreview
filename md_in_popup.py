@@ -1,8 +1,18 @@
 import sublime
 import sublime_plugin
-from sublimetools import *
 import html
 from . import markdown2
+
+# Main sublime tools function
+
+def md(*t, **kwargs):
+    sublime.message_dialog(kwargs.get('sep', '\n').join([str(el) for el in t]))
+
+def sm(*t, **kwargs):
+    sublime.status_message(kwargs.get('sep', ' ').join([str(el) for el in t]))
+
+def em(*t, **kwargs):
+    sublime.error_message(kwargs.get('sep', ' ').join([str(el) for el in t]))
 
 class MarkdownInPopupCommand(sublime_plugin.EventListener):
     def run(self, view):
@@ -32,7 +42,7 @@ class MarkdownInPopupCommand(sublime_plugin.EventListener):
             blockquote {
                 font-style: italic;
                 display: block;
-                margin-left: 20px;
+                margin-left: 30px;
                 border: 1px solid red;
             }
         </style>"""
