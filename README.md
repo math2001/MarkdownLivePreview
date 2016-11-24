@@ -1,6 +1,6 @@
 # MarkdownLivePreview
 
-This is a sublime text **3** plugin that allows you to preview your markdown insensately *in* it!
+This is a sublime text **3** plugin that allows you to preview your markdown instantly *in* it!
 
 ### Dependencies
 
@@ -25,6 +25,14 @@ So, as you probably understood, now you just need to install MarkdownLivePreview
 4. hit <kbd>enter</kbd>
 
 Done!
+
+### Usage
+
+Sometimes, you just want to open a markdown file to edit it quickly, you don't care about the preview, and even worse, **you don't want it**. So, if you want to have the preview, press `alt+m`, edit your file, and you'll get a nice preview.
+
+### In dev
+
+This plugin is not finished, there's still some things to fix (custom css, focus, etc). So, don't run away if you have any trouble, just submit an issue [here](http://github.com/math2001/MarkdownLivePreview/issues).
 
 ### How to open the [README](http://github.com/math2001/MarkdownLivePreview/README.md)
 
