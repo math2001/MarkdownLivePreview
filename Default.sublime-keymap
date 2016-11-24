@@ -1,0 +1,16 @@
+[
+    {
+        "keys": ["alt+m"],
+        "command": "toggle_setting",
+        "args": {
+            "setting": "markdown_preview_enabled"
+        },
+        "context": [
+            {
+                "key": "selector",
+                "operator": "equal",
+                "operand": "text.html.markdown"
+            }
+        ]
+    }
+]
