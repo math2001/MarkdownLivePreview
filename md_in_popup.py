@@ -49,10 +49,13 @@ class MarkdownInPopupCommand(sublime_plugin.EventListener):
         html += markdown2.markdown(self.get_view_content(current_view))
         view_id = current_view_settings.get('markdown_preview_id', None)
         def create_preview_panel():
+            focus_group, focus_view = w.get_view_index(current_view)
             preview = w.new_file()
             w.run_command('new_pane')
             view_id = preview.id()
             current_view_settings.set('markdown_preview_id', view_id)
+            w.focus_group(focus_group)
+            w.focus_view(current_view)
             return preview
 
         def show_html(view, html):
