@@ -2,6 +2,9 @@ import sublime
 import sublime_plugin
 from . import markdown2
 import os.path
+import re
+
+from html.parser import HTMLParser
 
 # Main sublime tools function
 
@@ -14,9 +17,14 @@ def sm(*t, **kwargs):
 def em(*t, **kwargs):
     sublime.error_message(kwargs.get('sep', ' ').join([str(el) for el in t]))
 
+STYLE_FILE = os.path.join(sublime.packages_path(), 'User', 'MarkdownLivePreview.css')
 def get_style():
     """Of course, this is temporal, there will be an option to customize the CSS"""
-    return """<style>
+    if os.path.exists(STYLE_FILE):
+        with open(STYLE_FILE) as fp:
+            return fp.read()
+
+    return """
         body {
             padding:10px;
             font-family: "Open Sans", sans-serif;
@@ -29,7 +37,20 @@ def get_style():
             margin-left: 30px;
             border: 1px solid red;
         }
-    </style>"""
+    """
+
+def pre_with_br(html):
+    """Because the phantoms of sublime text does not support <pre> blocks
+    this function replaces every \n with a <br> in a <pre>"""
+
+    while True:
+        obj = re.search(r'<pre>.*?</pre>', html, re.DOTALL)
+        if not obj:
+            break
+        html = list(html)
+        html[obj.start(0):obj.end(0)] = ''.join(html[obj.start(0):obj.end(0)]).replace('\n', '<br>').replace('<pre>', '<pre class="pre">')
+        html = ''.join(html)
+    return html
 
 def close_preview(md_view_settings, preview):
     preview.close()
@@ -54,7 +75,8 @@ def create_preview(window, md_view):
     return preview, preview_settings
 
 def show_html(md_view, preview):
-    html = get_style() + markdown2.markdown(get_view_content(md_view))
+    html = '<style>{}</style>'.format(get_style()) + pre_with_br(markdown2.markdown(get_view_content(md_view), extras=['fenced-code-blocks']))
+    html = HTMLParser().unescape(html)
     preview.erase_phantoms('markdown_preview')
     preview.add_phantom('markdown_preview',
                          sublime.Region(0),

@@ -24,5 +24,23 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 > If the implementation is easy to explain, it may be a good idea.  
 > Namespaces are one honking great idea -- let's do more of those!  
 
-> Code tells you how, comments tells you why
+> Code tells you how, comments tells you why c
+
+
+    print('hello world')
+    print('hi')
+
+```python
+print('This is some pretty')
+print('cool stuff')
+```
+
+This is some `code`
+
+- a
+- list
+
+1. an
+2. other
+3. list
 
