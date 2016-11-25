@@ -65,6 +65,7 @@ def create_preview(window, md_view):
 
     preview_settings = preview.settings()
     preview_settings.set('gutter', False)
+    preview_settings.set('scroll_past_end', False)
     preview_settings.set('is_markdown_preview', True)
     preview_settings.set('markdown_view_id', md_view.id())
 
@@ -83,6 +84,8 @@ def show_html(md_view, preview):
                          html,
                          sublime.LAYOUT_INLINE,
                          lambda href: sublime.run_command('open_url', {'url': href}))
+    y = md_view.layout_extent()[1] / md_view.text_to_layout(md_view.sel()[0].begin())[1]
+    preview.set_viewport_position((0, y * preview.layout_extent()[1]), False)
 
 def get_view_content(view):
     return view.substr(sublime.Region(0, view.size()))
