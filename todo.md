@@ -1,7 +1,7 @@
 # todo
 
 - add message in status bar 
-- add **custom css** feature
+- add **custom css** feature @done
 - sync scroll @done @improve: scroll preview to center when possible
 - regive focus to the right markdown view @done
 - set the title of the preview @done

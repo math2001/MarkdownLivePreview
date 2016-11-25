@@ -1,9 +1,8 @@
 # Hello world!
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-
-#### The Zen of Python, by Tim Peters
+### The Zen of Python, by Tim Peters c
 
 > Beautiful is better than ugly.  
 > Explicit is better than implicit.  
@@ -25,8 +24,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 > If the implementation is easy to explain, it may be a good idea.  
 > Namespaces are one honking great idea -- let's do more of those!  
 
-> Code tells you how, comments tells you why c
-
+> Code tells you how, comments tells you why
 
     print('hello world')
     print('hi')
@@ -36,7 +34,7 @@ print('This is some pretty')
 print('cool stuff')
 ```
 
-This is some `code`
+This is some `code` ccc
 
 - a
 - list

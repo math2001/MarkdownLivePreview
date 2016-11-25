@@ -17,6 +17,11 @@ def sm(*t, **kwargs):
 def em(*t, **kwargs):
     sublime.error_message(kwargs.get('sep', ' ').join([str(el) for el in t]))
 
+def mini(val, min):
+    if val < min:
+        return min
+    return val
+
 STYLE_FILE = os.path.join(sublime.packages_path(), 'User', 'MarkdownLivePreview.css')
 def get_style():
     """Of course, this is temporal, there will be an option to customize the CSS"""
@@ -28,16 +33,37 @@ def get_style():
         body {
             padding:10px;
             font-family: "Open Sans", sans-serif;
-            background-color: #fff;
+            background-color: var(--background);
             font-size: 15px;
         }
+
         blockquote {
             font-style: italic;
             display: block;
             margin-left: 30px;
             border: 1px solid red;
         }
-    """
+
+        code {
+            padding-left: 0.2rem;
+            padding-right: 0.2rem;
+            background-color: rgb(244.6,244.6,244.6);
+            margin: 0;
+            border-radius: 3px;
+            margin: 5px;
+        }
+
+        pre {
+            display: block;
+            margin-top: 20px;
+            line-height: 2;
+            background-color: rgb(244.6,244.6,244.6);
+            padding-left: 10px;
+        }
+        pre code {
+            padding-left: 0;
+        }
+    """.replace('\n', '').replace('\t', '')
 
 def pre_with_br(html):
     """Because the phantoms of sublime text does not support <pre> blocks
@@ -65,7 +91,6 @@ def create_preview(window, md_view):
 
     preview_settings = preview.settings()
     preview_settings.set('gutter', False)
-    preview_settings.set('scroll_past_end', False)
     preview_settings.set('is_markdown_preview', True)
     preview_settings.set('markdown_view_id', md_view.id())
 
@@ -73,10 +98,12 @@ def create_preview(window, md_view):
     window.focus_group(focus_group)
     window.focus_view(md_view)
 
-    return preview, preview_settings
+    return preview
 
 def show_html(md_view, preview):
-    html = '<style>{}</style>'.format(get_style()) + pre_with_br(markdown2.markdown(get_view_content(md_view), extras=['fenced-code-blocks']))
+    html = ('<style>{}</style>'.format(get_style()) +
+            pre_with_br(markdown2.markdown(get_view_content(md_view),
+                        extras=['fenced-code-blocks'])))
     html = HTMLParser().unescape(html)
     preview.erase_phantoms('markdown_preview')
     preview.add_phantom('markdown_preview',
@@ -84,8 +111,11 @@ def show_html(md_view, preview):
                          html,
                          sublime.LAYOUT_INLINE,
                          lambda href: sublime.run_command('open_url', {'url': href}))
-    y = md_view.layout_extent()[1] / md_view.text_to_layout(md_view.sel()[0].begin())[1]
-    preview.set_viewport_position((0, y * preview.layout_extent()[1]), False)
+    # 0 < y < 1
+    y = md_view.text_to_layout(md_view.sel()[0].begin())[1] / md_view.layout_extent()[1]
+    # remove half of the viewport_extent.y to center it on the screen (verticaly)
+    vector = 0, y * preview.layout_extent()[1] - preview.viewport_extent()[1] / 2
+    preview.set_viewport_position(vector, animate=False)
 
 def get_view_content(view):
     return view.substr(sublime.Region(0, view.size()))
@@ -115,18 +145,19 @@ class MarkdownInPopupCommand(sublime_plugin.EventListener):
 
         if not markdown_preview_enabled:
             if preview_id is not None:
-                close_preview(md_view_settings, get_view_from_id(window, preview_id))
+                preview = get_view_from_id(window, preview_id)
+                if preview:
+                    close_preview(md_view_settings, preview)
             return
 
         if preview_id is None:
-            preview, preview_settings = create_preview(window, md_view)
+            preview = create_preview(window, md_view)
         else:
             preview = get_view_from_id(window, preview_id)
             if not preview:
                 md_view_settings.erase('markdown_preview_id')
                 md_view_settings.erase('markdown_preview_enabled')
                 return
-            preview_settings = preview.settings()
 
         show_html(md_view, preview)
 
@@ -135,4 +166,12 @@ class MarkdownInPopupCommand(sublime_plugin.EventListener):
         if settings.get('markdown_preview_enabled') is True:
             preview = get_view_from_id(view.window(), settings.get('markdown_preview_id'))
             if preview:
-                sublime.set_timeout_async(lambda: preview.close(), 100)
+                sublime.set_timeout_async(lambda: preview.close(), 250)
+        elif settings.get('is_markdown_preview') is True:
+            md_view = get_view_from_id(view.window(), settings.get('markdown_view_id'))
+            if md_view:
+                def callback():
+                    md_view_settings = md_view.settings()
+                    md_view_settings.erase('markdown_preview_enabled')
+                    md_view_settings.erase('markdown_preview_id')
+                sublime.set_timeout_async(callback, 250)

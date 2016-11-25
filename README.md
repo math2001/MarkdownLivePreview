@@ -38,6 +38,8 @@ This plugin is not finished, there's still some things to fix (custom css, focus
 
 ![demo](demo.gif)
 
+### Custom css
+
 ### How to open the [README](http://github.com/math2001/MarkdownLivePreview/README.md)
 
 Some of the package add a command in the menus, others in the command palette, or other nowhere. None of those options are really good, especially the last one on ST3 because the packages are compressed. But, fortunately, there is plugin that exists and **will solve this problem** for us (and he has a really cute name, don't you think?): [ReadmePlease](https://packagecontrol.io/packages/ReadmePlease).
