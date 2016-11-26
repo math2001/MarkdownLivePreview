@@ -24,62 +24,67 @@ def mini(val, min):
 
 STYLE_FILE = os.path.join(sublime.packages_path(), 'User', 'MarkdownLivePreview.css')
 def get_style():
-    """Of course, this is temporal, there will be an option to customize the CSS"""
+    content = None
     if os.path.exists(STYLE_FILE):
         with open(STYLE_FILE) as fp:
             content = fp.read()
-            if content:
-                return content
+            return content
+    if not content:
+        content = """
+            html {
+                --light-bg: color(var(--background) blend(#999 85%))
+            }
+            body {
+                padding:10px;
+                padding-top: 0px;
+                font-family: "Open Sans", sans-serif;
+                background-color: var(--background);
+                font-size: 15px;
+            }
 
-    return """
-        html {
-            --light-bg: color(var(--background) blend(#aaa 80%))
-        }
-        body {
-            padding:10px;
-            font-family: "Open Sans", sans-serif;
-            background-color: var(--background);
-            font-size: 15px;
-        }
+            blockquote {
+                font-style: italic;
+                display: block;
+                margin-left: 30px;
+                border: 1px solid red;
+            }
 
-        blockquote {
-            font-style: italic;
-            display: block;
-            margin-left: 30px;
-            border: 1px solid red;
-        }
+            code {
+                padding-left: 0.2rem;
+                padding-right: 0.2rem;
+                background-color: var(--light-bg);
+                margin: 0;
+                border-radius: 3px;
+                margin: 5px;
+            }
 
-        code {
-            padding-left: 0.2rem;
-            padding-right: 0.2rem;
-            background-color: var(--light-bg);
-            margin: 0;
-            border-radius: 3px;
-            margin: 5px;
-        }
-
-        pre {
-            display: block;
-            margin-top: 20px;
-            line-height: 2;
-            background-color: var(--light-bg);
-            padding-left: 10px;
-        }
-        pre code {
-            padding-left: 0;
-        }
-    """
+            pre {
+                display: block;
+                margin-top: 20px;
+                line-height: 1.7;
+                background-color: var(--light-bg);
+                padding-left: 10px;
+                width: 100%;
+                border-radius: 3px;
+            }
+            pre code {
+                padding-left: 0;
+            }
+        """
+    return content + "pre code .space {color: var(--light-bg)}"
 
 def pre_with_br(html):
     """Because the phantoms of sublime text does not support <pre> blocks
     this function replaces every \n with a <br> in a <pre>"""
 
     while True:
-        obj = re.search(r'<pre>.*?</pre>', html, re.DOTALL)
+        obj = re.search(r'<pre>(.*?)</pre>', html, re.DOTALL)
         if not obj:
             break
         html = list(html)
-        html[obj.start(0):obj.end(0)] = ''.join(html[obj.start(0):obj.end(0)]).replace('\n', '<br>').replace('<pre>', '<pre class="pre">')
+        html[obj.start(0):obj.end(0)] = '<pre >' + ''.join(html[obj.start(1):obj.end(1)]) \
+                                            .replace('\n', '<br>') \
+                                            .replace(' ', '&nbsp;') + '</pre>'
         html = ''.join(html)
     return html
 
@@ -108,18 +113,32 @@ def create_preview(window, md_view):
 def show_html(md_view, preview):
     html = ('<style>{}</style>'.format(get_style()) +
             pre_with_br(markdown2.markdown(get_view_content(md_view),
-                        extras=['fenced-code-blocks'])))
+                        extras=['fenced-code-blocks', 'no-code-highlighting'])))
+
+    # the option no-code-highlighting does not exists
+    # in the official version of markdown2 for now
+    # I personaly edited the file (markdown2.py:1743)
+
+    html = html.replace('&nbsp;', '&nbspespace;') # save where are the spaces
+
     html = HTMLParser().unescape(html)
+
+    # exception, again, because <pre> aren't supported by the phantoms
+    html = html.replace('&nbspespace;', '<i class="space">.</i>')
+    print(html)
     preview.erase_phantoms('markdown_preview')
     preview.add_phantom('markdown_preview',
-                         sublime.Region(0),
+                         sublime.Region(-1),
                          html,
-                         sublime.LAYOUT_INLINE,
+                         sublime.LAYOUT_BLOCK,
                          lambda href: sublime.run_command('open_url', {'url': href}))
     # 0 < y < 1
     y = md_view.text_to_layout(md_view.sel()[0].begin())[1] / md_view.layout_extent()[1]
+    vector = [0, y * preview.layout_extent()[1]]
     # remove half of the viewport_extent.y to center it on the screen (verticaly)
-    vector = 0, y * preview.layout_extent()[1] - preview.viewport_extent()[1] / 2
+    vector[1] -= preview.viewport_extent()[1] / 2
+    vector[1] = mini(vector[1], 0)
+    vector[1] += preview.line_height()
     preview.set_viewport_position(vector, animate=False)
 
 def get_view_content(view):
@@ -180,3 +199,12 @@ class MarkdownInPopupCommand(sublime_plugin.EventListener):
                     md_view_settings.erase('markdown_preview_enabled')
                     md_view_settings.erase('markdown_preview_id')
                 sublime.set_timeout_async(callback, 250)
+
+class MarkdownInPopupTestCommand(sublime_plugin.ApplicationCommand):
+
+    def run(self):
+        md(markdown2.markdown("""
+```python
+print("hello world")
+```
+""", extras=['no-code-highlighting', 'fenced-code-blocks']))

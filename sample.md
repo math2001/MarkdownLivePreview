@@ -26,15 +26,18 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 > Code tells you how, comments tells you why
 
-    print('hello world')
-    print('hi')
+	print('hello world')
+	print('hi')
 
 ```python
 print('This is some pretty')
 print('cool stuff')
+if test:
+	print('hello world')
+	
 ```
 
-This is some `code` ccc
+This is some `code` 
 
 - a
 - list
