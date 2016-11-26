@@ -32,6 +32,9 @@ def get_style():
                 return content
 
     return """
+        html {
+            --light-bg: color(var(--background) blend(#aaa 80%))
+        }
         body {
             padding:10px;
             font-family: "Open Sans", sans-serif;
@@ -49,7 +52,7 @@ def get_style():
         code {
             padding-left: 0.2rem;
             padding-right: 0.2rem;
-            background-color: rgb(244.6,244.6,244.6);
+            background-color: var(--light-bg);
             margin: 0;
             border-radius: 3px;
             margin: 5px;
@@ -59,7 +62,7 @@ def get_style():
             display: block;
             margin-top: 20px;
             line-height: 2;
-            background-color: rgb(244.6,244.6,244.6);
+            background-color: var(--light-bg);
             padding-left: 10px;
         }
         pre code {
