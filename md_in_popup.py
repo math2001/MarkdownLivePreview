@@ -125,7 +125,6 @@ def show_html(md_view, preview):
 
     # exception, again, because <pre> aren't supported by the phantoms
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
-    print(html)
     preview.erase_phantoms('markdown_preview')
     preview.add_phantom('markdown_preview',
                          sublime.Region(-1),
@@ -199,12 +198,3 @@ class MarkdownInPopupCommand(sublime_plugin.EventListener):
                     md_view_settings.erase('markdown_preview_enabled')
                     md_view_settings.erase('markdown_preview_id')
                 sublime.set_timeout_async(callback, 250)
-
-class MarkdownInPopupTestCommand(sublime_plugin.ApplicationCommand):
-
-    def run(self):
-        md(markdown2.markdown("""
-```python
-print("hello world")
-```
-""", extras=['no-code-highlighting', 'fenced-code-blocks']))
