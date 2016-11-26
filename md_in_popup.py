@@ -27,7 +27,9 @@ def get_style():
     """Of course, this is temporal, there will be an option to customize the CSS"""
     if os.path.exists(STYLE_FILE):
         with open(STYLE_FILE) as fp:
-            return fp.read()
+            content = fp.read()
+            if content:
+                return content
 
     return """
         body {
@@ -63,7 +65,7 @@ def get_style():
         pre code {
             padding-left: 0;
         }
-    """.replace('\n', '').replace('\t', '')
+    """
 
 def pre_with_br(html):
     """Because the phantoms of sublime text does not support <pre> blocks

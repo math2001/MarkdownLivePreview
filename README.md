@@ -40,6 +40,8 @@ This plugin is not finished, there's still some things to fix (custom css, focus
 
 ### Custom css
 
+It is possible to set your own css. But, be carefull, you have to respect [those rules](http://www.sublimetext.com/docs/3/minihtml.html#css). Just go to `Preferences -> Package Settings -> MarkdownLivePreview`. It will open a css file, here: `$packages/User/MarkdownLivePreview.css`. Just save it and it will automatically use it instead of the default one.
+
 ### How to open the [README](http://github.com/math2001/MarkdownLivePreview/README.md)
 
 Some of the package add a command in the menus, others in the command palette, or other nowhere. None of those options are really good, especially the last one on ST3 because the packages are compressed. But, fortunately, there is plugin that exists and **will solve this problem** for us (and he has a really cute name, don't you think?): [ReadmePlease](https://packagecontrol.io/packages/ReadmePlease).
