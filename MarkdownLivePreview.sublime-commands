@@ -1,0 +1,9 @@
+[
+    {
+        "caption": "MarkdownLivePreview: Toggle",
+        "command": "toggle_setting",
+        "args": {
+            "setting": "markdown_preview_enabled"
+        }
+    }
+]
