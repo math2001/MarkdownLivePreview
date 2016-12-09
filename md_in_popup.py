@@ -4,6 +4,7 @@ from . import markdown2
 import os.path
 import re
 
+from .escape_amp import *
 from html.parser import HTMLParser
 
 # Main sublime tools function
@@ -122,6 +123,8 @@ def show_html(md_view, preview):
     html = html.replace('&nbsp;', '&nbspespace;') # save where are the spaces
 
     html = HTMLParser().unescape(html)
+
+    html = escape_amp(html)
 
     # exception, again, because <pre> aren't supported by the phantoms
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
