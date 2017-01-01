@@ -1,8 +1,10 @@
+# -*- encoding: utf-8 -*-
 import sublime
 import sublime_plugin
 from . import markdown2
 import os.path
 import re
+import base64
 
 from .escape_amp import *
 from html.parser import HTMLParser
@@ -23,6 +25,39 @@ def mini(val, min):
         return min
     return val
 
+
+def get_content_till(string, char_to_look_for, start=0):
+    i = start
+    while i < len(string):
+        i += 1
+        if string[i] == char_to_look_for:
+            return string[start:i], i
+
+def to_base64(path):
+    with open(path, 'rb') as fp:
+        content = fp.read()
+    return base64.standard_b64encode(content)
+
+def replace_img_src_base64(html):
+    """Really messy, but it works (should be updated)"""
+    index = -1
+    tag_start = '<img src="'
+    counter355 = 0
+    shtml = html
+    html = list(html)
+    while True:
+        counter355 += 1
+        if counter355 > 100:
+            print("end up counter355")
+            return False # counter355
+        index = shtml.find(tag_start, index + 1)
+        if index == -1:
+            return ''.join(html)
+        path, end = get_content_till(html, '"', start=index + len(tag_start))
+        html[index+len(tag_start):end] = 'data:image/png;base64,' + ''.join([chr(el) for el in list(to_base64(''.join(path)))])
+    return ''.join(html)
+
+
 STYLE_FILE = os.path.join(sublime.packages_path(), 'User', 'MarkdownLivePreview.css')
 def get_style():
     content = None
@@ -32,8 +67,12 @@ def get_style():
             return content
     if not content:
         content = """
+            :root, html, body {
+                height: 100%;
+            }
             html {
                 --light-bg: color(var(--background) blend(#999 85%))
+                height: 100%;
             }
             body {
                 padding:10px;
@@ -115,6 +154,7 @@ def show_html(md_view, preview):
     html = ('<style>{}</style>'.format(get_style()) +
             pre_with_br(markdown2.markdown(get_view_content(md_view),
                         extras=['fenced-code-blocks', 'no-code-highlighting'])))
+    # html = """<img src="file://C:/Users/math/Pictures/malwaree high school logo.jpg" alt="Mulwarre High School's Logo" />"""
 
     # the option no-code-highlighting does not exists
     # in the official version of markdown2 for now
@@ -128,12 +168,14 @@ def show_html(md_view, preview):
 
     # exception, again, because <pre> aren't supported by the phantoms
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
+    html = replace_img_src_base64(html)
     preview.erase_phantoms('markdown_preview')
     preview.add_phantom('markdown_preview',
                          sublime.Region(-1),
                          html,
                          sublime.LAYOUT_BLOCK,
                          lambda href: sublime.run_command('open_url', {'url': href}))
+
     # 0 < y < 1
     y = md_view.text_to_layout(md_view.sel()[0].begin())[1] / md_view.layout_extent()[1]
     vector = [0, y * preview.layout_extent()[1]]

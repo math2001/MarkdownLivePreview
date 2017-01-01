@@ -1,0 +1,11 @@
+todo:
+
+
+  ☐ add message in status bar @notGoodIdea
+
+  ☐ add **custom css** feature
+  ☐ sync scroll
+  ☐ regive focus to the right markdown view
+  ☐ set the title of the preview
+  ☐ disable previewing when the preview is closed
+  ☐ preview.set_scratch(True)
