@@ -34,6 +34,9 @@ def get_content_till(string, char_to_look_for, start=0):
             return string[start:i], i
 
 def to_base64(path):
+    if not os.path.exists(path):
+        return to_base64(os.path.join(os.path.dirname(__file__), '404.png'))
+
     with open(path, 'rb') as fp:
         content = fp.read()
     return base64.standard_b64encode(content)

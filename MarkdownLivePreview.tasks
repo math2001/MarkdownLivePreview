@@ -1,11 +1,10 @@
 todo:
 
-
-  ☐ add message in status bar @notGoodIdea
-
   ☐ add **custom css** feature
-  ☐ sync scroll
+  ☐ sync scroll @needsUpdate
+  ☐ load images from internet (`https:`)
   ☐ regive focus to the right markdown view
   ☐ set the title of the preview
   ☐ disable previewing when the preview is closed
   ☐ preview.set_scratch(True)
+  ☐ add 404 image
