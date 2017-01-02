@@ -1,10 +1,13 @@
 todo:
 
-  ☐ add **custom css** feature
-  ☐ sync scroll @needsUpdate
-  ☐ load images from internet (`https:`)
+  ☐ sync scroll @needsUpdate(because of images)
+  ✔ load images from internet (`https:`) @done (17-01-02 15:51)
   ☐ regive focus to the right markdown view
   ☐ set the title of the preview
-  ☐ disable previewing when the preview is closed
   ☐ preview.set_scratch(True)
   ☐ add 404 image
+  ☐ fix #4
+  ☐ bug when empty `src`
+  ☐ auto refresh preview if loading images
+  ☐ call settings listener on_new too
+  ☐ preview.wordWrap => True

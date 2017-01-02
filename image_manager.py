@@ -5,23 +5,14 @@ from threading import Thread
 import urllib.request
 import base64
 import sublime
+from .functions import *
 
 CACHE_FILE = os.path.join(os.path.dirname(__file__), 'cache.txt')
-TIMEOUT = 20
+TIMEOUT = 20 # seconds
 
 SEPARATOR = '---%cache%--'
 
 class InternalError(Exception): pass
-
-def to_base64(path=None, content=None):
-    if content is None and path is not None:
-        try:
-            with open(path, 'rb') as fp:
-                content = fp.read()
-        except FileNotFoundError:
-            return to_base64(os.path.join(os.path.dirname(__file__), '404.png'))
-
-    return 'data:image/png;base64,' + ''.join([chr(el) for el in list(base64.standard_b64encode(content))])
 
 def load_and_save_image(url, user_callback):
     def callback(content):
@@ -31,7 +22,25 @@ def load_and_save_image(url, user_callback):
             user_callback(content)
     thread = ImageLoader(url, callback)
     thread.start()
-    sublime.set_timeout_async(lambda: thread.join(), TIMEOUT)
+    sublime.set_timeout_async(lambda: thread.join(), TIMEOUT * 1000)
+
+def get_base64_saver(loading, url):
+    def callback(content):
+        loading[url] = to_base64(content=content)
+    return callback
+
+def get_cache_for(imageurl):
+    if not os.path.exists(CACHE_FILE):
+        return
+    with open(CACHE_FILE) as fp:
+        for line in fp.read().splitlines():
+            url, base64 = line.split(SEPARATOR, 1)
+            if url == imageurl:
+                return base64
+
+def cache(imageurl, base64):
+    with open(CACHE_FILE, 'a') as fp:
+        fp.write(imageurl + SEPARATOR + base64 + '\n')
 
 class ImageLoader(Thread):
 
@@ -42,42 +51,45 @@ class ImageLoader(Thread):
 
     def run(self):
         page = urllib.request.urlopen(self.url, None, TIMEOUT)
+        # self.callback(self.url, page.read())
         self.callback(page.read())
 
 
 class ImageManager(object):
 
-    currently_loading = []
+    """
+        Usage:
+
+        >>> image = ImageManager.get('http://domain.com/image.png')
+        >>> image = ImageManager.get('http://domain.com/image.png')
+        # still loading (this is a comment, no an outputed text), it doesn't
+        # run an other request
+        >>> image = ImageManager.get('http://domain.com/image.png')
+        'data:image/png;base64,....'
+
+    """
+    loading = {}
 
     @staticmethod
-    def get(imageurl, user_callback):
-        if imageurl in ImageManager.currently_loading:
-            return None
-        def callback(content):
-            try:
-                ImageManager.currently_loading.remove(imageurl)
-            except ValueError:
-                sublime.error_message('Internal error: Trying to remove an URL'
-                                      'from loading_url, but not found. Please'
-                                      'report to the issue tracker.')
-                sublime.run_command('open_url', {
-                    'url': 'https://github.com/math2001/MarkdownLivePreview/'
-                           'issues/new'     
-                })
+    def get(imageurl, user_callback=None):
+        # if imageurl in ImageManager.loading.keys():
+        #     return None
 
-            user_callback(content)
-
-        ImageManager.currently_loading.append(imageurl)
-        try:
-            with open(CACHE_FILE, 'r') as fp:
-                lines = fp.readlines()
-        except FileNotFoundError:
-            pass
+        cached = get_cache_for(imageurl)
+        if cached:
+            return cached
+        elif imageurl in ImageManager.loading.keys():
+            # return None (the file is still loading, already made a request)
+            # return string the base64 of the url (which is going to be cached)
+            temp_cached = ImageManager.loading[imageurl]
+            if temp_cached:
+                cache(imageurl, temp_cached)
+                del ImageManager.loading[imageurl]
+            return temp_cached
         else:
-            for line in lines:
-                url, base64 = line.split(SEPARATOR, 1)
-                if url == imageurl:
-                    return callback(base64)
-                else:
-                    print(url + '\n' + imageurl)
-        load_and_save_image(imageurl, callback)
+            # load from internet
+            ImageManager.loading[imageurl] = None
+            callback = get_base64_saver(ImageManager.loading, imageurl)
+            loader = ImageLoader(imageurl, callback)
+            loader.start()
+            sublime.set_timeout_async(lambda: loader.join(), TIMEOUT * 1000)

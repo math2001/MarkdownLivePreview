@@ -1,0 +1,3 @@
+{
+    "load_from_internet_when_starts": ["http://", "https://"]
+}

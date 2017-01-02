@@ -1,69 +1,45 @@
 # -*- encoding: utf-8 -*-
 import sublime
 import sublime_plugin
-from . import markdown2
 import os.path
 import re
-import base64
-
-from .image_manager import ImageManager
-
-from .escape_amp import *
 from html.parser import HTMLParser
+
+from .lib import markdown2
+from .image_manager import ImageManager
+from .escape_amp import *
+from .functions import *
 
 # Main sublime tools function
 
-def md(*t, **kwargs):
-    sublime.message_dialog(kwargs.get('sep', '\n').join([str(el) for el in t]))
-
-def sm(*t, **kwargs):
-    sublime.status_message(kwargs.get('sep', ' ').join([str(el) for el in t]))
-
-def em(*t, **kwargs):
-    sublime.error_message(kwargs.get('sep', ' ').join([str(el) for el in t]))
-
-def mini(val, min):
-    if val < min:
-        return min
-    return val
-
-
-def get_content_till(string, char_to_look_for, start=0):
-    i = start
-    while i < len(string):
-        i += 1
-        if string[i] == char_to_look_for:
-            return string[start:i], i
-
-def to_base64(path):
-    if not os.path.exists(path):
-        return to_base64(os.path.join(os.path.dirname(__file__), '404.png'))
-
-    with open(path, 'rb') as fp:
-        content = fp.read()
-    return 'data:image/png;base64,' + ''.join([chr(el) for el in list(base64.standard_b64encode(content))])
+def plugin_loaded():
+    global STYLE_FILE
+    STYLE_FILE = os.path.join(sublime.packages_path(), 'User', 'MarkdownLivePreview.css')
 
 def replace_img_src_base64(html):
     """Really messy, but it works (should be updated)"""
     index = -1
     tag_start = '<img src="'
-    counter355 = 0
-    shtml = html
-    html = list(html)
+    shtml, html = html, list(html)
     while True:
-        counter355 += 1
-        if counter355 > 100:
-            print("end up counter355")
-            return False # counter355
         index = shtml.find(tag_start, index + 1)
         if index == -1:
-            return ''.join(html)
+            break
         path, end = get_content_till(html, '"', start=index + len(tag_start))
-        html[index+len(tag_start):end] = to_base64(''.join(path))
+        if ''.join(path).startswith('data:image/'):
+            continue
+        if ''.join(path).startswith(tuple(get_settings().get('load_from_internet'
+                                                    '_when_starts'))):
+            image = ImageManager.get(''.join(path))
+            image = image or to_base64('loading.png')
+
+        else:
+            # local image
+            image = to_base64(''.join(path))
+        html[index+len(tag_start):end] = image
+        shtml = ''.join(html)
     return ''.join(html)
 
-
-STYLE_FILE = os.path.join(sublime.packages_path(), 'User', 'MarkdownLivePreview.css')
 def get_style():
     content = None
     if os.path.exists(STYLE_FILE):
@@ -142,7 +118,8 @@ def create_preview(window, md_view):
     focus_group, focus_view = window.get_view_index(md_view)
     preview = window.new_file()
     window.run_command('new_pane') # move the preview to a new group
-    preview.set_name(os.path.basename(md_view.file_name()) + ' - Preview')
+    preview.set_name(os.path.basename(md_view.file_name() or 'Untilted')
+                                      + ' - Preview')
 
     preview_settings = preview.settings()
     preview_settings.set('gutter', False)
@@ -190,15 +167,20 @@ def show_html(md_view, preview):
     vector[1] += preview.line_height()
     preview.set_viewport_position(vector, animate=False)
 
-def get_view_content(view):
-    return view.substr(sublime.Region(0, view.size()))
+class MLPDevListener(sublime_plugin.EventListener):
 
-def get_view_from_id(window, id):
-    for view in window.views():
-        if view.id() == id:
-            return view
+    def on_post_save(self, view):
+        if not (os.path.dirname(__file__) in view.file_name() and
+            view.file_name().endswith('.py')):
+            return
+        sublime.run_command('reload_plugin', {
+            'main': os.path.join(sublime.packages_path(), 'MarkdownLivePreview',
+                                 'md_in_popup.py'),
+            'scripts': ['image_manager', 'functions'],
+            'quiet': True
+        })
 
-class MarkdownInPopupCommand(sublime_plugin.EventListener):
+class MarkdownLivePReviewListener(sublime_plugin.EventListener):
 
     def on_load(self, view):
         settings = view.settings()
@@ -248,22 +230,3 @@ class MarkdownInPopupCommand(sublime_plugin.EventListener):
                     md_view_settings.erase('markdown_preview_enabled')
                     md_view_settings.erase('markdown_preview_id')
                 sublime.set_timeout_async(callback, 250)
-
-class LoadImageCommand(sublime_plugin.ApplicationCommand):
-
-    def run(self):
-        ImageManager.get('https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fi82.photobucket.com%2Falbums%2Fj261%2FOrestesElVerdadero%2Favatar-fenix-100.jpg&f=1',
-                         lambda content: print('got content', len(content)))
-
-class MLPDevListener(sublime_plugin.EventListener):
-
-    def on_post_save(self, view):
-        if not (os.path.dirname(__file__) in view.file_name() and
-            view.file_name().endswith('.py')):
-            return
-        sublime.run_command('reload_plugin', {
-            'main': os.path.join(sublime.packages_path(), 'MarkdownLivePreview',
-                                 'md_in_popup.py'),
-            'scripts': ['image_manager'],
-            'quiet': True
-        })
