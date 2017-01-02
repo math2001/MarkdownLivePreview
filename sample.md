@@ -1,3 +1,3 @@
-![first](http://afterishtar.pl/images/100x100.gif)
+# DuckDuckGo - The Search engine you'll fall in love with
 
-![second](http://www.hondahookup.com/images/100x100.jpg)
+![DuckDUckGo](http://www.articpost.com/wp-content/uploads/2014/08/DuckDuckGo-Search-Engine.jpg)

@@ -3,7 +3,6 @@
 import os.path
 from threading import Thread
 import urllib.request
-import base64
 import sublime
 from .functions import *
 
@@ -11,18 +10,6 @@ CACHE_FILE = os.path.join(os.path.dirname(__file__), 'cache.txt')
 TIMEOUT = 20 # seconds
 
 SEPARATOR = '---%cache%--'
-
-class InternalError(Exception): pass
-
-def load_and_save_image(url, user_callback):
-    def callback(content):
-        content = to_base64(content=content)
-        with open(CACHE_FILE, 'a') as fp:
-            fp.write(url + SEPARATOR + content)
-            user_callback(content)
-    thread = ImageLoader(url, callback)
-    thread.start()
-    sublime.set_timeout_async(lambda: thread.join(), TIMEOUT * 1000)
 
 def get_base64_saver(loading, url):
     def callback(content):

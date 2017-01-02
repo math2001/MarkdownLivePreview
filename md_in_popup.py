@@ -134,10 +134,10 @@ def create_preview(window, md_view):
     return preview
 
 def show_html(md_view, preview):
-    html = ('<style>{}</style>'.format(get_style()) +
+    html = '<style>{}</style>{}'.format(get_style(),
             pre_with_br(markdown2.markdown(get_view_content(md_view),
-                        extras=['fenced-code-blocks', 'no-code-highlighting'])))
-    # html = """<img src="file://C:/Users/math/Pictures/malwaree high school logo.jpg" alt="Mulwarre High School's Logo" />"""
+                                           extras=['fenced-code-blocks',
+                                                   'no-code-highlighting'])))
 
     # the option no-code-highlighting does not exists
     # in the official version of markdown2 for now
@@ -157,7 +157,10 @@ def show_html(md_view, preview):
                          sublime.Region(-1),
                          html,
                          sublime.LAYOUT_BLOCK,
-                         lambda href: sublime.run_command('open_url', {'url': href}))
+                         lambda href: sublime.run_command('open_url',
+                                                          {'url': href}))
+
+    # set viewport position
 
     # 0 < y < 1
     y = md_view.text_to_layout(md_view.sel()[0].begin())[1] / md_view.layout_extent()[1]
@@ -175,8 +178,8 @@ class MLPDevListener(sublime_plugin.EventListener):
             view.file_name().endswith('.py')):
             return
         sublime.run_command('reload_plugin', {
-            'main': os.path.join(sublime.packages_path(), 'MarkdownLivePreview',
-                                 'md_in_popup.py'),
+            'main': os.path.join(sublime.packages_path(),
+                                 'MarkdownLivePreview', 'md_in_popup.py'),
             'scripts': ['image_manager', 'functions'],
             'quiet': True
         })
@@ -187,7 +190,8 @@ class MarkdownLivePReviewListener(sublime_plugin.EventListener):
         settings = view.settings()
         if not 'markdown' in settings.get('syntax').lower():
             return
-        settings.add_on_change('markdown_preview_enabled', lambda: self.on_modified(view))
+        settings.add_on_change('markdown_preview_enabled',
+                                lambda: self.on_modified(view))
 
     def on_modified(self, md_view):
         window = md_view.window()
@@ -196,7 +200,8 @@ class MarkdownLivePReviewListener(sublime_plugin.EventListener):
         if not 'markdown' in md_view_settings.get('syntax').lower():
             return
 
-        markdown_preview_enabled = md_view_settings.get('markdown_preview_enabled') is True
+        markdown_preview_enabled = md_view_settings.get('markdown_preview_'
+                                                        'enabled') is True
         preview_id = md_view_settings.get('markdown_preview_id', None)
 
         if not markdown_preview_enabled:
@@ -220,11 +225,13 @@ class MarkdownLivePReviewListener(sublime_plugin.EventListener):
     def on_pre_close(self, view):
         settings = view.settings()
         if settings.get('markdown_preview_enabled') is True:
-            preview = get_view_from_id(view.window(), settings.get('markdown_preview_id'))
+            preview = get_view_from_id(view.window(),
+                                       settings.get('markdown_preview_id'))
             if preview:
                 sublime.set_timeout_async(lambda: preview.close(), 250)
         elif settings.get('is_markdown_preview') is True:
-            md_view = get_view_from_id(view.window(), settings.get('markdown_view_id'))
+            md_view = get_view_from_id(view.window(),
+                                       settings.get('markdown_view_id'))
             if md_view:
                 def callback():
                     md_view_settings = md_view.settings()

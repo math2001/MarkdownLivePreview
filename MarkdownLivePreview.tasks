@@ -1,13 +1,20 @@
 todo:
 
   ☐ sync scroll @needsUpdate(because of images)
-  ✔ load images from internet (`https:`) @done (17-01-02 15:51)
   ☐ regive focus to the right markdown view
   ☐ set the title of the preview
   ☐ preview.set_scratch(True)
-  ☐ add 404 image
   ☐ fix #4
   ☐ bug when empty `src`
   ☐ auto refresh preview if loading images
   ☐ call settings listener on_new too
   ☐ preview.wordWrap => True
+  ☐ try/except for 404
+  ☐ support hanchor (TOC) @big
+
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ clean the code (syntax) @done (17-01-02 16:27) @project(todo)
+ ✔ add 404 image @done (17-01-02 16:27) @project(todo)
+ ✔ load images from internet (`https:`) @done (17-01-02 15:51) @project(todo)
