@@ -6,6 +6,8 @@ import os.path
 import re
 import base64
 
+from .image_manager import ImageManager
+
 from .escape_amp import *
 from html.parser import HTMLParser
 
@@ -39,7 +41,7 @@ def to_base64(path):
 
     with open(path, 'rb') as fp:
         content = fp.read()
-    return base64.standard_b64encode(content)
+    return 'data:image/png;base64,' + ''.join([chr(el) for el in list(base64.standard_b64encode(content))])
 
 def replace_img_src_base64(html):
     """Really messy, but it works (should be updated)"""
@@ -57,7 +59,7 @@ def replace_img_src_base64(html):
         if index == -1:
             return ''.join(html)
         path, end = get_content_till(html, '"', start=index + len(tag_start))
-        html[index+len(tag_start):end] = 'data:image/png;base64,' + ''.join([chr(el) for el in list(to_base64(''.join(path)))])
+        html[index+len(tag_start):end] = to_base64(''.join(path))
     return ''.join(html)
 
 
@@ -246,3 +248,22 @@ class MarkdownInPopupCommand(sublime_plugin.EventListener):
                     md_view_settings.erase('markdown_preview_enabled')
                     md_view_settings.erase('markdown_preview_id')
                 sublime.set_timeout_async(callback, 250)
+
+class LoadImageCommand(sublime_plugin.ApplicationCommand):
+
+    def run(self):
+        ImageManager.get('https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fi82.photobucket.com%2Falbums%2Fj261%2FOrestesElVerdadero%2Favatar-fenix-100.jpg&f=1',
+                         lambda content: print('got content', len(content)))
+
+class MLPDevListener(sublime_plugin.EventListener):
+
+    def on_post_save(self, view):
+        if not (os.path.dirname(__file__) in view.file_name() and
+            view.file_name().endswith('.py')):
+            return
+        sublime.run_command('reload_plugin', {
+            'main': os.path.join(sublime.packages_path(), 'MarkdownLivePreview',
+                                 'md_in_popup.py'),
+            'scripts': ['image_manager'],
+            'quiet': True
+        })
