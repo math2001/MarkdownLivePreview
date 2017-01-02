@@ -12,7 +12,7 @@ def to_base64(path=None, content=None):
         try:
             with open(path, 'rb') as fp:
                 content = fp.read()
-        except FileNotFoundError:
+        except (FileNotFoundError, OSError):
             return to_base64(file404)
 
     return 'data:image/png;base64,' + ''.join([chr(el) for el in list(base64.standard_b64encode(content))])
@@ -34,9 +34,9 @@ def mini(val, min):
 def get_content_till(string, char_to_look_for, start=0):
     i = start
     while i < len(string):
-        i += 1
         if string[i] == char_to_look_for:
             return string[start:i], i
+        i += 1
 
 def get_view_content(view):
     return view.substr(sublime.Region(0, view.size()))

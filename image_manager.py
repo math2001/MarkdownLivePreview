@@ -2,7 +2,7 @@
 
 import os.path
 from threading import Thread
-import urllib.request
+import urllib.request, urllib.error
 import sublime
 from .functions import *
 
@@ -13,7 +13,19 @@ SEPARATOR = '---%cache%--'
 
 def get_base64_saver(loading, url):
     def callback(content):
+        if isinstance(content, urllib.error.HTTPError):
+            if content.getcode() == 404:
+                loading[url] = 404
+                return
+        elif isinstance(content, urllib.error.URLError):
+            if (content.reason.errno == 11001 and
+                content.reason.strerror == 'getaddrinfo failed'):
+                loading[url] = 404
+                return
+        return sublime.error_message('An unexpected error has occured: ' +
+                                         str(content))
         loading[url] = to_base64(content=content)
+
     return callback
 
 def get_cache_for(imageurl):
@@ -37,9 +49,12 @@ class ImageLoader(Thread):
         self.callback = callback
 
     def run(self):
-        page = urllib.request.urlopen(self.url, None, TIMEOUT)
-        # self.callback(self.url, page.read())
-        self.callback(page.read())
+        try:
+            page = urllib.request.urlopen(self.url, None, TIMEOUT)
+        except Exception as e:
+            self.callback(e)
+        else:
+            self.callback(page.read())
 
 
 class ImageManager(object):
@@ -53,14 +68,11 @@ class ImageManager(object):
         # run an other request
         >>> image = ImageManager.get('http://domain.com/image.png')
         'data:image/png;base64,....'
-
     """
     loading = {}
 
     @staticmethod
     def get(imageurl, user_callback=None):
-        # if imageurl in ImageManager.loading.keys():
-        #     return None
 
         cached = get_cache_for(imageurl)
         if cached:
@@ -69,6 +81,8 @@ class ImageManager(object):
             # return None (the file is still loading, already made a request)
             # return string the base64 of the url (which is going to be cached)
             temp_cached = ImageManager.loading[imageurl]
+            if temp_cached == 404:
+                return to_base64('404.png')
             if temp_cached:
                 cache(imageurl, temp_cached)
                 del ImageManager.loading[imageurl]

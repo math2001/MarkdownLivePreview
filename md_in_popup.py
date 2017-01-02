@@ -138,7 +138,7 @@ def create_preview(window, md_view):
     return preview
 
 def show_html(md_view, preview):
-    html = '<style>{}</style>{}'.format(get_style(),
+    html = '<style>{}</style>\n{}'.format(get_style(),
             pre_with_br(markdown2.markdown(get_view_content(md_view),
                                            extras=['fenced-code-blocks',
                                                    'no-code-highlighting'])))
