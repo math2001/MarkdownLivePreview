@@ -91,7 +91,8 @@ def get_style():
             pre code {
                 padding-left: 0;
             }
-        """
+        """.splitlines()
+    content = ''.join([line.strip() for line in content])
     return content + "pre code .space {color: var(--light-bg)}"
 
 def pre_with_br(html):
