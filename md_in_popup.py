@@ -119,13 +119,17 @@ def create_preview(window, md_view):
     focus_group, focus_view = window.get_view_index(md_view)
     preview = window.new_file()
     window.run_command('new_pane') # move the preview to a new group
-    preview.set_name(os.path.basename(md_view.file_name() or 'Untilted')
-                                      + ' - Preview')
+    name = md_view.name() or os.path.basename(md_view.file_name()) \
+           or 'Untitled'
+    preview.set_name(name + ' - Preview')
+    preview.set_scratch(True)
 
     preview_settings = preview.settings()
     preview_settings.set('gutter', False)
+    preview_settings.set('word_wrap', True)
     preview_settings.set('is_markdown_preview', True)
     preview_settings.set('markdown_view_id', md_view.id())
+
 
     md_view.settings().set('markdown_preview_id', preview.id())
     window.focus_group(focus_group)
