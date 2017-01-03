@@ -36,7 +36,7 @@ def hide_preview(md_view):
     mdvsettings.erase(PREVIEW_ID)
     preview = get_view_from_id(window, preview_id)
     if preview is None:
-        return print("MLPApi.py:35", '!!! preview is None', preview_id)
+        return
     psettings = preview.settings()
     psettings.set(IS_HIDDEN, True)
     sublime.set_timeout(preview.close(), 250)
