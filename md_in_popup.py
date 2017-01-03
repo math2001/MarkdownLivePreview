@@ -175,7 +175,7 @@ def show_html(md_view, preview):
     vector[1] += preview.line_height()
     preview.set_viewport_position(vector, animate=False)
 
-class MLPDevListener(sublime_plugin.EventListener):
+class MLPDevListener:
 
     def on_post_save(self, view):
         if not (os.path.dirname(__file__) in view.file_name() and
@@ -188,7 +188,8 @@ class MLPDevListener(sublime_plugin.EventListener):
             'quiet': True
         })
 
-class MarkdownLivePReviewListener(sublime_plugin.EventListener):
+# class MarkdownLivePReviewListener(sublime_plugin.EventListener):
+class MarkdownLivePReviewListener:
 
     def on_load(self, view):
         settings = view.settings()
@@ -196,6 +197,31 @@ class MarkdownLivePReviewListener(sublime_plugin.EventListener):
             return
         settings.add_on_change('markdown_preview_enabled',
                                 lambda: self.on_modified(view))
+
+    def on_deactivated_async(self, md_view):
+        md_view_settings = md_view.settings()
+        if md_view.window().active_view().settings()\
+                                            .get('is_markdown_preview'):
+            return
+        return
+        markdown_preview_enabled = md_view_settings.get(
+                                            'markdown_preview_enabled') is True
+        preview_id = md_view_settings.get('markdown_preview_id', None)
+
+        if not markdown_preview_enabled or not preview_id:
+            return
+
+        get_view_from_id(md_view.window(), preview_id).close()
+        md_view_settings.erase('markdown_preview_id')
+
+
+    def on_activated(self, md_view):
+        md_view_settings = md_view.settings()
+        markdown_preview_enabled = md_view_settings.get(
+                                            'markdown_preview_enabled') is True
+        if markdown_preview_enabled:
+            return 
+            create_preview(md_view.window(), md_view)
 
     def on_modified(self, md_view):
         window = md_view.window()

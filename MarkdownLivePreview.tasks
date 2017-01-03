@@ -1,17 +1,16 @@
 Fast:
 
   ☐ sync scroll @needsUpdate(because of images)
-  ☐ regive focus to the right markdown view
+  ☐ cache image in object when used, so that it's faster @needsTest
   ☐ call settings listener on_new too - might be too heavy
-  ☐ use alt attribute for 404 error
 
 Medium:
   ☐ auto refresh preview if loading images
-  ☐ cache image in object when used, so that it's faster @needsTest
+  ☐ use alt attribute for 404 error
   ☐ use MarkdownLivePreview syntax, so we can use syntax's settings
 
 Long:
-  ☐ fix #4
+  ☐ fix #4 @high
   ☐ support hanchor (TOC) @big
 
 Unknown:
@@ -20,6 +19,7 @@ Unknown:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ regive focus to the right markdown view @done Mon 02 Jan 2017 at 18:34 @project(Fast)
  ✔ try/except for 404 @done Mon 02 Jan 2017 at 18:03 @project(Fast)
  ✔ fix bug when empty `src` @done Mon 02 Jan 2017 at 17:15 @project(Fast)
  ✔ preview.set_scratch(True) @done Mon 02 Jan 2017 at 16:58

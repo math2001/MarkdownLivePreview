@@ -3,7 +3,7 @@
         "keys": ["alt+m"],
         "command": "toggle_setting",
         "args": {
-            "setting": "markdown_preview_enabled"
+            "setting": "markdown_live_preview_enabled"
         },
         "context": [
             {

@@ -5,6 +5,9 @@ import sublime
 
 file404 = os.path.join(os.path.dirname(__file__), '404.png')
 
+def is_markdown_view(view):
+        return 'markdown' in view.scope_name(0)
+
 def to_base64(path=None, content=None):
     if path is None and content is None:
         return to_base64(file404)
