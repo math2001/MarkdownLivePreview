@@ -27,12 +27,17 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         md_view_settings = md_view.settings()
         if md_view_settings.get(PREVIEW_ENABLED) is not True:
             return
-
-        if not md_view_settings.get(PREVIEW_ID):
+        id = md_view_settings.get(PREVIEW_ID)
+        if not id:
             MarkdownLivePreviewListener.md_view = md_view
             create_preview(md_view)
             MarkdownLivePreviewListener.has_preview = True
             window.focus_view(md_view)
+        else:
+            preview = get_view_from_id(window, id)
+            if preview is None:
+                raise ValueError('Getting preview from id: got None')
+            show_html(md_view, preview)
 
     def on_pre_close(self, view):
         vsettings = view.settings()

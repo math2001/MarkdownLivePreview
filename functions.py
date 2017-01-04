@@ -2,8 +2,35 @@
 import base64
 import os.path
 import sublime
+import re
+from .image_manager import ImageManager
 
 file404 = os.path.join(os.path.dirname(__file__), '404.png')
+
+
+def replace_img_src_base64(html):
+    """Really messy, but it works (should be updated)"""
+    index = -1
+    tag_start = '<img src="'
+    shtml, html = html, list(html)
+    while True:
+        index = shtml.find(tag_start, index + 1)
+        if index == -1:
+            break
+        path, end = get_content_till(html, '"', start=index + len(tag_start))
+        if ''.join(path).startswith('data:image/'):
+            continue
+        if ''.join(path).startswith(tuple(get_settings().get('load_from_internet'
+                                                    '_when_starts'))):
+            image = ImageManager.get(''.join(path))
+            image = image or to_base64('loading.png')
+
+        else:
+            # local image
+            image = to_base64(''.join(path))
+        html[index+len(tag_start):end] = image
+        shtml = ''.join(html)
+    return ''.join(html)
 
 def is_markdown_view(view):
         return 'markdown' in view.scope_name(0)
@@ -51,3 +78,18 @@ def get_view_from_id(window, id):
 
 def get_settings():
     return sublime.load_settings('MarkdownLivePreview.sublime-settings')
+
+def pre_with_br(html):
+    """Because the phantoms of sublime text does not support <pre> blocks
+    this function replaces every \n with a <br> in a <pre>"""
+
+    while True:
+        obj = re.search(r'<pre>(.*?)</pre>', html, re.DOTALL)
+        if not obj:
+            break
+        html = list(html)
+        html[obj.start(0):obj.end(0)] = '<pre >' + ''.join(html[obj.start(1):obj.end(1)]) \
+                                            .replace('\n', '<br>') \
+                                            .replace(' ', '&nbsp;') + '</pre>'
+        html = ''.join(html)
+    return html

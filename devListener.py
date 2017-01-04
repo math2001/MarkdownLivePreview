@@ -7,6 +7,7 @@ import os.path
 class MLPDevListener(sublime_plugin.EventListener):
 
     def on_post_save(self, view):
+        return
         if not (os.path.dirname(__file__) in view.file_name() and
             view.file_name().endswith('.py')):
             return
