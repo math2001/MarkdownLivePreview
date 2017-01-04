@@ -11,6 +11,14 @@ from .functions import *
 
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
+    def on_modified(self, view):
+        window = view.window()
+        vsettings = view.settings()
+        if vsettings.get(PREVIEW_ENABLED):
+            id = vsettings.get(PREVIEW_ID)
+            if id is None or get_view_from_id(window, id) is None:
+                preview = create_preview(view)
+
     def on_activated(self, view):
         # if view is md_view and has no preview
         # -> create preview
