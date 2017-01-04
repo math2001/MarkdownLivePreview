@@ -42,9 +42,10 @@ def create_preview(md_view):
     preview.set_name(get_preview_name(md_view))
     preview.set_scratch(True)
     md_view_settings.set(PREVIEW_ID, preview.id())
-    window.run_command('new_pane') # move to new group
-    return preview
-
+    def move_and_focus_md_view():
+       window.run_command('new_pane')
+       sublime.set_timeout_async(lambda: window.focus_view(md_view), 50)
+    sublime.set_timeout_async(move_and_focus_md_view, 250)
 
     return preview
 

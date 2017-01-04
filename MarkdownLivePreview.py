@@ -18,6 +18,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             id = vsettings.get(PREVIEW_ID)
             if id is None or get_view_from_id(window, id) is None:
                 preview = create_preview(view)
+            return
 
     def on_activated(self, view):
         # if view is md_view and has no preview
