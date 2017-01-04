@@ -21,7 +21,13 @@ def get_preview_name(md_view):
     name = md_view.name() \
            or os.path.basename(md_view.file_name()) \
            or 'Untitled'
-    return name + '- Preview'
+    return name + ' - Preview'
+
+def find_preview(window):
+    for view in window.views():
+        vsettings = view.settings()
+        if vsettings.get(IS_PREVIEW):
+            yield view, vsettings
 
 def create_preview(md_view):
     window = md_view.window()
@@ -29,25 +35,59 @@ def create_preview(md_view):
     md_view_settings.set(JUST_CREATED, True)
 
     preview = window.new_file()
-    preview.settings().set(IS_PREVIEW, True)
+
+    psettings = preview.settings()
+    psettings.set(IS_PREVIEW, True)
+    psettings.set(MD_VIEW_ID, md_view.id())
     preview.set_name(get_preview_name(md_view))
     preview.set_scratch(True)
-    window.run_command('new_pane') # move to new group
-
     md_view_settings.set(PREVIEW_ID, preview.id())
+    window.run_command('new_pane') # move to new group
+    return preview
+
 
     return preview
 
-def hide_preview(md_view):
+def hide_preview(view):
+    window = view.window()
+    vsettings = view.settings()
+    if vsettings.get(IS_PREVIEW):
+        preview = view
+        psettings = vsettings
+        md_view_id = vsettings.get(MD_VIEW_ID)
+        md_view = get_view_from_id(window, md_view_id)
+        if md_view is None:
+            raise ValueError('Tried to get md_view from id {} but got None'.format(md_view_id))
+        mdvsettings = md_view.settings()
+
+    elif vsettings.get(PREVIEW_ENABLED):
+        md_view = view
+        preview_id = vsettings.get(PREVIEW_ID)
+        preview = get_view_from_id(window, preview_id)
+        mdvsettings = vsettings
+        if preview is None:
+            raise ValueError('Tried to get preview from id {} but got None'.format(preview_id))
+        psettings = preview.settings()
+    else:
+        raise ValueError('Call hide_preview with a view which is not the preview or the md_view')
+    psettings.set(IS_HIDDEN, True)
+    mdvsettings.erase(PREVIEW_ID)
+    sublime.set_timeout(lambda: preview.close(), 250)
+    return
+
+
+
     window = md_view.window()
     if window is None:
         return
     mdvsettings = md_view.settings()
     preview_id = mdvsettings.get(PREVIEW_ID)
+    if not preview_id:
+        return
     mdvsettings.erase(PREVIEW_ID)
     preview = get_view_from_id(window, preview_id)
     if preview is None:
-        return
+        raise ValueError('Tried to get view from id {} but got None'.format(preview_id))
     psettings = preview.settings()
     psettings.set(IS_HIDDEN, True)
     sublime.set_timeout(preview.close(), 250)
