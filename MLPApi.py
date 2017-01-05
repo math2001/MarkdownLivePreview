@@ -132,6 +132,7 @@ def show_html(md_view, preview):
 
     # set viewport position
 
+    return
     # 0 < y < 1
     y = md_view.text_to_layout(md_view.sel()[0].begin())[1] / md_view.layout_extent()[1]
     vector = [0, y * preview.layout_extent()[1]]

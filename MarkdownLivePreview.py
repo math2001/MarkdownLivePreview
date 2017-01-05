@@ -16,8 +16,13 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         vsettings = view.settings()
         if vsettings.get(PREVIEW_ENABLED):
             id = vsettings.get(PREVIEW_ID)
-            if id is None or get_view_from_id(window, id) is None:
+            preview = get_view_from_id(window, id)
+            if id is None or preview is None:
                 preview = create_preview(view)
+                sublime.set_timeout(lambda: show_html(view, preview), 1000)
+            else:
+                show_html(view, preview)
+
             return
 
     def on_activated(self, view):
@@ -27,8 +32,12 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         vsettings = view.settings()
         if vsettings.get(PREVIEW_ENABLED):
             id = vsettings.get(PREVIEW_ID)
-            if id is None or get_view_from_id(window, id) is None:
+            preview = get_view_from_id(window, id)
+            if id is None or preview is None:
                 preview = create_preview(view)
+                sublime.set_timeout(lambda: show_html(view, preview), 1000)
+            else:
+                show_html(view, preview)
             return
 
         # if view is preview
