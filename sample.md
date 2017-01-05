@@ -5,4 +5,3 @@ This is a test
 ![image](http://afterishtar.pl/images/100x100.gif)
 
 hello world
- 

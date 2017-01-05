@@ -44,7 +44,7 @@ def create_preview(md_view):
     md_view_settings.set(PREVIEW_ID, preview.id())
     def move_and_focus_md_view():
        window.run_command('new_pane')
-       sublime.set_timeout_async(lambda: window.focus_view(md_view), 50)
+       sublime.set_timeout_async(lambda: window.focus_view(md_view), 250)
     sublime.set_timeout_async(move_and_focus_md_view, 250)
 
     return preview
