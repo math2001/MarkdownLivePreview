@@ -10,9 +10,4 @@ Hope you'll enjoy using MarkdownLivePreview!
 
 ![image](http://local.dev/tests/php/img/image-php.php)
 
-hello world
-
-This is a test dfsdf hello world, this is pretty cool.
-
-This is a test
-
+this is a tets

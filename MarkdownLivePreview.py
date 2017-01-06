@@ -19,7 +19,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             preview = get_view_from_id(window, id)
             if id is None or preview is None:
                 preview = create_preview(view)
-                sublime.set_timeout(lambda: show_html(view, preview), 1000)
+                sublime.set_timeout_async(lambda: show_html(view, preview), 1000)
             else:
                 show_html(view, preview)
 
