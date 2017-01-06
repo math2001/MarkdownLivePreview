@@ -5,8 +5,10 @@ from threading import Thread
 import urllib.request, urllib.error
 import sublime
 from .functions import *
+import tempfile
 
-CACHE_FILE = os.path.join(os.path.dirname(__file__), 'cache.txt')
+CACHE_FILE = os.path.join(tempfile.gettempdir(),
+                          'MarkdownLivePreviewCache.txt')
 TIMEOUT = 20 # seconds
 
 SEPARATOR = '---%cache%--'
@@ -22,7 +24,7 @@ def get_base64_saver(loading, url):
                 content.reason.strerror == 'getaddrinfo failed'):
                 loading[url] = 404
                 return
-        return sublime.error_message('An unexpected error has occured: ' +
+            return sublime.error_message('An unexpected error has occured: ' +
                                          str(content))
         loading[url] = to_base64(content=content)
 

@@ -3,6 +3,7 @@ Fast:
   ☐ sync scroll @needsUpdate(because of images)
   ☐ cache image in object when used, so that it's faster @needsTest
   ☐ call settings listener on_new too - might be too heavy
+  ☐ add clear cache command
 
 Medium:
   ☐ auto refresh preview if loading images

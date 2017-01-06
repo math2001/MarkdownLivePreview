@@ -16,6 +16,7 @@ __folder__ = os.path.dirname(__file__)
 STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User',
                                           'MarkdownLivePreview.css')
 
+
 def plugin_loaded():
     global DEFAULT_STYLE_FILE
     DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/'
@@ -98,10 +99,6 @@ def hide_preview(view):
     sublime.set_timeout(preview.close(), 250)
 
 def get_style():
-    if os.path.exists(STYLE_FILE):
-        with open(STYLE_FILE) as fp:
-            return fp.read()
-
     content = ''.join([line.strip() for line in DEFAULT_STYLE_FILE.splitlines()])
     return content + "pre code .space {color: var(--light-bg)}"
 
@@ -133,6 +130,8 @@ def show_html(md_view, preview):
                                                           {'url': href}))
 
     # set viewport position
+
+    # sublime.set_clipboard(html)
 
     return
     # 0 < y < 1

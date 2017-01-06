@@ -5,7 +5,9 @@ import sublime
 import re
 from .image_manager import ImageManager
 
-file404 = os.path.join(os.path.dirname(__file__), '404.png')
+def plugin_loaded():
+    global error404
+    error404 = sublime.load_resource('Packages/MarkdownLivePreview/404.txt')
 
 
 def replace_img_src_base64(html):
@@ -37,13 +39,13 @@ def is_markdown_view(view):
 
 def to_base64(path=None, content=None):
     if path is None and content is None:
-        return to_base64(file404)
+        return error404
     elif content is None and path is not None:
         try:
             with open(path, 'rb') as fp:
                 content = fp.read()
         except (FileNotFoundError, OSError):
-            return to_base64(file404)
+            return error404
 
     return 'data:image/png;base64,' + ''.join([chr(el) for el in list(base64.standard_b64encode(content))])
 
