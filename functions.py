@@ -6,7 +6,8 @@ import re
 from .image_manager import ImageManager
 
 def plugin_loaded():
-    global error404
+    global error404, loading
+    loading = sublime.load_resource('Packages/MarkdownLivePreview/loading.txt')
     error404 = sublime.load_resource('Packages/MarkdownLivePreview/404.txt')
 
 
@@ -25,7 +26,7 @@ def replace_img_src_base64(html):
         if ''.join(path).startswith(tuple(get_settings().get('load_from_internet'
                                                     '_when_starts'))):
             image = ImageManager.get(''.join(path))
-            image = image or to_base64('loading.png')
+            image = image or loading
 
         else:
             # local image

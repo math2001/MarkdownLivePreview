@@ -9,6 +9,7 @@ Medium:
   ☐ auto refresh preview if loading images
   ☐ use alt attribute for 404 error
   ☐ use MarkdownLivePreview syntax, so we can use syntax's settings
+  ☐ listen for settings to change
 
 Long:
   ☐ fix #4 @high

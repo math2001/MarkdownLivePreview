@@ -8,8 +8,11 @@ Hope you'll enjoy using MarkdownLivePreview!
 
 ![image](https://forum.sublimetext.com/uploads/st-forum-wide.png)
 
-![image](C:/users/math/desktop/hello.png)
+![image](http://local.dev/tests/php/img/image-php.php)
 
 hello world
 
-This is a test dfsdf hello world, this is pretty cool. 
+This is a test dfsdf hello world, this is pretty cool.
+
+This is a test
+
