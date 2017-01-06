@@ -15,7 +15,11 @@ __folder__ = os.path.dirname(__file__)
 
 STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User',
                                           'MarkdownLivePreview.css')
-DEFAULT_STYLE_FILE = os.path.join(__folder__, 'default.css')
+
+def plugin_loaded():
+    global DEFAULT_STYLE_FILE
+    DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/'
+                                               'default.css')
 
 def get_preview_name(md_view):
     name = md_view.name() \
@@ -98,9 +102,7 @@ def get_style():
         with open(STYLE_FILE) as fp:
             return fp.read()
 
-    with open(DEFAULT_STYLE_FILE) as fp:
-        content = fp.read()
-    content = ''.join([line.strip() for line in content.splitlines()])
+    content = ''.join([line.strip() for line in DEFAULT_STYLE_FILE.splitlines()])
     return content + "pre code .space {color: var(--light-bg)}"
 
 def show_html(md_view, preview):
