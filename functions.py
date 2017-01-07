@@ -75,6 +75,8 @@ def get_view_content(view):
     return view.substr(sublime.Region(0, view.size()))
 
 def get_view_from_id(window, id):
+    if not isinstance(id, int):
+        return
     for view in window.views():
         if view.id() == id:
             return view

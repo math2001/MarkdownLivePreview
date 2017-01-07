@@ -12,11 +12,13 @@ from .functions import *
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
     def on_modified(self, view):
-        window = view.window()
+        if not is_markdown_view(view):
+            return
+
         vsettings = view.settings()
         if vsettings.get(PREVIEW_ENABLED):
             id = vsettings.get(PREVIEW_ID)
-            preview = get_view_from_id(window, id)
+            preview = get_view_from_id(view.window(), id)
             if id is None or preview is None:
                 preview = create_preview(view)
                 sublime.set_timeout_async(lambda: show_html(view, preview), 1000)

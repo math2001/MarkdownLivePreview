@@ -1,4 +1,4 @@
-# MarkdownLivePreview
+# MarkdownLivePreview 
 
 This is a sublime text **3** plugin that allows you to preview your markdown instantly *in* it!
 
