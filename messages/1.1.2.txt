@@ -1,0 +1,12 @@
+Sorry to interupt you... :(
+
+Small changes occured on MarkdownLivePreview.
+
+Changes:
+~~~~~~~~
+
+Main callback is now async (prevent ST from crashing)
+
+
+Tip of the day: Delete all the content till the end of the line: Ctrl+k, Ctrl+k
+                You'll use it much more than you think ;)

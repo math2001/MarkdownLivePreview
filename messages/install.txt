@@ -1,0 +1,42 @@
+ __  __            _       _                     _      _           _____                _
+|  \/  |          | |     | |                   | |    (_)         |  __ \              (_)
+| \  / | __ _ _ __| | ____| | _____      ___ __ | |     ___   _____| |__) | __ _____   ___  _____      __
+| |\/| |/ _` | '__| |/ / _` |/ _ \ \ /\ / / '_ \| |    | \ \ / / _ \  ___/ '__/ _ \ \ / / |/ _ \ \ /\ / /
+| |  | | (_| | |  |   < (_| | (_) \ V  V /| | | | |____| |\ V /  __/ |   | | |  __/\ V /| |  __/\ V  V /
+|_|  |_|\__,_|_|  |_|\_\__,_|\___/ \_/\_/ |_| |_|______|_| \_/ \___|_|   |_|  \___| \_/ |_|\___| \_/\_/
+
+Thanks for installing MarkdownLivePreview! I hope you'll enjoy using it!
+
+Quick Start:
+~~~~~~~~~~~~
+
+To enable MarkdownLivePreview, you need to me on a markdown view (works with
+Markdown Extended). Then just press `alt+m`, or search up in the command
+palette: 'MarkdownLivePreview: Toggle'. Hit enter and you're done. As soon as
+you'll type anything in, it'll show up the preview in a new group.
+
+Say thanks:
+~~~~~~~~~~~
+
+Just letting me know you're enjoying this plugin is a great way to say thanks!
+
+You can do so by staring the GitHub repo, or sending a tweet (@_math2001) for
+example!
+
+Troubles?
+~~~~~~~~~
+
+If you have any kind of trouble with it, just let me now by raising an issue on
+the GitHub issue tracker here:
+
+https://github.com/math2001/MarkdownLivePreview/issues
+
+Tip of the day: Right click on a URL and choose 'Open <the url>' to open it in
+                your default browser.
+
+Credits:
+~~~~~~~~
+
+The ASCII MLP has been generated using the ASCII Decorator.
+
+https://github.com/viisual/ASCII-Decorator

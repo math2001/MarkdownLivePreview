@@ -2,12 +2,10 @@
 
 This is a test, and this is pretty cool!
 
-![image](http://afterishtar.pl/images/100x100.gif)
-
 Hope you'll enjoy using MarkdownLivePreview!
 
 ![image](https://forum.sublimetext.com/uploads/st-forum-wide.png)
 
-![image](http://local.dev/tests/php/img/image-php.php)
+![GitHub](https://octodex.github.com/images/jetpacktocat.png)
 
-this is a tets
+This is a test, and it's still loading.
