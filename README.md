@@ -1,4 +1,4 @@
-# MarkdownLivePreview 
+# MarkdownLivePreview
 
 This is a sublime text **3** plugin that allows you to preview your markdown instantly *in* it!
 
@@ -28,7 +28,11 @@ Done!
 
 ### Usage
 
-Sometimes, you just want to open a markdown file to edit it quickly, you don't care about the preview, and even worse, **you don't want it**. So, if you want to have the preview, press `alt+m`, edit your file, and you'll get a nice preview.
+You can choose to enable MarkdownLivePreview by pressing <kbd>alt+m</kbd> or selecting in the command palette `MarkdownLivePreview: Edit Current File`. Note that you need to be editing (simply having the focus on) a markdown file. Because [Markdown Extended][markdown-extended] did a good job, it's compatible with this plugin.
+
+It will open a new window, with only your markdown file, with the preview. Once your done, close whichever file and it'll close the entire window.
+
+*Notice that it will close the entire window if you close **whichever** file. It means that if you open a random file in this window, and then close it, it'll close the entire window still*
 
 ### In dev
 
@@ -45,3 +49,6 @@ It is possible to set your own css. But, be carefull, you have to respect [those
 ### How to open the [README](http://github.com/math2001/MarkdownLivePreview/README.md)
 
 Some of the package add a command in the menus, others in the command palette, or other nowhere. None of those options are really good, especially the last one on ST3 because the packages are compressed. But, fortunately, there is plugin that exists and **will solve this problem** for us (and he has a really cute name, don't you think?): [ReadmePlease](https://packagecontrol.io/packages/ReadmePlease).
+
+
+[markdown-extended]: https://packagecontrol.io/packages/Markdown
