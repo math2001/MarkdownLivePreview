@@ -1,9 +1,5 @@
-:root, html, body {
-    height: 100%;
-}
 html {
     --light-bg: color(var(--background) blend(#999 85%))
-    height: 100%;
 }
 body {
     padding:10px;
