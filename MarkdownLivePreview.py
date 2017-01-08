@@ -34,7 +34,6 @@ class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
         md_view = self.window.open_file(file_name)
         mdsettings = md_view.settings()
 
-
         mdsettings.set(PREVIEW_ENABLED, True)
         mdsettings.set(PREVIEW_ID, preview.id())
 
@@ -42,6 +41,7 @@ class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
         return is_markdown_view(sublime.active_window().active_view())
 
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
+
     def on_modified(self, view):
         if not is_markdown_view(view): # faster than getting the settings
             return

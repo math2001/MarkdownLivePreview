@@ -51,4 +51,5 @@ It is possible to set your own css. But, be carefull, you have to respect [those
 Some of the package add a command in the menus, others in the command palette, or other nowhere. None of those options are really good, especially the last one on ST3 because the packages are compressed. But, fortunately, there is plugin that exists and **will solve this problem** for us (and he has a really cute name, don't you think?): [ReadmePlease](https://packagecontrol.io/packages/ReadmePlease).
 
 
+
 [markdown-extended]: https://packagecontrol.io/packages/Markdown
