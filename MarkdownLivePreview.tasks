@@ -4,7 +4,6 @@ Fast:
   ☐ cache image in object when used, so that it's faster @needsTest
   ☐ call settings listener on_new too - might be too heavy
   ☐ add clear cache command
-  ☐ add settings for the preview
 
 Medium:
   ☐ auto refresh preview if loading images
@@ -23,6 +22,7 @@ Unknown:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ add settings for the preview @done Sun 08 Jan 2017 at 17:36 @project(Fast)
  ✔ regive focus to the right markdown view @done Mon 02 Jan 2017 at 18:34 @project(Fast)
  ✔ try/except for 404 @done Mon 02 Jan 2017 at 18:03 @project(Fast)
  ✔ fix bug when empty `src` @done Mon 02 Jan 2017 at 17:15 @project(Fast)

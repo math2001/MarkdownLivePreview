@@ -34,6 +34,8 @@ def create_preview(window, file_name):
 
     preview.set_name(get_preview_name(file_name))
     preview.set_scratch(True)
+    preview.set_syntax_file('Packages/MarkdownLivePreview/.sublime/'
+                            'MarkdownLivePreview.hidden-tmLanguage')
 
     return preview
 

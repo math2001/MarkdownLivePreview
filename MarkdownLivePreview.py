@@ -42,7 +42,7 @@ class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
 
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
-    def on_modified(self, view):
+    def update(self, view):
         if not is_markdown_view(view): # faster than getting the settings
             return
         vsettings = view.settings()
@@ -56,10 +56,36 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             raise ValueError('The preview is None (id: {})'.format(id))
 
         show_html(view, preview)
+        return view, preview
+
+    def on_modified(self, view):
+        self.update(view)
 
     def on_window_command(self, window, command, args):
         if command == 'close' and window.settings().get(PREVIEW_WINDOW):
             return 'close_window', {}
 
     def on_load_async(self, view):
-        self.on_modified(view)
+        try:
+            md_view, preview = self.update(view)
+        except TypeError:
+            return
+        window = preview.window()
+        psettings = preview.settings()
+
+        show_tabs = psettings.get('show_tabs')
+        show_minimap = psettings.get('show_minimap')
+        show_status_bar = psettings.get('show_status_bar')
+        show_sidebar = psettings.get('show_sidebar')
+        show_menus = psettings.get('show_menus')
+
+        if show_tabs is not None:
+            window.set_tabs_visible(show_tabs)
+        if show_minimap is not None:
+            window.set_minimap_visible(show_minimap)
+        if show_status_bar is not None:
+            window.set_status_bar_visible(show_status_bar)
+        if show_sidebar is not None:
+            window.set_sidebar_visible(show_sidebar)
+        if show_menus is not None:
+            window.set_menu_visible(show_menus)

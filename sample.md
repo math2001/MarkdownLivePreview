@@ -1,15 +1,11 @@
 # DuckDuckGo - The Search engine you'll fall in love
 
-This is cool. The stylesheet's back!
-
-This is a test, and this is pretty cool!
-
 Hope you'll enjoy using MarkdownLivePreview!
 
 ![Sublime Text Forum](https://forum.sublimetext.com/uploads/st-forum-wide.png)
 
 ```python
-print(hello world)
+print('Hello world')
 if DEBUG:
     print('DEBUG_MODE on')
 ```
@@ -17,3 +13,7 @@ if DEBUG:
 > Only a fool knows everything. A wise man knows how little he knows
 
 The only think I know right now is that Boxy Theme's just awesome.
+
+this is a test, hello world, I know this, it's cool
+
+Hello world, this is a test, and it's working also.
