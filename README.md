@@ -8,23 +8,14 @@ This is a sublime text **3** plugin that allows you to preview your markdown ins
 
 ## Installation
 
-Although MarkdownLivePreview is not available on the default channel of [PackageControl](http://packagecontrol.io), you can still use it to download this little package.
-
-1. Open the command palette (`ctrl+shift+p`)
-2. Search for: `Package Control: Add Repository`
-3. Enter in the input at the bottom of ST the path to this repo: <https://github.com/math2001/MarkdownLivePreview> (tip: just drag the link in)
-4. Hit <kbd>enter</kbd>
-
-What this does is simply adding this repo to the list of packages you get when you install a package using PC.
-
-So, as you probably understood, now you just need to install MarkdownLivePreview as if it was available on the default channel:
+MarkdownLivePreview is available on the default channel of [PackageControl](http://packagecontrol.io), which means you just have to
 
 1. Open the command palette (`ctrl+shift+p`)
 2. Search for: `Package Control: Install Package`
 3. Search for: `MarkdownLivePreview`
 4. hit <kbd>enter</kbd>
 
-Done!
+to have MarkdownLivePreview working on your computer. Cool right? You can [thank package control](https://packagecontrol.io/say_thanks) for this.
 
 ### Usage
 
@@ -52,4 +43,4 @@ Some of the package add a command in the menus, others in the command palette, o
 
 
 
-[markdown-extended]: https://packagecontrol.io/packages/Markdown
+[markdown-extended]: https://packagecontrol.io/packages/Markdown%20Extended
