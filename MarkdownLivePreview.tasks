@@ -4,13 +4,13 @@ Fast:
   ☐ cache image in object when used, so that it's faster @needsTest
   ☐ call settings listener on_new too - might be too heavy
   ☐ add clear cache command
+  ☐ update README for settings in view
 
 Medium:
   ☐ auto refresh preview if loading images
   ☐ use alt attribute for 404 error
   ☐ use MarkdownLivePreview syntax, so we can use syntax's settings
   ☐ listen for settings to change
-  ☐ fix relative source
 
 Long:
   ☐ fix #4 @high
@@ -22,6 +22,7 @@ Unknown:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ fix relative source @done Sun 08 Jan 2017 at 19:22 @project(Medium)
  ✔ add settings for the preview @done Sun 08 Jan 2017 at 17:36 @project(Fast)
  ✔ regive focus to the right markdown view @done Mon 02 Jan 2017 at 18:34 @project(Fast)
  ✔ try/except for 404 @done Mon 02 Jan 2017 at 18:03 @project(Fast)

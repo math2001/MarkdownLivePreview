@@ -11,7 +11,7 @@ def plugin_loaded():
     error404 = sublime.load_resource('Packages/MarkdownLivePreview/404.txt')
 
 
-def replace_img_src_base64(html):
+def replace_img_src_base64(html, basepath):
     """Really messy, but it works (should be updated)"""
     index = -1
     tag_start = '<img src="'
@@ -30,7 +30,9 @@ def replace_img_src_base64(html):
 
         else:
             # local image
-            image = to_base64(''.join(path))
+            path = ''.join(path)
+            path = os.path.join(basepath, path)
+            image = to_base64(path)
         html[index+len(tag_start):end] = image
         shtml = ''.join(html)
     return ''.join(html)

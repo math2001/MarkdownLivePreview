@@ -13,7 +13,3 @@ if DEBUG:
 > Only a fool knows everything. A wise man knows how little he knows
 
 The only think I know right now is that Boxy Theme's just awesome.
-
-this is a test, hello world, I know this, it's cool
-
-Hello world, this is a test, and it's working also.

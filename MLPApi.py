@@ -49,12 +49,10 @@ def show_html(md_view, preview):
     html.append(pre_with_br(md2.markdown(get_view_content(md_view),
                                          extras=['fenced-code-blocks',
                                                  'no-code-highlighting'])))
-
-    html = '\n'.join(html)
-
     # the option no-code-highlighting does not exists
     # in the official version of markdown2 for now
     # I personaly edited the file (markdown2.py:1743)
+    html = '\n'.join(html)
 
     html = html.replace('&nbsp;', '&nbspespace;') # save where are the spaces
 
@@ -64,7 +62,8 @@ def show_html(md_view, preview):
 
     # exception, again, because <pre> aren't supported by the phantoms
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
-    html = replace_img_src_base64(html)
+    html = replace_img_src_base64(html, basepath=os.path.dirname(
+                                                md_view.file_name()))
     preview.erase_phantoms('markdown_preview')
     preview.add_phantom('markdown_preview',
                          sublime.Region(-1),
