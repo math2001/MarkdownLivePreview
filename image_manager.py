@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 
 import os.path
+import tempfile
+import sublime
 from threading import Thread
 import urllib.request, urllib.error
-import sublime
 from .functions import *
-import tempfile
 
 CACHE_FILE = os.path.join(tempfile.gettempdir(),
                           'MarkdownLivePreviewCache.txt')

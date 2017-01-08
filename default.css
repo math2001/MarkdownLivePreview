@@ -1,5 +1,5 @@
 html {
-    --light-bg: color(var(--background) blend(#999 85%))
+    --light-bg: color(var(--background) blend(#999 85%));
 }
 body {
     padding:10px;

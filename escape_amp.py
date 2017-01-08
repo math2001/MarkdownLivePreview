@@ -2,9 +2,7 @@
 
 import re
 
-__all__ = [
-    'escape_amp'
-]
+__all__ = ['escape_amp']
 
 RE_REPLACE_AMPERSAND = re.compile(r'&(\w*)(;)?')
 
@@ -27,11 +25,14 @@ def run_tests():
     fails = 0
     for i, (subject, result) in enumerate(tests):
         if RE_REPLACE_AMPERSAND.sub(replace, subject) != result:
+            # CSW: ignore
             print('TEST FAIL ({i}): {subject!r} escaped did not match {result!r}'.format(**locals()))
             fails += 1
     if fails == 0:
+        # CSW: ignore
         print("SUCCESS: every tests ({}) passed successfully!".format(len(tests)))
     else:
+        # CSW: ignore
         print("{} test{} failed".format(fails, 's' if fails > 1 else ''))
 
 if __name__ == '__main__':
