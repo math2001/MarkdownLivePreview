@@ -14,7 +14,7 @@ from .setting_names import *
 __folder__ = os.path.dirname(__file__)
 
 STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User',
-                                          'MarkdownLivePreview.css')
+                           'MarkdownLivePreview.css')
 
 
 def plugin_loaded():

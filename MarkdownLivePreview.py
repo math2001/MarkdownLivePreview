@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-import sys
-import os.path
 import sublime
 import sublime_plugin
 
@@ -31,7 +29,7 @@ class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
         })
         self.window.focus_group(1)
         preview = create_preview(self.window, current_view)
-        
+
         self.window.focus_group(0)
         md_view = self.window.open_file(file_name)
         mdsettings = md_view.settings()
