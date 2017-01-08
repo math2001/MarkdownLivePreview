@@ -1,10 +1,7 @@
 [
     {
         "keys": ["alt+m"],
-        "command": "toggle_setting",
-        "args": {
-            "setting": "markdown_live_preview_enabled"
-        },
+        "command": "new_markdown_live_preview",
         "context": [
             {
                 "key": "selector",

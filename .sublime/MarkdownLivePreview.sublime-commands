@@ -1,9 +1,6 @@
 [
     {
-        "caption": "MarkdownLivePreview: Toggle",
-        "command": "toggle_setting",
-        "args": {
-            "setting": "markdown_live_preview_enabled"
-        }
+        "caption": "MarkdownLivePreview: Edit Current File",
+        "command": "new_markdown_live_preview"
     }
 ]
