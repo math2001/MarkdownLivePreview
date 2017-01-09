@@ -1,0 +1,5 @@
+Sorry to interrupt you... :(
+
+A settings is now available: `markdown_live_preview_on_open`. If set to true,
+it opens the window preview as soon as you open a markdown file. See the
+README for more infos.
