@@ -1,19 +1,12 @@
 Fast:
-
   ☐ sync scroll @needsUpdate(because of images)
   ☐ cache image in object when used, so that it's faster @needsTest
-  ☐ add clear cache command
-  ☐ update README for settings in view
-  ☐ add edit settings
 
 Medium:
   ☐ auto refresh preview if loading images
   ☐ use alt attribute for 404 error
-  ☐ use MarkdownLivePreview syntax, so we can use syntax's settings
-  ☐ listen for settings to change
 
 Long:
-  ☐ fix #4 @high
   ☐ support hanchor (TOC) @big
 
 Unknown:
@@ -22,6 +15,12 @@ Unknown:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ fix #4 @high @done Mon 09 Jan 2017 at 18:42 @project(Long)
+ ✔ use MarkdownLivePreview syntax, so we can use syntax's settings @done Mon 09 Jan 2017 at 18:41 @project(Medium)
+ ✔ add clear cache command @done Mon 09 Jan 2017 at 18:41 @project(Fast)
+ ✔ update README for settings in view @done Mon 09 Jan 2017 at 18:41 @project(Fast)
+ ✔ add edit settings @done Mon 09 Jan 2017 at 18:41 @project(Fast)
+ ✘ listen for settings to change @cancelled Mon 09 Jan 2017 at 18:41 @project(Medium)
  ✘ call settings listener on_new too - might be too heavy @cancelled Sun 08 Jan 2017 at 19:33 @project(Fast)
  ✔ fix relative source @done Sun 08 Jan 2017 at 19:22 @project(Medium)
  ✔ add settings for the preview @done Sun 08 Jan 2017 at 17:36 @project(Fast)

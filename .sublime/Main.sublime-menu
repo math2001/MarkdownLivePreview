@@ -7,14 +7,27 @@
                 "children": [
                     {
                         "caption": "MarkdownLivePreview",
-                        "command": "open_file",
-                        "args": {
-                            "file": "$packages/User/MarkdownLivePreview.css",
-                            "contents": "/* See http://www.sublimetext.com/docs/3/minihtml.html#css to know which property you're able to use */\n\n$0"
-                        }
-                    }
-                ]
-            }
+                        "children": [
+                            {
+                                "caption": "Settings",
+                                "command": "edit_settings",
+                                "args": {
+                                    "base_file": "$packages/MarkdownLivePreview/.sublime/MarkdownLivePreview.sublime-settings",
+                                    "default": "// Your settings for MarkdownLivePreview. See the default file to see the different options. \n{\n\t\n}\n"
+                                }
+                            },
+                            {
+                                "caption": "Style - CSS",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "$packages/User/MarkdownLivePreview.css",
+                                    "contents": "/* See http://www.sublimetext.com/docs/3/minihtml.html#css to know which property you're able to use */\n\n$0"
+                                }
+                            },
+                        ]
+                    },
+                ],
+            },
         ]
     }
 ]
