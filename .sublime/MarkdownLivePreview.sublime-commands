@@ -2,5 +2,9 @@
     {
         "caption": "MarkdownLivePreview: Edit Current File",
         "command": "new_markdown_live_preview"
+    },
+    {
+        "caption": "MarkdownLivePreview: Clear Cache",
+        "command": "markdown_live_preview_clear_cache"
     }
 ]

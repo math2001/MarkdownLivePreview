@@ -10,17 +10,18 @@ from .lib import markdown2 as md2
 from .escape_amp import *
 from .functions import *
 from .setting_names import *
+from .image_manager import CACHE_FILE
 
 __folder__ = os.path.dirname(__file__)
 
 STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User',
-                         'MarkdownLivePreview.css')
+                            'MarkdownLivePreview.css')
 
 
 def plugin_loaded():
     global DEFAULT_STYLE_FILE
     DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/'
-                                               'default.css')
+                                              'default.css')
 
 def get_preview_name(md_view):
     file_name = md_view.file_name()
@@ -82,3 +83,7 @@ def show_html(md_view, preview):
     vector[1] = mini(vector[1], 0)
     vector[1] += preview.line_height()
     preview.set_viewport_position(vector, animate=False)
+
+def clear_cache():
+    """Removes the cache file"""
+    os.remove(CACHE_FILE)

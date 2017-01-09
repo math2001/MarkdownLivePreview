@@ -2,7 +2,6 @@ Fast:
 
   ☐ sync scroll @needsUpdate(because of images)
   ☐ cache image in object when used, so that it's faster @needsTest
-  ☐ call settings listener on_new too - might be too heavy
   ☐ add clear cache command
   ☐ update README for settings in view
 
@@ -22,6 +21,7 @@ Unknown:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✘ call settings listener on_new too - might be too heavy @cancelled Sun 08 Jan 2017 at 19:33 @project(Fast)
  ✔ fix relative source @done Sun 08 Jan 2017 at 19:22 @project(Medium)
  ✔ add settings for the preview @done Sun 08 Jan 2017 at 17:36 @project(Fast)
  ✔ regive focus to the right markdown view @done Mon 02 Jan 2017 at 18:34 @project(Fast)

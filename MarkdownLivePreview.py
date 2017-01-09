@@ -89,3 +89,9 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             window.set_sidebar_visible(show_sidebar)
         if show_menus is not None:
             window.set_menu_visible(show_menus)
+
+
+class MarkdownLivePreviewClearCacheCommand(sublime_plugin.ApplicationCommand):
+
+    def run(self):
+        clear_cache()
