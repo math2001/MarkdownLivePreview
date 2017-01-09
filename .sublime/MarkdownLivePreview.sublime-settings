@@ -1,3 +1,4 @@
 {
+    "markdown_live_preview_on_open": false,
     "load_from_internet_when_starts": ["http://", "https://"]
 }

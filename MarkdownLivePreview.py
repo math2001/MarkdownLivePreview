@@ -17,7 +17,8 @@ class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
         file_name = current_view.file_name()
         current_view.close()
         if file_name is None:
-            return sublime.error_message('Not supporting unsaved file for now')
+            return sublime.error_message('MarkdownLivePreview: Not supporting '
+                                         'unsaved file for now')
 
         sublime.run_command('new_window')
         self.window = sublime.active_window()
@@ -43,8 +44,6 @@ class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
     def update(self, view):
-        if not is_markdown_view(view): # faster than getting the settings
-            return
         vsettings = view.settings()
         if not vsettings.get(PREVIEW_ENABLED):
             return
@@ -59,16 +58,32 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         return view, preview
 
     def on_modified(self, view):
+        if not is_markdown_view(view): # faster than getting the settings
+            return
         self.update(view)
 
     def on_window_command(self, window, command, args):
         if command == 'close' and window.settings().get(PREVIEW_WINDOW):
             return 'close_window', {}
 
+    def on_activated_async(self, view):
+        vsettings = view.settings()
+
+        if (is_markdown_view(view)
+            and get_settings().get('markdown_live_preview_on_open')
+            and not vsettings.get(PREVIEW_ENABLED)
+            and vsettings.get('syntax') != 'Packages/MarkdownLivePreview/'
+                                           '.sublime/MarkdownLivePreviewSyntax'
+                                           '.hidden-tmLanguage'):
+            sublime.run_command('new_markdown_live_preview')
+
+
     def on_load_async(self, view):
+        """Check the settings to hide menu, minimap, etc"""
         try:
             md_view, preview = self.update(view)
         except TypeError:
+            # the function update has returned None
             return
         window = preview.window()
         psettings = preview.settings()

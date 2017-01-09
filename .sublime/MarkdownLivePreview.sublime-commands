@@ -6,5 +6,13 @@
     {
         "caption": "MarkdownLivePreview: Clear Cache",
         "command": "markdown_live_preview_clear_cache"
+    },
+    {
+        "caption": "Preferences: MarkdownLivePreview Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/MarkdownLivePreview/.sublime/MarkdownLivePreview.sublime-settings",
+            "default": "// Your settings for MarkdownLivePreview. See the default file to see the different options. \n{\n\t$0\n}\n"
+        }
     }
 ]

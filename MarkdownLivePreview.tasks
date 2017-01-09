@@ -4,6 +4,7 @@ Fast:
   ☐ cache image in object when used, so that it's faster @needsTest
   ☐ add clear cache command
   ☐ update README for settings in view
+  ☐ add edit settings
 
 Medium:
   ☐ auto refresh preview if loading images

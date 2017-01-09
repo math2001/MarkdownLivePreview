@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>name</key>
-    <string>MarkdownLivePreview</string>
+    <string>MarkdownLivePreviewSyntax</string>
 
     <key>patterns</key>
     <array>
