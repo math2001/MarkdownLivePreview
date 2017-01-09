@@ -1,0 +1,22 @@
+Sorry to interrupt you... :(
+
+Some quite important changes have occured on MarkdownLivePreview.
+
+The first version was quite buggy: it made Sublime Text 3 crash. So I released
+a whole new version, which is working differently.
+
+When you active MarkdownLivePreview, it'll open a new window with the markdown
+view on the left, and the preview on the right.
+
+When you'll close any file in this window, it'll close the *entire* window.
+
+I hope you'll still enjoy using MarkdownLivePreview. If you have any request,
+just let me know by raising an issue here:
+
+github.com/math2001/MarkdownLivePreview/issues
+
+Tip of the day: you can duplicate a line by pressing 'ctrl+d'
+                        remove a line by pressing 'ctrl+shift+k'
+                        join lines by pressing 'ctrl+j'
+                get use to use these few shortcuts, and you'll speed up
+                significantly.
