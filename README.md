@@ -25,6 +25,11 @@ It will open a new window, with only your markdown file, with the preview. Once 
 
 *Notice that it will close the entire window if you close **whichever** file. It means that if you open a random file in this window, and then close it, it'll close the entire window still*
 
+### Settings
+
+- `markdown_live_preview_on_open`: if set to `true`, as soon as you open a markdown file, the preview window will popup (thanks to [@ooing](https://github.com/ooing) for it's [suggestion](https://github.com/math2001/MarkdownLivePreview/issues/7#issue-199464852)). Default to `false`
+- `load_from_internet_when_starts`: every images that starts with any of the string specified in this list will be loaded from internet. Default to `["http://", "https://"]`
+
 ### In dev
 
 This plugin is not finished, there's still some things to fix (custom css, focus, etc). So, don't run away if you have any trouble, just submit an issue [here](http://github.com/math2001/MarkdownLivePreview/issues).
