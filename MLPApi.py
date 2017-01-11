@@ -73,13 +73,16 @@ def show_html(md_view, preview):
                          lambda href: sublime.run_command('open_url',
                                                           {'url': href}))
 
-    # set viewport position
+    # get the "ratio" of the markdown view's position.
     # 0 < y < 1
     y = md_view.text_to_layout(md_view.sel()[0].begin())[1] / md_view.layout_extent()[1]
+    # set the vector (position) for the preview
     vector = [0, y * preview.layout_extent()[1]]
     # remove half of the viewport_extent.y to center it on the screen (verticaly)
     vector[1] -= preview.viewport_extent()[1] / 2
-    vector[1] = mini(vector[1], 0)
+    # make sure the minimum is 0
+    vector[1] = 0 if vector < 0 else vector[1]
+    # the hide the first line
     vector[1] += preview.line_height()
     preview.set_viewport_position(vector, animate=False)
 
