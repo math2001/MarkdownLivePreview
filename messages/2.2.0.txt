@@ -1,0 +1,8 @@
+Sorry to interrupt you... :(
+
+Something changed on MarkdownLivePreview: the preview is now scrolled to where
+you are editing your markdown file! It doesn't scroll back up all the time any
+more!
+
+Tip of the day: You can center the screen on your cursor by pressing:
+               `ctrl+k, ctrl+v` (on OSX `cmd+k, cmd+v`)
