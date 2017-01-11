@@ -12,4 +12,6 @@ if DEBUG:
 
 > Only a fool knows everything. A wise man knows how little he knows
 
+Hello world
+
 The only think I know right now is that Boxy Theme's just awesome.

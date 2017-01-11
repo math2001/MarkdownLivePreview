@@ -73,7 +73,6 @@ def show_html(md_view, preview):
                          lambda href: sublime.run_command('open_url',
                                                           {'url': href}))
 
-    return
     # set viewport position
     # 0 < y < 1
     y = md_view.text_to_layout(md_view.sel()[0].begin())[1] / md_view.layout_extent()[1]
