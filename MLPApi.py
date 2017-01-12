@@ -81,7 +81,7 @@ def show_html(md_view, preview):
     # remove half of the viewport_extent.y to center it on the screen (verticaly)
     vector[1] -= preview.viewport_extent()[1] / 2
     # make sure the minimum is 0
-    vector[1] = 0 if vector < 0 else vector[1]
+    vector[1] = 0 if vector[1] < 0 else vector[1]
     # the hide the first line
     vector[1] += preview.line_height()
     preview.set_viewport_position(vector, animate=False)
