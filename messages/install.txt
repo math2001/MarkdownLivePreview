@@ -10,10 +10,10 @@ Thanks for installing MarkdownLivePreview! I hope you'll enjoy using it!
 Quick Start:
 ~~~~~~~~~~~~
 
-To enable MarkdownLivePreview, you need to me on a markdown view (works with
+To enable MarkdownLivePreview, you need to be on a markdown view (works with
 Markdown Extended). Then just press `alt+m`, or search up in the command
 palette: 'MarkdownLivePreview: Toggle'. Hit enter and you're done. As soon as
-you'll type anything in, it'll show up the preview in a new group.
+you type anything in, it'll show up with the preview in a new group.
 
 Say thanks:
 ~~~~~~~~~~~
