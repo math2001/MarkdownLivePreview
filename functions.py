@@ -23,7 +23,7 @@ def replace_img_src_base64(html, basepath):
         path, end = get_content_till(html, '"', start=index + len(tag_start))
         if ''.join(path).startswith('data:image/'):
             continue
-        if ''.join(path).startswith(tuple(get_settings().get('load_from_internet'
+        if ''.join(path).startswith(tuple(get_settings().get('load_from_internet '
                                                     '_when_starts'))):
             image = ImageManager.get(''.join(path))
             image = image or loading
@@ -38,7 +38,7 @@ def replace_img_src_base64(html, basepath):
     return ''.join(html)
 
 def is_markdown_view(view):
-        return 'markdown' in view.scope_name(0)
+    return 'markdown' in view.scope_name(0)
 
 def to_base64(path=None, content=None):
     if path is None and content is None:
