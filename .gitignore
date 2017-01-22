@@ -1,3 +1,4 @@
 Thumbs.db
 __pycache__/
 cache.txt
+venv/

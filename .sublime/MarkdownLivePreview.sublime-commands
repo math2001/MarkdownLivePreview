@@ -4,7 +4,7 @@
         "command": "new_markdown_live_preview"
     },
     {
-        "caption": "MarkdownLivePreview: Clear Cache",
+        "caption": "MarkdownLivePreview: Clear the cache",
         "command": "markdown_live_preview_clear_cache"
     },
     {

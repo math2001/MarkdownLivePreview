@@ -64,6 +64,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
     def on_window_command(self, window, command, args):
         if command == 'close' and window.settings().get(PREVIEW_WINDOW):
+            release_phantoms_set(window.id())
             return 'close_window', {}
 
     def on_activated_async(self, view):
@@ -105,13 +106,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         if show_menus is not None:
             window.set_menu_visible(show_menus)
 
-
 class MarkdownLivePreviewClearCacheCommand(sublime_plugin.ApplicationCommand):
 
     def run(self):
         clear_cache()
-
-class MarkdownLivePreviewReleasePhantomSetCommand(sublime_plugin.ApplicationCommand):
-
-    def run(self):
-        release_phantoms_set()

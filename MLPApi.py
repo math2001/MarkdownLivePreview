@@ -19,7 +19,7 @@ STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User',
                             'MarkdownLivePreview.css')
 
 # used to store the phantom's set
-views = {}
+windows_phantom_set = {}
 
 def plugin_loaded():
     global DEFAULT_STYLE_FILE
@@ -47,7 +47,7 @@ def get_style():
     return content + "pre code .space {color: var(--light-bg)}"
 
 def show_html(md_view, preview):
-    global views
+    global windows_phantom_set
     html = []
     html.append('<style>\n{}\n</style>'.format(get_style()))
     html.append(pre_with_br(md2.markdown(get_view_content(md_view),
@@ -69,8 +69,9 @@ def show_html(md_view, preview):
     html = replace_img_src_base64(html, basepath=os.path.dirname(
                                                 md_view.file_name()))
 
-    phantom_set = views.setdefault(preview.id(),
-                                   sublime.PhantomSet(preview, 'markdown_live_preview'))
+    phantom_set = windows_phantom_set.setdefault(preview.window().id(),
+                                                 sublime.PhantomSet(preview,
+                                                                    'markdown_live_preview'))
     phantom_set.update([sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
                                         lambda href: sublime.run_command('open_url',
                                                                          {'url': href}))])
@@ -93,5 +94,9 @@ def clear_cache():
     """Removes the cache file"""
     os.remove(CACHE_FILE)
 
-def release_phantoms_set():
-    global views
+def release_phantoms_set(view_id=None):
+    global windows_phantom_set
+    if view_id is None:
+        windows_phantom_set = {}
+    else:
+        del windows_phantom_set[view_id]
