@@ -11,17 +11,19 @@ from .escape_amp import *
 from .functions import *
 from .setting_names import *
 from .image_manager import CACHE_FILE
+from random import randint as rnd
 
 __folder__ = os.path.dirname(__file__)
 
 STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User',
                             'MarkdownLivePreview.css')
 
+# used to store the phantom's set
+views = {}
 
 def plugin_loaded():
     global DEFAULT_STYLE_FILE
-    DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/'
-                                              'default.css')
+    DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
 
 def get_preview_name(md_view):
     file_name = md_view.file_name()
@@ -35,7 +37,7 @@ def create_preview(window, file_name):
 
     preview.set_name(get_preview_name(file_name))
     preview.set_scratch(True)
-    preview.set_syntax_file('Packages/MarkdownLivePreview/.sublime/'
+    preview.set_syntax_file('Packages/MarkdownLivePreview/.sublime/' + \
                             'MarkdownLivePreviewSyntax.hidden-tmLanguage')
 
     return preview
@@ -45,6 +47,7 @@ def get_style():
     return content + "pre code .space {color: var(--light-bg)}"
 
 def show_html(md_view, preview):
+    global views
     html = []
     html.append('<style>\n{}\n</style>'.format(get_style()))
     html.append(pre_with_br(md2.markdown(get_view_content(md_view),
@@ -65,14 +68,14 @@ def show_html(md_view, preview):
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
     html = replace_img_src_base64(html, basepath=os.path.dirname(
                                                 md_view.file_name()))
-    preview.erase_phantoms('markdown_preview')
-    preview.add_phantom('markdown_preview',
-                         sublime.Region(-1),
-                         html,
-                         sublime.LAYOUT_BLOCK,
-                         lambda href: sublime.run_command('open_url',
-                                                          {'url': href}))
 
+    phantom_set = views.setdefault(preview.id(),
+                                   sublime.PhantomSet(preview, 'markdown_live_preview'))
+    phantom_set.update([sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
+                                        lambda href: sublime.run_command('open_url',
+                                                                         {'url': href}))])
+
+    # lambda href: sublime.run_command('open_url', {'url': href})
     # get the "ratio" of the markdown view's position.
     # 0 < y < 1
     y = md_view.text_to_layout(md_view.sel()[0].begin())[1] / md_view.layout_extent()[1]
@@ -89,3 +92,6 @@ def show_html(md_view, preview):
 def clear_cache():
     """Removes the cache file"""
     os.remove(CACHE_FILE)
+
+def release_phantoms_set():
+    global views

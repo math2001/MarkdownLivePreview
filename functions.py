@@ -23,8 +23,8 @@ def replace_img_src_base64(html, basepath):
         path, end = get_content_till(html, '"', start=index + len(tag_start))
         if ''.join(path).startswith('data:image/'):
             continue
-        if ''.join(path).startswith(tuple(get_settings().get('load_from_internet '
-                                                    '_when_starts'))):
+        if ''.join(path).startswith(tuple(get_settings().get('load_from_internet' + \
+                                                    '_when_starts', []))):
             image = ImageManager.get(''.join(path))
             image = image or loading
 

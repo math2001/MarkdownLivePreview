@@ -72,8 +72,8 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         if (is_markdown_view(view)
             and get_settings().get('markdown_live_preview_on_open')
             and not vsettings.get(PREVIEW_ENABLED)
-            and vsettings.get('syntax') != 'Packages/MarkdownLivePreview/'
-                                           '.sublime/MarkdownLivePreviewSyntax'
+            and vsettings.get('syntax') != 'Packages/MarkdownLivePreview/' + \
+                                           '.sublime/MarkdownLivePreviewSyntax' + \
                                            '.hidden-tmLanguage'):
             sublime.run_command('new_markdown_live_preview')
 
@@ -110,3 +110,8 @@ class MarkdownLivePreviewClearCacheCommand(sublime_plugin.ApplicationCommand):
 
     def run(self):
         clear_cache()
+
+class MarkdownLivePreviewReleasePhantomSetCommand(sublime_plugin.ApplicationCommand):
+
+    def run(self):
+        release_phantoms_set()

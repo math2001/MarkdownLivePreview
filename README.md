@@ -49,7 +49,7 @@ Note: MarkdownLivePreview will actualy look in this file for settings that aren'
 - `show_sidebar`
 - `show_menus`
 
-They talk for themself, don't they? All of them takes a boolean (`true` or `false`). Note that those settings are *window* specific, not just view specific (that's why they aren't supported). It means that they'll affect the entire window, and every view in it. 
+They talk for themself, don't they? All of them takes a boolean (`true` or `false`). Note that those settings are *window* specific, not just view specific (that's why they aren't supported). It means that they'll affect the entire window, and every view in it.
 
 Here is an example of syntax specific settings for MarkdownLivePreviewSyntax:
 

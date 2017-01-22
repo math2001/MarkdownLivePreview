@@ -5,6 +5,7 @@ Fast:
 Medium:
   ☐ auto refresh preview if loading images
   ☐ use alt attribute for 404 error
+  ☐ fix custom css @bug
 
 Long:
   ☐ support hanchor (TOC) @big
