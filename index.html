@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sublime Text 3 Plugin MarkdownLivePreview's documentation">
+      
+      
+      
+        <meta name="author" content="math2001">
+      
+      
+        <link rel="shortcut icon" href="./assets/images/favicon.ico">
+      
+      <meta name="generator" content="mkdocs+mkdocs-material#1.0.2">
+    
+    
+      
+        <title>Home - MarkdownLivePreview</title>
+      
+    
+    
+      <script src="./assets/javascripts/modernizr-facb31f4a3.js"></script>
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="./assets/stylesheets/application-1b8b9fdf68.css">
+      
+        <link rel="stylesheet" href="./assets/stylesheets/application-02ce7adcc2.palette.css">
+      
+      
+    
+    
+  </head>
+  
+  
+  
+  
+    <body data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="." title="MarkdownLivePreview" class=" md-icon md-icon--home  md-header-nav__button">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+            
+            Home
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search">
+  <div class="md-search__overlay"></div>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+      <label class="md-icon md-search__icon" for="search"></label>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+              
+
+
+  
+
+
+  <a href="https://github.com/math2001/MarkdownLivePreview" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      math2001/MarkdownLivePreview
+    </div>
+  </a>
+
+            
+          </div>
+      </div>
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <i class=" md-icon md-icon--home  md-nav__button">
+      
+    </i>
+    MarkdownLivePreview
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/math2001/MarkdownLivePreview" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      math2001/MarkdownLivePreview
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  <li class="md-nav__item">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Home
+      </label>
+    
+    <a href="." title="Home" class="md-nav__link md-nav__link--active">
+      Home
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" title="Installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-package-control" title="Using Package Control" class="md-nav__link">
+    Using Package Control
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-git" title="Using git" class="md-nav__link">
+    Using git
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" title="Usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#previewing" title="Previewing" class="md-nav__link">
+    Previewing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clearing-the-cache" title="Clearing the cache" class="md-nav__link">
+    Clearing the cache
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-settings-for-the-preview" title="Custom settings for the preview" class="md-nav__link">
+    Custom settings for the preview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-hacky-part" title="The hacky part" class="md-nav__link">
+    The hacky part
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommendation" title="Recommendation" class="md-nav__link">
+    Recommendation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" title="Installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-package-control" title="Using Package Control" class="md-nav__link">
+    Using Package Control
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-git" title="Using git" class="md-nav__link">
+    Using git
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" title="Usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#previewing" title="Previewing" class="md-nav__link">
+    Previewing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clearing-the-cache" title="Clearing the cache" class="md-nav__link">
+    Clearing the cache
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-settings-for-the-preview" title="Custom settings for the preview" class="md-nav__link">
+    Custom settings for the preview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-hacky-part" title="The hacky part" class="md-nav__link">
+    The hacky part
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommendation" title="Recommendation" class="md-nav__link">
+    Recommendation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+               
+              
+                
+                  <h1>Home</h1>
+                
+                <p>Welcome to MarkdownLivePreview's documentation!</p>
+<p>MarkdownLivePreview is a <a href="https://sublimetext.com">Sublime Text 3</a> plugin to preview your markdown as you type,
+<em>right in Sublime Text itself</em>, without <em>any</em> dependency!</p>
+<p>It's very easy to use, but there's a few things that you might want to be aware of... So, let's
+get started</p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<h3 id="using-package-control">Using Package Control<a class="headerlink" href="#using-package-control" title="Permanent link">&para;</a></h3>
+<p>You can really easily install MarkdownLivePreview by using <a href="https://packagecontrol.io">Package Control</a>.</p>
+<p>If it's not already, you need to [install it][install-pck-con] first.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you're using the latest build of Sublime Text 3, you can just do
+<em>Tools → Install Package Control…</em></p>
+</div>
+<ul>
+<li>Open up the command palette (<kbd>ctrl+shift+p</kbd>)</li>
+<li>Search up <code class="codehilite">Package Control: Install Package</code> (might take a few seconds)</li>
+<li>In the panel that just showed up, search for <code class="codehilite">MarkdownLivePreview</code></li>
+</ul>
+<p>Done! You have now access to every single features of MarkdownLivePreview! <img alt="😉" class="emojione" src="https://cdn.jsdelivr.net/emojione/assets/svg/1f609.svg" title=":wink:" /></p>
+<h3 id="using-git">Using <code class="codehilite">git</code><a class="headerlink" href="#using-git" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span>$ <span class="nb">cd</span> <span class="s2">&quot;%APPDATA%\Sublime Text 3\Packages&quot;</span>             <span class="c1"># on Windows</span>
+$ <span class="nb">cd</span> ~/Library/Application<span class="se">\ </span>Support/Sublime<span class="se">\ </span>Text<span class="se">\ </span><span class="m">3</span> <span class="c1"># on Mac</span>
+$ <span class="nb">cd</span> ~/.config/sublime-text-3                        <span class="c1"># on Linux</span>
+
+$ git clone <span class="s2">&quot;https://github.com/math2001/MarkdownLivePreview&quot;</span>
+</pre></div>
+
+
+<blockquote>
+<p>So, which one do I pick?!</p>
+</blockquote>
+<p>I depends of what you want to do. If you want to just use MarkdownLivePreview, pick the first
+solution, you'll get every update automatically. But if you want to contribute, then choose the
+second solution.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<h3 id="previewing">Previewing<a class="headerlink" href="#previewing" title="Permanent link">&para;</a></h3>
+<p>As told in the introduction, MarkdownLivePreview is very easy to use:</p>
+<ul>
+<li>open a markdown file</li>
+<li>press <kbd>alt+m</kbd></li>
+<li>or select in the command palette <code class="codehilite"><span class="n">MarkdownLivePreview</span><span class="o">:</span> <span class="n">Edit</span> <span class="n">Current</span> <span class="n">File</span></code></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The preview of unsaved markdown files is currently not supported. It should be fixed soon.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><a href="https://packagecontrol.io/packages/Markdown%20Extended">Markdown Extended</a> is supported too!</p>
+</div>
+<p>That's it.</p>
+<h3 id="clearing-the-cache">Clearing the cache<a class="headerlink" href="#clearing-the-cache" title="Permanent link">&para;</a></h3>
+<p>MarkdownLivePreview has a cache system to store images you load from internet. You can clear this
+cache by searching up in the command palette <code class="codehilite"><span class="n">MarkdownLivePreview</span><span class="o">:</span> <span class="n">Clear</span> <span class="n">the</span> <span class="n">cache</span></code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The cache is one simple file called <code class="codehilite">MarkdownLivePreviewCache</code>, which is located in your temp
+folder. To know where it is, you can open the Sublime Text console (<kbd>ctrl+`</kbd> or
+<em>View → Show Console</em>), and paste this in:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">tempfile</span><span class="p">;</span> <span class="k">print</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">())</span>
+</pre></div>
+
+
+</div>
+<h3 id="custom-settings-for-the-preview">Custom settings for the preview<a class="headerlink" href="#custom-settings-for-the-preview" title="Permanent link">&para;</a></h3>
+<p>Sublime Text makes it easy to set custom settings for a specific <em>type</em> of view. For example,
+<code class="codehilite">markdown</code>, <code class="codehilite">python</code>, etc. MarkdownLivePreview takes advantage of that: the preview view (the view
+on the right) is a specific syntax (called — sorry for the originality —
+<code class="codehilite">MarkdownLivePreviewSyntax</code>). So, to change this, you can focus the right view, open up the command
+palette (<kbd>ctrl+shift+p</kbd>), and search up <code class="codehilite"><span class="n">Preferences</span><span class="o">:</span> <span class="n">Settings</span> <span class="err">—</span> <span class="n">Syntax</span> <span class="n">Specific</span></code>. In here,
+you can specify any settings that is going to be applied only to this view.</p>
+<h3 id="the-hacky-part">The hacky part<a class="headerlink" href="#the-hacky-part" title="Permanent link">&para;</a></h3>
+<p>In fact, MarkdownLivePreview parses those settings, and looks for specific ones:</p>
+<ul>
+<li><code class="codehilite">show_tabs</code></li>
+<li><code class="codehilite">show_minimap</code></li>
+<li><code class="codehilite">show_status_bar</code></li>
+<li><code class="codehilite">show_sidebar</code></li>
+<li><code class="codehilite">show_menus</code></li>
+</ul>
+<p>Those settings aren't supported by default because they affect the entire <em>window</em> instead of just
+the view. But MarkdownLivePreview will look for them in your <em>preview</em>'s settings, and hide/show the
+tabs, the minimap, etc...</p>
+<p>As you probably guessed those settings takes a bool for value (<code class="codehilite">true</code> or <code class="codehilite">false</code>).</p>
+<h3 id="recommendation">Recommendation<a class="headerlink" href="#recommendation" title="Permanent link">&para;</a></h3>
+<p>Here's what I'd recommend (and use):</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;show_menus&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;show_tabs&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;show_minimap&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;gutter&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nt">&quot;rulers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="nt">&quot;word_wrap&quot;</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Windows at least, you can press <kbd>alt</kbd> to focus (so show) the menu, even if they're
+originally hidden</p>
+</div>
+<p>That's it! I hope you'll enjoy using this package! If it's the case, please let your friends know
+about it, and even myself by sending me a <a href="https://twitter.com/_math2001">tweet</a> or staring the repo
+<iframe
+src="https://ghbtns.com/github-btn.html?user=math2001&repo=MarkdownLivePreview&type=star&count=true&size=large"
+frameborder="0" scrolling="0" width="160px" height="30px"></iframe>!</p>
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/math2001" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/_math2001" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="./assets/javascripts/application-16f434a21a.js"></script>
+      <script>var config={url:{base:"."}},app=new Application(config);app.initialize()</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
