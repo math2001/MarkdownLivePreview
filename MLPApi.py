@@ -15,8 +15,7 @@ from random import randint as rnd
 
 __folder__ = os.path.dirname(__file__)
 
-STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User',
-                            'MarkdownLivePreview.css')
+USER_STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User', 'MarkdownLivePreview.css')
 
 # used to store the phantom's set
 windows_phantom_set = {}
@@ -44,7 +43,10 @@ def create_preview(window, file_name):
 
 def get_style():
     content = ''.join([line.strip() + ' ' for line in DEFAULT_STYLE_FILE.splitlines()])
-    return content + "pre code .space {color: var(--light-bg)}"
+    if os.path.exists(USER_STYLE_FILE):
+        with open(USER_STYLE_FILE) as fp:
+            content += '\n' + fp.read() + '\n'
+    return content
 
 def show_html(md_view, preview):
     global windows_phantom_set

@@ -1,6 +1,8 @@
 html {
     --light-bg: color(var(--background) blend(#999 85%));
+    --very-light-bg: color(var(--background) blend(#999 92%));
 }
+
 body {
     padding:10px;
     padding-top: 0px;
@@ -38,12 +40,12 @@ pre code {
     padding-left: 0;
 }
 
+pre code .space {
+    color: var(--light-bg)
+}
+
 kbd {
-    padding: 0 .29412em;
-    border-radius: .2rem;
-    background-color: #f5f5f5;
-    color: #555;
-    box-shadow: 0 0.1rem 0 #b0b0b0;
-    word-break: break-word;
+    padding: 0 5px;
+    background-color: var(--very-light-bg);
     font-family: "Roboto Mono","Courier New",Courier,monospace;
 }

@@ -8,6 +8,13 @@
         "command": "markdown_live_preview_clear_cache"
     },
     {
+        "caption": "MarkdownLivePreview: Edit Custom CSS File",
+        "command": "open_file",
+        "args": {
+            "file": "$packages/User/MarkdownLivePreview.css"
+        }
+    },
+    {
         "caption": "Preferences: MarkdownLivePreview Settings",
         "command": "edit_settings",
         "args": {
