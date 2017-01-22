@@ -59,7 +59,26 @@ As told in the introduction, MarkdownLivePreview is very easy to use:
 !!! tip
     [Markdown Extended][] is supported too!
 
-That's it.
+That's it. That's all you need to do to preview your markdown!
+
+### Custom CSS
+
+If you want to, you can add custom `CSS` to the MarkdownLivePreview's default stylesheet.
+
+Just search for `MarkdownLivePreview: Edit Custom CSS File` in the command palette
+(<kbd>ctrl+shift+p</kbd>). It will open a file in which you can add some CSS that will be *added* to
+the normal CSS.
+
+!!! bug
+    Comments in the CSS is interpreted weirdly by Sublime Text's phantoms. After a few tests, I
+    think that everything that is bellow a comment is ignored.
+
+    If you want to be sure that your CSS works, don't put any comments in it
+
+#### Share your tweaks!
+
+If you think that other users would enjoy your added CSS, then raise an issue, or PR the
+[GitHub repo][] to share your tweaks!
 
 ### Clearing the cache
 
@@ -115,7 +134,7 @@ Here's what I'd recommend (and use):
 }
 ```
 
-!!! note
+!!! tip
     On Windows at least, you can press <kbd>alt</kbd> to focus (so show) the menu, even if they're
     originally hidden
 
@@ -130,3 +149,4 @@ frameborder="0" scrolling="0" width="160px" height="30px"></iframe>!
 [pck-con]: https://packagecontrol.io
 [install-pck-con]: https://packagecontrol.io/installation
 [tweet]: https://twitter.com/_math2001
+[GitHub repo]: https://github.com/math2001/MarkdownLivePreview/issues
