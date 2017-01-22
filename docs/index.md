@@ -1,4 +1,7 @@
-Welcome to MarkdownLivePreview's documentation!
+# Welcome to MarkdownLivePreview's documentation!
+
+<img src="imgs/MarkdownLivePreview.svg" alt="MarkdownLivePreview's logo"
+     style="width: 400px; margin: auto; display: block;">
 
 MarkdownLivePreview is a [Sublime Text 3][st] plugin to preview your markdown as you type,
 *right in Sublime Text itself*, without *any* dependency!

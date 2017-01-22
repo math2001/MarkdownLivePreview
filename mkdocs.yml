@@ -24,6 +24,7 @@ markdown_extensions:
   - codehilite
 
 extra:
+  logo: imgs/MarkdownLivePreview-opposite.svg
   palette:
     primary: Blue
     accent: Indigo
