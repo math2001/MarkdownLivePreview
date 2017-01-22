@@ -128,5 +128,5 @@ frameborder="0" scrolling="0" width="160px" height="30px"></iframe>!
 [st]: https://sublimetext.com
 [Markdown Extended]: https://packagecontrol.io/packages/Markdown%20Extended
 [pck-con]: https://packagecontrol.io
-[pck-con-ins]: https://packagecontrol.io/installation
+[install-pck-con]: https://packagecontrol.io/installation
 [tweet]: https://twitter.com/_math2001
