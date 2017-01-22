@@ -37,3 +37,13 @@ pre {
 pre code {
     padding-left: 0;
 }
+
+kbd {
+    padding: 0 .29412em;
+    border-radius: .2rem;
+    background-color: #f5f5f5;
+    color: #555;
+    box-shadow: 0 0.1rem 0 #b0b0b0;
+    word-break: break-word;
+    font-family: "Roboto Mono","Courier New",Courier,monospace;
+}
