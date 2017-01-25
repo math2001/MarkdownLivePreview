@@ -8,6 +8,7 @@ if you is moods.curious:
     print('then do it!')
 ```
 
+
 <kbd>ctrl+\`</kbd> or *View → Show Console* and paste `import this`!
 
 > Perfect programmers do NOT need comments.

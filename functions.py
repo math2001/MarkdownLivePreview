@@ -4,7 +4,7 @@ import os.path
 import sublime
 import re
 from .image_manager import ImageManager
-
+from bs4 import BeautifulSoup
 
 def plugin_loaded():
     global error404, loading
@@ -90,9 +90,16 @@ def get_settings():
 def pre_with_br(html):
     """Because the phantoms of sublime text does not support <pre> blocks
     this function replaces every \n with a <br> in a <pre>"""
+    # Need to use bs4
+    soup = BeautifulSoup(html)
+    for pre in soup.find_all('pre'):
+        code = pre.find('code')
+        code.replaceWith(BeautifulSoup(''.join(str(node) for node in pre.contents) \
+                      .replace('\n', '<br/>').replace(' ', '<i class="space">.</i>'), 'html.parser'))
+    return soup.prettify().replace('<br/>', '<br />')
 
     while True:
-        obj = re.search(r'<pre>(.*?)</pre>', html, re.DOTALL)
+        obj = re.search(r'<pre (?:class="table")?>(.*?)</pre>', html, re.DOTALL)
         if not obj:
             break
         html = list(html)

@@ -53,7 +53,7 @@ def pre_table(s_table):
         for i, cell in enumerate(row):
             if cols_width[i] < len(cell.text):
                 cols_width[i] = len(cell.text)
-    text = '<pre><code>'
+    text = '<pre class="table"><code>'
     for i, row in enumerate(rows):
         for j, cell in enumerate(row):
             text += '| ' + ''.join(str(node) for node in cell.contents) + ' ' * (cols_width[j] - len(cell.text))

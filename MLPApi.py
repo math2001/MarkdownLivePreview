@@ -24,7 +24,11 @@ windows_phantom_set = {}
 
 def plugin_loaded():
     global DEFAULT_STYLE_FILE
-    DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
+    if os.path.exists(os.path.join(__folder__, 'default.css')):
+        with open(os.path.join(__folder__, 'default.css')) as fp:
+            DEFAULT_STYLE_FILE = fp.read()
+    else:
+        DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
 
 def get_preview_name(md_view):
     file_name = md_view.file_name()
@@ -65,7 +69,6 @@ def markdown2html(md, basepath):
     # exception, again, because <pre> aren't supported by the phantoms
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
     html = replace_img_src_base64(html, basepath=os.path.dirname(basepath))
-    sublime.set_clipboard(html)
     return html
 
 def show_html(md_view, preview):

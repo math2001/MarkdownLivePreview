@@ -43,6 +43,14 @@ pre code {
 pre code .space {
     color: var(--light-bg)
 }
+pre.table {
+    background-color: var(--backgroud);
+}
+pre.table code {
+    background-color: var(--backgroud);
+    padding: 0;
+    margin: 0;
+}
 
 kbd {
     padding: 0 5px;
