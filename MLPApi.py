@@ -69,6 +69,7 @@ def markdown2html(md, basepath):
     # exception, again, because <pre> aren't supported by the phantoms
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
     html = replace_img_src_base64(html, basepath=os.path.dirname(basepath))
+    sublime.set_clipboard(html)
     return html
 
 def show_html(md_view, preview):

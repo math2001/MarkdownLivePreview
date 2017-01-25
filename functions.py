@@ -96,15 +96,4 @@ def pre_with_br(html):
         code = pre.find('code')
         code.replaceWith(BeautifulSoup(''.join(str(node) for node in pre.contents) \
                       .replace('\n', '<br/>').replace(' ', '<i class="space">.</i>'), 'html.parser'))
-    return soup.prettify().replace('<br/>', '<br />')
-
-    while True:
-        obj = re.search(r'<pre (?:class="table")?>(.*?)</pre>', html, re.DOTALL)
-        if not obj:
-            break
-        html = list(html)
-        html[obj.start(0):obj.end(0)] = '<pre >' + ''.join(html[obj.start(1):obj.end(1)]) \
-                                            .replace('\n', '<br>') \
-                                            .replace(' ', '&nbsp;') + '</pre>'
-        html = ''.join(html)
-    return html
+    return str(soup).replace('<br/>', '<br />')

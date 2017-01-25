@@ -56,7 +56,8 @@ def pre_table(s_table):
     text = '<pre class="table"><code>'
     for i, row in enumerate(rows):
         for j, cell in enumerate(row):
-            text += '| ' + ''.join(str(node) for node in cell.contents) + ' ' * (cols_width[j] - len(cell.text))
+            text += '| ' + ''.join(str(node) for node in cell.contents) \
+                    + ' ' * (cols_width[j] - len(cell.text) + 1)
         text += '|\n'
     text += '</pre></code>'
     return text
