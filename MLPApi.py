@@ -7,6 +7,7 @@ import os.path
 from html.parser import HTMLParser
 
 from .lib import markdown2 as md2
+from .lib.pre_tables import pre_tables
 from .escape_amp import *
 from .functions import *
 from .setting_names import *
@@ -19,6 +20,7 @@ USER_STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User', 'MarkdownLiv
 
 # used to store the phantom's set
 windows_phantom_set = {}
+
 
 def plugin_loaded():
     global DEFAULT_STYLE_FILE
@@ -48,35 +50,32 @@ def get_style():
             content += '\n' + fp.read() + '\n'
     return content
 
-def show_html(md_view, preview):
-    global windows_phantom_set
-    html = []
-    html.append('<style>\n{}\n</style>'.format(get_style()))
-    html.append(pre_with_br(md2.markdown(get_view_content(md_view),
-                                         extras=['fenced-code-blocks',
-                                                 'no-code-highlighting'])))
-    # the option no-code-highlighting does not exists
-    # in the official version of markdown2 for now
+def markdown2html(md, basepath):
+    html = ''
+    html += '<style>\n{}\n</style>\n'.format(get_style())
+    # pre_with_br
+    html += pre_with_br(pre_tables(md2.markdown(md, extras=['fenced-code-blocks',
+                                                            'no-code-highlighting', 'tables'])))
+    # the option no-code-highlighting does not exists in the official version of markdown2 for now
     # I personaly edited the file (markdown2.py:1743)
-    html = '\n'.join(html)
 
     html = html.replace('&nbsp;', '&nbspespace;') # save where are the spaces
 
-    html = HTMLParser().unescape(html)
-
-    html = escape_amp(html)
 
     # exception, again, because <pre> aren't supported by the phantoms
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
-    html = replace_img_src_base64(html, basepath=os.path.dirname(
-                                                md_view.file_name()))
+    html = replace_img_src_base64(html, basepath=os.path.dirname(basepath))
+    sublime.set_clipboard(html)
+    return html
+
+def show_html(md_view, preview):
+    global windows_phantom_set
+    html = markdown2html(get_view_content(md_view), os.path.dirname(md_view.file_name()))
 
     phantom_set = windows_phantom_set.setdefault(preview.window().id(),
-                                                 sublime.PhantomSet(preview,
-                                                                    'markdown_live_preview'))
+                                             sublime.PhantomSet(preview, 'markdown_live_preview'))
     phantom_set.update([sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
-                                        lambda href: sublime.run_command('open_url',
-                                                                         {'url': href}))])
+                                    lambda href: sublime.run_command('open_url', {'url': href}))])
 
     # lambda href: sublime.run_command('open_url', {'url': href})
     # get the "ratio" of the markdown view's position.

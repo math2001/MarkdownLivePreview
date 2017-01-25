@@ -9,13 +9,13 @@ body {
     font-family: "Open Sans", sans-serif;
     background-color: var(--background);
     font-size: 15px;
+    color: #333;
 }
 
 blockquote {
     font-style: italic;
     display: block;
     margin-left: 30px;
-    border: 1px solid red;
 }
 
 code {

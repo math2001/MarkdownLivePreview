@@ -16,5 +16,6 @@ class MLPDevListener(sublime_plugin.EventListener):
                                  'MarkdownLivePreview.py'),
             'scripts': ['image_manager', 'functions', 'MLPApi',
                         'setting_names'],
+            'folders': ['lib'],
             'quiet': True
         })

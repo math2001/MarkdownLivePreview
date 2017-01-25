@@ -5,6 +5,7 @@ import sublime
 import re
 from .image_manager import ImageManager
 
+
 def plugin_loaded():
     global error404, loading
     loading = sublime.load_resource('Packages/MarkdownLivePreview/loading.txt')
