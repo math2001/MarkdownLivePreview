@@ -2,6 +2,8 @@
 
 <!-- supports comments -->
 
+And `<!-- vicious onces -->`
+
 Some `inline code` with *italic* and **bold** text.
 
 ```python

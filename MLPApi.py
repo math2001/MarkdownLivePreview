@@ -56,11 +56,23 @@ def get_style():
 
 def markdown2html(md, basepath):
     html = '<style>\n{}\n</style>\n'.format(get_style())
-    # pre_with_br
-    html += pre_with_br(pre_tables(md2.markdown(md, extras=['fenced-code-blocks',
-                                                            'no-code-highlighting', 'tables'])))
+
     # the option no-code-highlighting does not exists in the official version of markdown2 for now
     # I personaly edited the file (markdown2.py:1743)
+    html += md2.markdown(md, extras=['fenced-code-blocks', 'no-code-highlighting', 'tables'])
+
+    # tables aren't supported by the Phantoms
+    # This function transforms them into aligned ASCII tables and displays them in a <pre> block
+    # (the ironic thing is that they aren't supported either :D)
+    html = pre_tables(html)
+
+    # pre block are not supported by the Phantoms.
+    # This functions replaces the \n in them with <br> so that it does (1/2)
+    html = pre_with_br(html)
+
+    # comments aren't supported by the Phantoms
+    # Simply removes them using bs4, so you can be sadic and type `<!-- hey hey! -->`, these one
+    # won't be stripped!
     html = strip_html_comments(html)
 
     # exception, again, because <pre> aren't supported by the phantoms
