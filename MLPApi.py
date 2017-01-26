@@ -63,15 +63,17 @@ def markdown2html(md, basepath):
     # I personaly edited the file (markdown2.py:1743)
     html = strip_html_comments(html)
 
-    # Beautiful uses the <br/> but the sublime phantoms do not support them...
+    # exception, again, because <pre> aren't supported by the phantoms
+    # so, because this is monosaped font, I just replace it with a '.' and make transparent ;)
+    html = html.replace('&nbsp;', '<i class="space">.</i>')
+
+    # Phantoms have problem with images size when they're loaded from an url/path
+    # So, the solution is to convert them to base64
+    html = replace_img_src_base64(html, basepath=os.path.dirname(basepath))
+
+    # BeautifulSoup uses the <br/> but the sublime phantoms do not support them...
     html = html.replace('<br/>', '<br />')
 
-    html = html.replace('&nbsp;', '&nbspespace;') # save where are the spaces
-
-    # exception, again, because <pre> aren't supported by the phantoms
-    html = html.replace('&nbspespace;', '<i class="space">.</i>')
-    html = replace_img_src_base64(html, basepath=os.path.dirname(basepath))
-    sublime.set_clipboard(html)
     return html
 
 def show_html(md_view, preview):

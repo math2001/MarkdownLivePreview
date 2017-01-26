@@ -1,5 +1,6 @@
 Fast:
   ☐ cache image in object when used, so that it's faster @needsTest
+  ☐ add settings to keep md view open #13
 
 Medium:
   ☐ auto refresh preview if loading images

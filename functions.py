@@ -19,29 +19,21 @@ def strip_html_comments(html):
 
 def replace_img_src_base64(html, basepath):
     """Really messy, but it works (should be updated)"""
-    index = -1
-    tag_start = '<img src="'
-    shtml, html = html, list(html)
-    while True:
-        index = shtml.find(tag_start, index + 1)
-        if index == -1:
-            break
-        path, end = get_content_till(html, '"', start=index + len(tag_start))
-        if ''.join(path).startswith('data:image/'):
-            continue
-        if ''.join(path).startswith(tuple(get_settings().get('load_from_internet' + \
-                                                    '_when_starts', []))):
-            image = ImageManager.get(''.join(path))
-            image = image or loading
 
-        else:
-            # local image
-            path = ''.join(path)
-            path = os.path.join(basepath, path)
-            image = to_base64(path)
-        html[index+len(tag_start):end] = image
-        shtml = ''.join(html)
-    return ''.join(html)
+
+    soup = BeautifulSoup(html)
+    load_from_internet_starters = get_settings().get('load_from_internet_when_starts')
+    for img in soup.find_all('img'):
+        if img['src'].startswith('data:image/'):
+            continue
+        elif img['src'].startswith(tuple(load_from_internet_starters)):
+            image = ImageManager.get(img['src']) or loading
+        else: # this is a local image
+            image = to_base64(os.path.join(basepath, src))
+
+        img['src'] = image
+
+    return str(soup)
 
 def is_markdown_view(view):
     return 'markdown' in view.scope_name(0)
