@@ -2,7 +2,7 @@
 
 <!-- supports comments -->
 
-And `<!-- vicious onces -->`
+And `<!-- vicious ones ;) -->`
 
 Some `inline code` with *italic* and **bold** text.
 

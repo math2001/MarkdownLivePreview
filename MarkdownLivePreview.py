@@ -15,7 +15,8 @@ class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
 
         current_view = sublime.active_window().active_view()
         file_name = current_view.file_name()
-        current_view.close()
+        if get_settings().get('keep_open_when_opening_preview') is False:
+            current_view.close()
         if file_name is None:
             return sublime.error_message('MarkdownLivePreview: Not supporting '
                                          'unsaved file for now')

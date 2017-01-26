@@ -26,9 +26,6 @@ def get_preview_name(md_view):
     return name + ' - Preview'
 
 def replace_img_src_base64(html, basepath):
-    """Really messy, but it works (should be updated)"""
-
-
     soup = BeautifulSoup(html)
     load_from_internet_starters = get_settings().get('load_from_internet_when_starts')
     for img in soup.find_all('img'):
