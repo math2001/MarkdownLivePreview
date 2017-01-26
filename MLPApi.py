@@ -30,13 +30,6 @@ def plugin_loaded():
     else:
         DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
 
-def get_preview_name(md_view):
-    file_name = md_view.file_name()
-    name = md_view.name() \
-           or os.path.basename(file_name) if file_name else None \
-           or 'Untitled'
-    return name + ' - Preview'
-
 def create_preview(window, file_name):
     preview = window.new_file()
 

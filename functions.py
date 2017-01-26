@@ -17,6 +17,14 @@ def strip_html_comments(html):
         element.extract()
     return str(soup)
 
+
+def get_preview_name(md_view):
+    file_name = md_view.file_name()
+    name = md_view.name() \
+           or os.path.basename(file_name) if file_name else None \
+           or 'Untitled'
+    return name + ' - Preview'
+
 def replace_img_src_base64(html, basepath):
     """Really messy, but it works (should be updated)"""
 
