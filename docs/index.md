@@ -139,10 +139,10 @@ Here's what I'd recommend (and use):
     originally hidden
 
 That's it! I hope you'll enjoy using this package! If it's the case, please let your friends know
-about it, and even myself by sending me a [tweet][] or staring the repo
+about it, and even myself by sending me a [tweet][] or staring the repo!
 <iframe
 src="https://ghbtns.com/github-btn.html?user=math2001&repo=MarkdownLivePreview&type=star&count=true&size=large"
-frameborder="0" scrolling="0" width="160px" height="30px"></iframe>!
+frameborder="0" scrolling="0" style="width: 120px; height: 30px; vertical-align: bottom"></iframe>
 
 [st]: https://sublimetext.com
 [Markdown Extended]: https://packagecontrol.io/packages/Markdown%20Extended
