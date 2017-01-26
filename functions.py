@@ -90,7 +90,6 @@ def get_settings():
 def pre_with_br(html):
     """Because the phantoms of sublime text does not support <pre> blocks
     this function replaces every \n with a <br> in a <pre>"""
-    # Need to use bs4
     soup = BeautifulSoup(html)
     for pre in soup.find_all('pre'):
         code = pre.find('code')

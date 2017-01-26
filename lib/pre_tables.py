@@ -1,5 +1,9 @@
 # -*- encoding: utf-8 -*-
 
+"""
+'pre_tables' transform *html* tables into markdown tables, and put them in some <pre><code> tags
+"""
+
 from bs4 import BeautifulSoup
 
 def python_table(s_table):
