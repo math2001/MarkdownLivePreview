@@ -24,15 +24,15 @@ code {
     background-color: var(--light-bg);
     margin: 0;
     border-radius: 3px;
-    margin: 5px;
 }
 
 pre {
     display: block;
     margin-top: 20px;
-    line-height: 1.7;
     background-color: var(--light-bg);
     padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     width: 100%;
     border-radius: 3px;
 }
@@ -41,7 +41,7 @@ pre code {
 }
 
 pre code .space {
-    color: var(--light-bg)
+    color: var(--light-bg);
 }
 pre.table {
     background-color: var(--backgroud);
