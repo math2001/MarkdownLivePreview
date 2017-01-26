@@ -8,7 +8,6 @@ if you is moods.curious:
     print('then do it!')
 ```
 
-
 <kbd>ctrl+\`</kbd> or *View → Show Console* and paste `import this`!
 
 > Perfect programmers do NOT need comments.
@@ -26,8 +25,6 @@ if you is moods.curious:
 | `<table>` | `><`  |
 
 [Sublime Text Logo](https://upload.wikimedia.org/wikipedia/en/4/4c/Sublime_Text_Logo.png)
-
-
 
 Some plugin I just *need*:
 
