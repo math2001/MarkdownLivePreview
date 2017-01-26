@@ -1,5 +1,7 @@
 # Hello world
 
+<!-- supports comments -->
+
 Some `inline code` with *italic* and **bold** text.
 
 ```python

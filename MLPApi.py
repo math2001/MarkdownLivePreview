@@ -55,20 +55,23 @@ def get_style():
     return content
 
 def markdown2html(md, basepath):
-    html = ''
-    html += '<style>\n{}\n</style>\n'.format(get_style())
+    html = '<style>\n{}\n</style>\n'.format(get_style())
     # pre_with_br
     html += pre_with_br(pre_tables(md2.markdown(md, extras=['fenced-code-blocks',
                                                             'no-code-highlighting', 'tables'])))
     # the option no-code-highlighting does not exists in the official version of markdown2 for now
     # I personaly edited the file (markdown2.py:1743)
+    html = strip_html_comments(html)
+
+    # Beautiful uses the <br/> but the sublime phantoms do not support them...
+    html = html.replace('<br/>', '<br />')
 
     html = html.replace('&nbsp;', '&nbspespace;') # save where are the spaces
-
 
     # exception, again, because <pre> aren't supported by the phantoms
     html = html.replace('&nbspespace;', '<i class="space">.</i>')
     html = replace_img_src_base64(html, basepath=os.path.dirname(basepath))
+    sublime.set_clipboard(html)
     return html
 
 def show_html(md_view, preview):

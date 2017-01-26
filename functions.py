@@ -4,13 +4,18 @@ import os.path
 import sublime
 import re
 from .image_manager import ImageManager
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Comment as html_comment
 
 def plugin_loaded():
     global error404, loading
     loading = sublime.load_resource('Packages/MarkdownLivePreview/loading.txt')
     error404 = sublime.load_resource('Packages/MarkdownLivePreview/404.txt')
 
+def strip_html_comments(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    for element in soup.find_all(text=lambda text: isinstance(text, html_comment)):
+        element.extract()
+    return str(soup)
 
 def replace_img_src_base64(html, basepath):
     """Really messy, but it works (should be updated)"""
@@ -95,4 +100,4 @@ def pre_with_br(html):
         code = pre.find('code')
         code.replaceWith(BeautifulSoup(''.join(str(node) for node in pre.contents) \
                       .replace('\n', '<br/>').replace(' ', '<i class="space">.</i>'), 'html.parser'))
-    return str(soup).replace('<br/>', '<br />')
+    return str(soup)
