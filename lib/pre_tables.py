@@ -29,8 +29,18 @@ def pre_table(s_table):
             text += '|\n'
 
         for j, cell in enumerate(row):
-            text += '| ' + ''.join(str(node) for node in cell.contents) \
-                    + ' ' * (cols_width[j] - len(cell.text) + 1)
+            text += '| '
+            if cell.name == 'th':
+                title = ' ' * ((cols_width[j] - len(cell.text)) // 2) \
+                        + ''.join(str(node) for node in cell.contents) \
+                        + ' ' * int(round((cols_width[j] - len(cell.text)) / 2 ) + 1)
+                # + 1 because of the added space before the closing | of each cell
+                if cols_width[j] + 1 != len(title):
+                    title += ' '
+                text += title
+            else:
+                text += ''.join(str(node) for node in cell.contents) \
+                        + ' ' * (cols_width[j] - len(cell.text) + 1)
         text += '|\n'
     text += '</pre></code>'
     return text
@@ -40,7 +50,3 @@ def pre_tables(html):
     for table in soup.find_all('table'):
         table.replace_with(BeautifulSoup(pre_table(table), 'html.parser'))
     return str(soup)
-
-if __name__ == "__main__":
-    # CSW: ignore
-    print(pre_tables(html))
