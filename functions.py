@@ -26,7 +26,7 @@ def get_preview_name(md_view):
     return name + ' - Preview'
 
 def replace_img_src_base64(html, basepath):
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, 'html.parser')
     load_from_internet_starters = get_settings().get('load_from_internet_when_starts')
     for img in soup.find_all('img'):
         if img['src'].startswith('data:image/'):
@@ -92,9 +92,9 @@ def get_settings():
 def pre_with_br(html):
     """Because the phantoms of sublime text does not support <pre> blocks
     this function replaces every \n with a <br> in a <pre>"""
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, 'html.parser')
     for pre in soup.find_all('pre'):
         code = pre.find('code')
         code.replaceWith(BeautifulSoup(''.join(str(node) for node in pre.contents) \
-                      .replace('\n', '<br/>').replace(' ', '<i class="space">.</i>'), 'html.parser'))
+                  .replace('\n', '<br/>').replace(' ', '<i class="space">.</i>'), 'html.parser'))
     return str(soup)

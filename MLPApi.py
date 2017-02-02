@@ -77,7 +77,9 @@ def markdown2html(md, basepath):
     html = replace_img_src_base64(html, basepath=os.path.dirname(basepath))
 
     # BeautifulSoup uses the <br/> but the sublime phantoms do not support them...
-    html = html.replace('<br/>', '<br />')
+    html = html.replace('<br/>', '<br />').replace('<hr/>', '<hr />')
+
+    sublime.set_clipboard(html) # print
 
     return html
 
