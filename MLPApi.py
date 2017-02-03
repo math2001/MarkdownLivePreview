@@ -48,7 +48,11 @@ def get_style():
     return content
 
 def markdown2html(md, basepath):
+    # removes/format the header.
+    md = manage_header(md, get_settings().get('header_action'))
+
     html = '<style>\n{}\n</style>\n'.format(get_style())
+
 
     # the option no-code-highlighting does not exists in the official version of markdown2 for now
     # I personaly edited the file (markdown2.py:1743)

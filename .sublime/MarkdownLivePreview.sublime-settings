@@ -8,5 +8,9 @@
     // When the preview is opened, the markdown file is closed in the origin window and reopend in
     // the preview window. If this option is set to 'true', then the markdown file will NOT be
     // closed in the origin window
-    "keep_open_when_opening_preview": false
+    "keep_open_when_opening_preview": false,
+
+    // Choose what to do with YAML/TOML (---/+++ respectively) headers
+    // Valid values: "wrap_in_pre", "remove".
+    "header_action": "wrap_in_pre"
 }

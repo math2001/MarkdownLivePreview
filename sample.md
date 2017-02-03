@@ -1,7 +1,9 @@
 ---
 title: Demo
-description: Preview your markdown!
+description: Preview your markdown right in Sublime Text! 
+hope: You'll enjoy using it!
 ---
+
 # Hello world
 
 <!-- supports comments -->
@@ -33,7 +35,7 @@ if you is moods.curious:
 | 45        | John  |
 | `<table>` | `><`  |
 
-[Sublime Text Logo](https://upload.wikimedia.org/wikipedia/en/4/4c/Sublime_Text_Logo.png)
+![Sublime Text Logo](https://upload.wikimedia.org/wikipedia/en/4/4c/Sublime_Text_Logo.png)
 
 Some plugin I just *need*:
 

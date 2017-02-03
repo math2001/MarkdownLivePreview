@@ -11,12 +11,25 @@ def plugin_loaded():
     loading = sublime.load_resource('Packages/MarkdownLivePreview/loading.txt')
     error404 = sublime.load_resource('Packages/MarkdownLivePreview/404.txt')
 
+MATCH_YAML_HEADER = re.compile(r'^([\-\+])\1{2}\n(?P<content>.+)\n\1{3}\n', re.DOTALL)
+
 def strip_html_comments(html):
     soup = BeautifulSoup(html, 'html.parser')
     for element in soup.find_all(text=lambda text: isinstance(text, html_comment)):
         element.extract()
     return str(soup)
 
+def manage_header(md, action):
+    matchobj = MATCH_YAML_HEADER.match(md)
+    if not matchobj:
+        return md
+    if action == 'remove':
+        return md[len(matchobj.group(0)):]
+    elif action == 'wrap_in_pre':
+        return '<pre><code>' + matchobj.group('content') + '</code></pre>' \
+        + md[len(matchobj.group(0)):]
+
+    raise ValueError('Got an unknown action: "{}"'.format(action))
 
 def get_preview_name(md_view):
     file_name = md_view.file_name()
