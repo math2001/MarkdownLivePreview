@@ -35,17 +35,23 @@ Once you're done, close whichever file and it'll close the entire window.
 
 ### Settings
 
+To edit MarkdownLivePreview's settings, you just need to look in the command palette
+`Preferences: MarkdownLivePreview Settings`, or from the menus:
+*Preferences → Package Settings → MarkdownLivePreview → Settings*
+
+Do not edit the left file (by default, you cannot), but edit the right file. This last file will
+override the default one (on the left), and will be saved in your `User` folder, which makes it easy
+to back up.
+
 - `markdown_live_preview_on_open`: if set to `true`, as soon as you open a markdown file, the
 preview window will popup (thanks to[@ooing](https://github.com/ooing) for its
 [suggestion](https://github.com/math2001/MarkdownLivePreview/issues/7#issue-199464852)). Default to
 `false`
 - `load_from_internet_when_starts`: every images that starts with any of the string specified in
 this list will be loaded from internet. Default to `["http://", "https://"]`
-
-Note: To edit your settings, search up in the command palette
-`Preferences: MarkdownLivePreview Settings`, or by using the menu:
-*Preferences → Packages Settings → MarkdownLivePreview → Settings*;. It's not your global settings,
-but only the `MarkdownLivePreview`'s one
+- `header_action`: If you're writing a blog with some markdown and a static website generator, you
+probably have a YAML header. By default, this header will be displayed in a `pre` block. If you want
+to hide it, then just set the value to `remove`
 
 ### Syntax Specific Settings
 
