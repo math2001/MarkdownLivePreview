@@ -4,8 +4,7 @@ This is a sublime text **3** plugin that allows you to preview your markdown ins
 
 ### Dependencies
 
-**None! There is no dependency! It uses [markdown2](https://github.com/trentm/python-markdown2) but
-**it's a one file plugin, so it's included in the package.
+**None! There is no dependency!** It uses [markdown2](https://github.com/trentm/python-markdown2) but it's a one file plugin, so it's included in the package.
 
 ## Installation
 
@@ -18,7 +17,7 @@ MarkdownLivePreview is available on the default channel of
 4. hit <kbd>enter</kbd>
 
 to have MarkdownLivePreview working on your computer. Cool right? You can
-[thank package control](https://packagecontrol.io/say_thanks) for this.
+[thank package control](https://packagecontrol.io/say_thanks) for this. :wink:
 
 ### Usage
 
@@ -33,91 +32,11 @@ Once you're done, close whichever file and it'll close the entire window.
 *Notice that it will close the entire window if you close __whichever__ file. It means that if you*
 *open a random file in this window, and then close it, it'll close the entire window still*
 
-### Settings
-
-To edit MarkdownLivePreview's settings, you just need to look in the command palette
-`Preferences: MarkdownLivePreview Settings`, or from the menus:
-*Preferences → Package Settings → MarkdownLivePreview → Settings*
-
-Do not edit the left file (by default, you cannot), but edit the right file. This last file will
-override the default one (on the left), and will be saved in your `User` folder, which makes it easy
-to back up.
-
-- `markdown_live_preview_on_open`: if set to `true`, as soon as you open a markdown file, the
-preview window will popup (thanks to[@ooing](https://github.com/ooing) for its
-[suggestion](https://github.com/math2001/MarkdownLivePreview/issues/7#issue-199464852)). Default to
-`false`
-- `load_from_internet_when_starts`: every images that starts with any of the string specified in
-this list will be loaded from internet. Default to `["http://", "https://"]`
-- `header_action`: If you're writing a blog with some markdown and a static website generator, you
-probably have a YAML header. By default, this header will be displayed in a `pre` block. If you want
-to hide it, then just set the value to `remove`
-- `keep_open_when_opening_preview`: Each time the preview window is opened, the original markdown
-view is closed. If you want to keep it opened, just set this setting to `true`
-
-### Syntax Specific Settings
-
-This in an other "type" of setting. :laughing: If you have a look at the syntax of the preview file
-(not the markdown one, really the preview), you'll see that the syntax is
-`MarkdownLivePreviewSyntax`. This mean that you can specify specific settings for this specific
-syntax (such as `word_wrap: true`, `rulers: []`, etc).
-
-To do so, you can
-
-1. focus the *preview* (<kbd>ctrl+2</kbd> to focus the second group, so, by default, the
-preview's group)
-2. search up in the command palette `Preferences: Settings Syntax Specific`. It's in the *right*
-file that you can add the settings you want (not the left one).
-
-Note: MarkdownLivePreview will actualy look in this file for settings that aren't supported by
-default. Here they are:
-
-- `show_tabs`
-- `show_minimap`
-- `show_status_bar`
-- `show_sidebar`
-- `show_menus`
-
-They talk for themself, don't they? All of them takes a boolean (`true` or `false`). Note that those
-settings are *window* specific, not just view specific (that's why they aren't supported). It means
-that they'll affect the entire window, and every view in it.
-
-Here is an example of syntax specific settings for MarkdownLivePreviewSyntax:
-
-```json
-{
-    "show_menus": false,
-    "show_tabs": false,
-    "show_minimap": false,
-    "gutter": false,
-    "rulers": [],
-    "word_wrap": true
-}
-```
-
-And here's what you'll get:
-
-![MarkdownLivePreview Screenshoot](screenshoots/syntax-specific-settings.png)
-
-*Note: to close a file, you can do <kbd>ctrl+w</kbd> (on Mac OS, it's <kbd>cmd+w</kbd>)*
-
-### Clear the cache
-
-MarkdownLivePreview caches every images it loads from internet (otherwise, you'd never see your
-images, or you'd need to have a *really* fast internet connection :smile:). So, if for some reason
-you want to clear the cache (a simple file), you can do so from the command palette by running `
+For further infos, please [read the docs](https://math2001.github.io/MarkdownLivePreview/)!
 
 ### Demo
 
 ![demo](demo.gif)
-
-### Custom css
-
-It is possible to set your own css. But, be carefull, you have to respect
-[those rules][st-css-rules]. Just go to
-`Preferences → Package Settings → MarkdownLivePreview → Style - CSS`. It will open a css file, here:
-`$packages/User/MarkdownLivePreview.css`. Just save it and it will automatically use it instead of
-the default one.
 
 ### Somethings wrong!!
 

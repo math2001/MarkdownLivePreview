@@ -47,7 +47,7 @@ def replace_img_src_base64(html, basepath):
         elif img['src'].startswith(tuple(load_from_internet_starters)):
             image = ImageManager.get(img['src']) or loading
         else: # this is a local image
-            image = to_base64(os.path.join(basepath, src))
+            image = to_base64(os.path.join(basepath, img['src']))
 
         img['src'] = image
 

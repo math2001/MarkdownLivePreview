@@ -61,6 +61,28 @@ As told in the introduction, MarkdownLivePreview is very easy to use:
 
 That's it. That's all you need to do to preview your markdown!
 
+### Settings
+
+To edit MarkdownLivePreview's settings, you just need to search in the command palette
+`Preferences: MarkdownLivePreview Settings`, or from the menus:
+*Preferences → Package Settings → MarkdownLivePreview → Settings*
+
+Do not edit the left file (by default, you cannot), but the right one. This right file will
+override the default one (on the left), and will be saved in your `User` folder, which makes it easy
+to back up.
+
+- `markdown_live_preview_on_open`: if set to `true`, as soon as you open a markdown file, the
+preview window will popup (thanks to[@ooing][] for its [suggestion][@ooing suggestion]). Default to
+`false`
+- `load_from_internet_when_starts`: every images that starts with any of the string specified in
+this list will be loaded from internet. Default to `["http://", "https://"]`
+- `header_action`: If you're writing a blog with some markdown and a static website generator, you
+probably have a YAML header. By default, this header will be displayed in a `pre` block. If you want
+to hide it, then just change the value to `remove`. Thanks to [@tanhanjay][] for
+[letting me know][front-matter-issue]!
+- `keep_open_when_opening_preview`: Each time the preview window is opened, the original markdown
+view is closed. If you want to keep it opened, just set this setting to `true`
+
 ### Custom CSS
 
 If you want to, you can add custom `CSS` to the MarkdownLivePreview's default stylesheet.
@@ -121,7 +143,7 @@ As you probably guessed those settings takes a bool for value (`true` or `false`
 
 ### Recommendation
 
-Here's what I'd recommend (and use):
+Here's what I'd recommend for your MarkdownLivePreviewSyntax's settings (and what I use):
 
 ```json
 {
@@ -134,9 +156,13 @@ Here's what I'd recommend (and use):
 }
 ```
 
+And here's what you'll get (With the awesome [Boxy Theme][] and its [Monokai Color Scheme][]):
+
+![MarkdownLivePreview Screenshoot](imgs/syntax-specific-settings.png)
+
 !!! tip
-    On Windows at least, you can press <kbd>alt</kbd> to focus (so show) the menu, even if they're
-    originally hidden
+    On Windows at least, you can press <kbd>alt</kbd> to focus (so show) the menus, even if they're
+    originally hidden.
 
 That's it! I hope you'll enjoy using this package! If it's the case, please let your friends know
 about it, and even myself by sending me a [tweet][] or staring the repo!
@@ -150,3 +176,9 @@ frameborder="0" scrolling="0" style="width: 120px; height: 30px; vertical-align:
 [install-pck-con]: https://packagecontrol.io/installation
 [tweet]: https://twitter.com/_math2001
 [GitHub repo]: https://github.com/math2001/MarkdownLivePreview/issues
+[@ooing]: https://github.com/ooing
+[@ooing suggestion]: https://github.com/math2001/MarkdownLivePreview/issues/7#issue-199464852
+[@tanhanjay]: https://github.com/tanhanjay
+[front-matter-issue]: https://github.com/math2001/MarkdownLivePreview/issues/17
+[Boxy Theme]: https://packagecontrol.io/packages/Boxy%20Theme
+[Monokai Color Scheme]: https://github.com/ihodev/sublime-boxy#boxy-monokai--predawn
