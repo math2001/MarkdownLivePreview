@@ -52,6 +52,8 @@ this list will be loaded from internet. Default to `["http://", "https://"]`
 - `header_action`: If you're writing a blog with some markdown and a static website generator, you
 probably have a YAML header. By default, this header will be displayed in a `pre` block. If you want
 to hide it, then just set the value to `remove`
+- `keep_open_when_opening_preview`: Each time the preview window is opened, the original markdown
+view is closed. If you want to keep it opened, just set this setting to `true`
 
 ### Syntax Specific Settings
 
