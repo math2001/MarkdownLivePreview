@@ -1,0 +1,10 @@
+Sorry to interrupt you... :(
+
+Some stuff changed on MarkdownLivePreview. It now supports YAML/TOML front matters. You can hide it,
+or show it in a pre block (edit your settings for this).
+
+Hope you'll enjoy it!
+
+Tip of the day: If you want a VIM-like search feature, then just press 'ctrl/cmd+i'
+                (Find → Incremental find). You can still go the next match by pressing 'f3', and to
+                the previous one by pressing 'shift+f3'
