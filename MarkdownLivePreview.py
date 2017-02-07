@@ -71,12 +71,14 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
     def on_activated_async(self, view):
         vsettings = view.settings()
 
-        if (is_markdown_view(view)
-            and get_settings().get('markdown_live_preview_on_open')
+        if (is_markdown_view(view) and get_settings().get(ON_OPEN)
             and not vsettings.get(PREVIEW_ENABLED)
             and vsettings.get('syntax') != 'Packages/MarkdownLivePreview/' + \
                                            '.sublime/MarkdownLivePreviewSyntax' + \
-                                           '.hidden-tmLanguage'):
+                                           '.hidden-tmLanguage'
+            and not any(filter(lambda window: window.settings().get(PREVIEW_WINDOW) is True,
+                               sublime.windows()))):
+            # print("MarkdownLivePreview.py:81", 'open window')
             sublime.run_command('new_markdown_live_preview')
 
 
