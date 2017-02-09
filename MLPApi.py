@@ -24,11 +24,7 @@ windows_phantom_set = {}
 
 def plugin_loaded():
     global DEFAULT_STYLE_FILE
-    if os.path.exists(os.path.join(__folder__, 'default.css')):
-        with open(os.path.join(__folder__, 'default.css')) as fp:
-            DEFAULT_STYLE_FILE = fp.read()
-    else:
-        DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
+    DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
 
 def create_preview(window, file_name):
     preview = window.new_file()
