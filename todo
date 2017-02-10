@@ -1,0 +1,37 @@
+Fast:
+  ☐ cache image in object when used, so that it's faster @needsTest
+
+Medium:
+  ☐ auto refresh preview if loading images
+  ☐ use alt attribute for 404 error
+
+Long:
+  ☐ support anchor (TOC) @big
+
+Unknown:
+   ☐ properly convert tmtheme to css
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ add settings to keep md view open #13 @done Sat 11 Feb 2017 at 09:10 @project(Fast)
+ ✔ fix custom css @bug @done Sun 22 Jan 2017 at 18:40 @project(Medium)
+ ✘ check how many times is the show_html function called @cancelled Sun 22 Jan 2017 at 18:40 @project(Unknown)
+ ✔ sync scroll @needsUpdate(because of images) @done Sun 22 Jan 2017 at 18:39 @project(Fast)
+ ✔ fix #4 @high @done Mon 09 Jan 2017 at 18:42 @project(Long)
+ ✔ use MarkdownLivePreview syntax, so we can use syntax's settings @done Mon 09 Jan 2017 at 18:41 @project(Medium)
+ ✔ add clear cache command @done Mon 09 Jan 2017 at 18:41 @project(Fast)
+ ✔ update README for settings in view @done Mon 09 Jan 2017 at 18:41 @project(Fast)
+ ✔ add edit settings @done Mon 09 Jan 2017 at 18:41 @project(Fast)
+ ✘ listen for settings to change @cancelled Mon 09 Jan 2017 at 18:41 @project(Medium)
+ ✘ call settings listener on_new too - might be too heavy @cancelled Sun 08 Jan 2017 at 19:33 @project(Fast)
+ ✔ fix relative source @done Sun 08 Jan 2017 at 19:22 @project(Medium)
+ ✔ add settings for the preview @done Sun 08 Jan 2017 at 17:36 @project(Fast)
+ ✔ regive focus to the right markdown view @done Mon 02 Jan 2017 at 18:34 @project(Fast)
+ ✔ try/except for 404 @done Mon 02 Jan 2017 at 18:03 @project(Fast)
+ ✔ fix bug when empty `src` @done Mon 02 Jan 2017 at 17:15 @project(Fast)
+ ✔ preview.set_scratch(True) @done Mon 02 Jan 2017 at 16:58
+ ✔ set the title of the preview @done Mon 02 Jan 2017 at 16:58
+ ✔ preview.wordWrap => True @done Mon 02 Jan 2017 at 16:58
+ ✔ clean the code (syntax) @done Mon 02 Jan 2017 at 16:58
+ ✔ add 404 image @done Mon 02 Jan 2017 at 16:57
+ ✔ load images from internet (`https:`) @done Mon 02 Jan 2017 at 16:57
