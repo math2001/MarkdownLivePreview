@@ -68,8 +68,6 @@ def markdown2html(md, basepath, color_scheme):
     # BeautifulSoup uses the <br/> but the sublime phantoms do not support them...
     html = html.replace('<br/>', '<br />').replace('<hr/>', '<hr />')
 
-    sublime.set_clipboard(html) # print('hello')
-
     return html
 
 def show_html(md_view, preview):

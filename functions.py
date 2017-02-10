@@ -124,10 +124,10 @@ def pre_with_br(html):
 
 
 def get_style(color_scheme):
-    css = ''.join([line.strip() + ' ' for line in DEFAULT_STYLE.splitlines()])
+    css = DEFAULT_STYLE
     if os.path.exists(USER_STYLE_FILE):
         with open(USER_STYLE_FILE) as fp:
             css += '\n' + fp.read() + '\n'
     if color_scheme:
         css += pygments_from_theme(color_scheme)
-    return css
+    return ''.join([line.strip() + ' ' for line in css.splitlines()])
