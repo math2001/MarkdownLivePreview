@@ -4,12 +4,17 @@ import os.path
 import sublime
 import re
 from .image_manager import ImageManager
+from .lib.pygments_from_theme import pygments_from_theme
 from bs4 import BeautifulSoup, Comment as html_comment
 
 def plugin_loaded():
-    global error404, loading
+    global error404, loading, DEFAULT_STYLE, USER_STYLE_FILE
     loading = sublime.load_resource('Packages/MarkdownLivePreview/loading.txt')
     error404 = sublime.load_resource('Packages/MarkdownLivePreview/404.txt')
+
+    DEFAULT_STYLE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
+    USER_STYLE_FILE = os.path.join(sublime.packages_path(), 'User', "MarkdownLivePreview.css")
+    print(USER_STYLE_FILE)
 
 MATCH_YAML_HEADER = re.compile(r'^([\-\+])\1{2}\n(?P<content>.+)\n\1{3}\n', re.DOTALL)
 
@@ -102,12 +107,27 @@ def get_view_from_id(window, id):
 def get_settings():
     return sublime.load_settings('MarkdownLivePreview.sublime-settings')
 
+
+def _pre_with_spaces(code):
+    for tag in code.find_all(text=True):
+        tag.replace_with(BeautifulSoup(str(tag).replace('\t', ' ' * 4).replace(' ', '<i class="space">.</i>').replace('\n', '<br />'), 'html.parser'))
+    return code
+
 def pre_with_br(html):
     """Because the phantoms of sublime text does not support <pre> blocks
     this function replaces every \n with a <br> in a <pre>"""
     soup = BeautifulSoup(html, 'html.parser')
     for pre in soup.find_all('pre'):
         code = pre.find('code')
-        code.replaceWith(BeautifulSoup(''.join(str(node) for node in pre.contents) \
-                  .replace('\n', '<br/>').replace(' ', '<i class="space">.</i>'), 'html.parser'))
+        code.replace_with(_pre_with_spaces(code))
     return str(soup)
+
+
+def get_style(color_scheme):
+    css = ''.join([line.strip() + ' ' for line in DEFAULT_STYLE.splitlines()])
+    if os.path.exists(USER_STYLE_FILE):
+        with open(USER_STYLE_FILE) as fp:
+            css += '\n' + fp.read() + '\n'
+    if color_scheme:
+        css += pygments_from_theme(color_scheme)
+    return css

@@ -8,7 +8,7 @@ from collections import defaultdict
 class Style:
     # .highlight is the wrapper class for highlighting therefore
     # all css rules are prefixed with .highlight
-    PREFIX = '.highlight'
+    PREFIX = '.codehilite'
 
     # -----------------------------------------
     #  Params
@@ -150,7 +150,7 @@ def pygments_from_theme(file):
     styles.append(Style('bp', settings['variable.language'], settings['variable'], [settings['text_color']]))
     styles.append(Style('p', [settings['text_color']]))
 
-    css = '.highlight { background-color: ' + settings['editor_bg'] + '; color: ' + settings['text_color'] + '; }\n'
+    css = '{} {{ background-color: {}; color: {}; }}\n'.format(Style.PREFIX, settings['editor_bg'], settings['text_color'])
     for st in styles:
         css_style = st.toString()
         if css_style:

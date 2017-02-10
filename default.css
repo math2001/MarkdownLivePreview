@@ -25,7 +25,7 @@ code {
     border-radius: 3px;
 }
 
-pre {
+div.codehilite {
     display: block;
     margin-top: 20px;
     background-color: var(--light-bg);

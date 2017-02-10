@@ -1,6 +1,6 @@
 ---
 title: Demo
-description: Preview your markdown right in Sublime Text! 
+description: Preview your markdown right in Sublime Text!
 hope: You'll enjoy using it!
 ---
 

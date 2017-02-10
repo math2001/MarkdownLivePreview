@@ -8,6 +8,7 @@ from html.parser import HTMLParser
 
 from .lib import markdown2 as md2
 from .lib.pre_tables import pre_tables
+
 from .escape_amp import *
 from .functions import *
 from .setting_names import *
@@ -16,15 +17,10 @@ from random import randint as rnd
 
 __folder__ = os.path.dirname(__file__)
 
-USER_STYLE_FILE = os.path.join(os.path.dirname(__folder__), 'User', 'MarkdownLivePreview.css')
 
 # used to store the phantom's set
 windows_phantom_set = {}
 
-
-def plugin_loaded():
-    global DEFAULT_STYLE_FILE
-    DEFAULT_STYLE_FILE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
 
 def create_preview(window, file_name):
     preview = window.new_file()
@@ -36,23 +32,16 @@ def create_preview(window, file_name):
 
     return preview
 
-def get_style():
-    content = ''.join([line.strip() + ' ' for line in DEFAULT_STYLE_FILE.splitlines()])
-    if os.path.exists(USER_STYLE_FILE):
-        with open(USER_STYLE_FILE) as fp:
-            content += '\n' + fp.read() + '\n'
-    return content
-
-def markdown2html(md, basepath):
+def markdown2html(md, basepath, color_scheme):
     # removes/format the header.
     md = manage_header(md, get_settings().get('header_action'))
 
-    html = '<style>\n{}\n</style>\n'.format(get_style())
+    html = '<style>\n{}\n</style>\n'.format(get_style(color_scheme))
 
 
     # the option no-code-highlighting does not exists in the official version of markdown2 for now
     # I personaly edited the file (markdown2.py:1743)
-    html += md2.markdown(md, extras=['fenced-code-blocks', 'no-code-highlighting', 'tables'])
+    html += md2.markdown(md, extras=['fenced-code-blocks', 'tables'])
 
     # tables aren't supported by the Phantoms
     # This function transforms them into aligned ASCII tables and displays them in a <pre> block
@@ -79,13 +68,14 @@ def markdown2html(md, basepath):
     # BeautifulSoup uses the <br/> but the sublime phantoms do not support them...
     html = html.replace('<br/>', '<br />').replace('<hr/>', '<hr />')
 
-    sublime.set_clipboard(html) # print
+    sublime.set_clipboard(html) # print('hello')
 
     return html
 
 def show_html(md_view, preview):
     global windows_phantom_set
-    html = markdown2html(get_view_content(md_view), os.path.dirname(md_view.file_name()))
+    html = markdown2html(get_view_content(md_view), os.path.dirname(md_view.file_name()),
+                         os.path.join(sublime.packages_path(), '..', md_view.settings().get('color_scheme')))
 
     phantom_set = windows_phantom_set.setdefault(preview.window().id(),
                                              sublime.PhantomSet(preview, 'markdown_live_preview'))
