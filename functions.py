@@ -14,7 +14,6 @@ def plugin_loaded():
 
     DEFAULT_STYLE = sublime.load_resource('Packages/MarkdownLivePreview/default.css')
     USER_STYLE_FILE = os.path.join(sublime.packages_path(), 'User', "MarkdownLivePreview.css")
-    print(USER_STYLE_FILE)
 
 MATCH_YAML_HEADER = re.compile(r'^([\-\+])\1{2}\n(?P<content>.+)\n\1{3}\n', re.DOTALL)
 

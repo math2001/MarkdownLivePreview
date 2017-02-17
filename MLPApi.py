@@ -33,7 +33,8 @@ def create_preview(window, file_name):
     return preview
 
 def markdown2html(md, basepath, color_scheme):
-    # removes/format the header.
+
+    # removes/format the YAML/TOML header.
     md = manage_header(md, get_settings().get('header_action'))
 
     html = '<style>\n{}\n</style>\n'.format(get_style(color_scheme))
@@ -63,7 +64,7 @@ def markdown2html(md, basepath, color_scheme):
 
     # Phantoms have problem with images size when they're loaded from an url/path
     # So, the solution is to convert them to base64
-    html = replace_img_src_base64(html, basepath=os.path.dirname(basepath))
+    html = replace_img_src_base64(html, basepath=basepath)
 
     # BeautifulSoup uses the <br/> but the sublime phantoms do not support them...
     html = html.replace('<br/>', '<br />').replace('<hr/>', '<hr />')

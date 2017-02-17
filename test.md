@@ -8,3 +8,5 @@ if you.are('new'):
 else:
     print('Hello!')
 ```
+
+![img](docs/imgs/syntax-specific-settings.png)
