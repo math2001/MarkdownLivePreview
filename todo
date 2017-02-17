@@ -4,6 +4,7 @@ Fast:
 Medium:
   ☐ auto refresh preview if loading images
   ☐ use alt attribute for 404 error
+  ☐ optimize usage of BeautifulSoup
 
 Long:
   ☐ support anchor (TOC) @big
