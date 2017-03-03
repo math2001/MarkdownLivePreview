@@ -22,10 +22,10 @@ __folder__ = os.path.dirname(__file__)
 windows_phantom_set = {}
 
 
-def create_preview(window, file_name):
+def create_preview(window, md_view):
     preview = window.new_file()
 
-    preview.set_name(get_preview_name(file_name))
+    preview.set_name(get_preview_name(md_view))
     preview.set_scratch(True)
     preview.set_syntax_file('Packages/MarkdownLivePreview/.sublime/' + \
                             'MarkdownLivePreviewSyntax.hidden-tmLanguage')
@@ -71,14 +71,24 @@ def markdown2html(md, basepath, color_scheme):
 
     return html
 
-def show_html(md_view, preview):
+def show_html(md_view, preview, phantom_header=None):
     global windows_phantom_set
-    html = markdown2html(get_view_content(md_view), os.path.dirname(md_view.file_name()),
+
+    if isinstance(md_view, str):
+        with open(md_view) as fp:
+            content = fp.read()
+        file_name = md_view
+    else:
+        content = get_view_content(md_view)
+        file_name = md_view.file_name()
+
+    html = markdown2html(content, os.path.dirname(file_name),
                          os.path.join(sublime.packages_path(), '..', md_view.settings().get('color_scheme')))
 
     phantom_set = windows_phantom_set.setdefault(preview.window().id(),
                                              sublime.PhantomSet(preview, 'markdown_live_preview'))
-    phantom_set.update([sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
+    phantom_set.update(([phantom_header] if phantom_header else []) + \
+                       [sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
                                     lambda href: sublime.run_command('open_url', {'url': href}))])
 
     # lambda href: sublime.run_command('open_url', {'url': href})

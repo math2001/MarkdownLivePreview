@@ -36,8 +36,8 @@ def manage_header(md, action):
     raise ValueError('Got an unknown action: "{}"'.format(action))
 
 def get_preview_name(md_view):
-    file_name = md_view.file_name()
-    name = md_view.name() \
+    file_name = md_view.file_name() if not isinstance(md_view, str) else md_view
+    name = (md_view.name() if isinstance(md_view, sublime.View) else None) \
            or os.path.basename(file_name) if file_name else None \
            or 'Untitled'
     return name + ' - Preview'
@@ -58,7 +58,8 @@ def replace_img_src_base64(html, basepath):
     return str(soup)
 
 def is_markdown_view(view):
-    return 'markdown' in view.scope_name(0)
+    scope = view.scope_name(0)
+    return 'markdown' in scope and not 'markdown-live-preview' in scope
 
 def to_base64(path=None, content=None):
     if path is None and content is None:

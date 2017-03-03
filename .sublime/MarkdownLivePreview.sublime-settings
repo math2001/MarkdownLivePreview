@@ -12,5 +12,9 @@
 
     // Choose what to do with YAML/TOML (---/+++ respectively) headers
     // Valid values: "wrap_in_pre", "remove".
-    "header_action": "wrap_in_pre"
+    "header_action": "wrap_in_pre",
+
+    // when you open a markdown file, if you want to see only the preview with an 'edit' button
+    // set this option to true
+    "preview_only": false
 }

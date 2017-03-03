@@ -9,17 +9,19 @@ from .functions import *
 
 class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
 
-    def run(self):
-
+    def run(self, file_name=None):
         """Inspired by the edit_settings command"""
 
-        current_view = sublime.active_window().active_view()
-        file_name = current_view.file_name()
-        if get_settings().get('keep_open_when_opening_preview') is False:
-            current_view.close()
-        if file_name is None:
-            return sublime.error_message('MarkdownLivePreview: Not supporting '
-                                         'unsaved file for now')
+        if not file_name:
+            current_view = sublime.active_window().active_view()
+            file_name = current_view.file_name()
+            if get_settings().get('keep_open_when_opening_preview') is False:
+                current_view.close()
+            if file_name is None:
+                return sublime.error_message('MarkdownLivePreview: Not supporting '
+                                             'unsaved file for now')
+        else:
+            current_view = None
 
         sublime.run_command('new_window')
         self.window = sublime.active_window()
@@ -30,16 +32,17 @@ class NewMarkdownLivePreviewCommand(sublime_plugin.ApplicationCommand):
             'cells': [[0, 0, 1, 1], [1, 0, 2, 1]]
         })
         self.window.focus_group(1)
-        preview = create_preview(self.window, current_view)
+        preview = create_preview(self.window, current_view or file_name)
 
         self.window.focus_group(0)
+        print("MarkdownLivePreview.py:38", 'open', file_name)
         md_view = self.window.open_file(file_name)
         mdsettings = md_view.settings()
 
         mdsettings.set(PREVIEW_ENABLED, True)
         mdsettings.set(PREVIEW_ID, preview.id())
 
-    def is_enabled(self):
+    def is_visible(self):
         return is_markdown_view(sublime.active_window().active_view())
 
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
@@ -68,22 +71,48 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             release_phantoms_set(window.id())
             return 'close_window', {}
 
+    def run_action(self, href):
+        action, md_file_name = href.split('-', 1)
+        if action == 'edit':
+            sublime.run_command('new_markdown_live_preview', {'file_name': md_file_name})
+        elif action == 'open':
+            window.open_file(md_file_name)
+        else:
+            raise ValueError("Unvalid action to run '{}'".format(action))
+
+
     def on_activated_async(self, view):
+
+        if not is_markdown_view(view):
+            return
+
+        if get_settings().get('preview_only') is True:
+            window = view.window()
+            preview = create_preview(window, view)
+            phantom_header = sublime.Phantom(
+                sublime.Region(0),
+                '<p><a href="edit-{0}">Edit</a> | <a href="open-{0}">Open Markdown File</a></p>'.format(view.file_name()),
+                sublime.LAYOUT_BLOCK,
+                on_navigate=self.run_action)
+            show_html(view, preview, phantom_header)
+            view.close()
+            return
+
         vsettings = view.settings()
 
-        if (is_markdown_view(view) and get_settings().get(ON_OPEN)
+        if (get_settings().get(ON_OPEN)
             and not vsettings.get(PREVIEW_ENABLED)
             and vsettings.get('syntax') != 'Packages/MarkdownLivePreview/' + \
                                            '.sublime/MarkdownLivePreviewSyntax' + \
                                            '.hidden-tmLanguage'
             and not any(filter(lambda window: window.settings().get(PREVIEW_WINDOW) is True,
                                sublime.windows()))):
-            # print("MarkdownLivePreview.py:81", 'open window')
             sublime.run_command('new_markdown_live_preview')
 
 
     def on_load_async(self, view):
         """Check the settings to hide menu, minimap, etc"""
+
         try:
             md_view, preview = self.update(view)
         except TypeError:
