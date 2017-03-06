@@ -128,5 +128,12 @@ def get_style(color_scheme):
         with open(USER_STYLE_FILE) as fp:
             css += '\n' + fp.read() + '\n'
     if color_scheme:
-        css += pygments_from_theme(sublime.load_resource(color_scheme))
+        css += pygments_from_theme(get_resource(color_scheme))
     return ''.join([line.strip() + ' ' for line in css.splitlines()])
+
+def get_resource(resource):
+    if os.path.exists(os.path.join(sublime.packages_path(), '..', resource)):
+        with open(resource) as fp:
+            return fp.read()
+    else:
+        return sublime.load_resource(resource)
