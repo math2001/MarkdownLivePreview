@@ -73,8 +73,7 @@ def markdown2html(md, basepath, color_scheme):
 
 def show_html(md_view, preview):
     global windows_phantom_set
-    html = markdown2html(get_view_content(md_view), os.path.dirname(md_view.file_name()),
-                         os.path.join(sublime.packages_path(), '..', md_view.settings().get('color_scheme')))
+    html = markdown2html(get_view_content(md_view), os.path.dirname(md_view.file_name()), md_view.settings().get('color_scheme'))
 
     phantom_set = windows_phantom_set.setdefault(preview.window().id(),
                                              sublime.PhantomSet(preview, 'markdown_live_preview'))

@@ -2,7 +2,7 @@
 
 import os
 import sys
-from xml.dom.minidom import parse
+from xml.dom.minidom import parseString
 from collections import defaultdict
 
 class Style:
@@ -55,9 +55,9 @@ class Style:
 # colors and font styles from colortheme file
 
 
-def get_settings(file_name):
+def get_settings(color_scheme_content):
     settings = defaultdict(lambda: [])
-    dom = parse(file_name)
+    dom = parseString(color_scheme_content)
     arr = dom.getElementsByTagName('array')[0]
     editor_cfg = arr.getElementsByTagName('dict')[0].getElementsByTagName('dict')[0]
     editor_vals = editor_cfg.getElementsByTagName('string')
@@ -82,8 +82,8 @@ def get_settings(file_name):
     return settings
 
 
-def pygments_from_theme(file):
-    settings = get_settings(file)
+def pygments_from_theme(color_scheme_content):
+    settings = get_settings(color_scheme_content)
     styles = []
 
     #Generic

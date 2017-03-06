@@ -128,5 +128,5 @@ def get_style(color_scheme):
         with open(USER_STYLE_FILE) as fp:
             css += '\n' + fp.read() + '\n'
     if color_scheme:
-        css += pygments_from_theme(color_scheme)
+        css += pygments_from_theme(sublime.load_resource(color_scheme))
     return ''.join([line.strip() + ' ' for line in css.splitlines()])
