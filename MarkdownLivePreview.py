@@ -48,9 +48,10 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
     def update(self, view):
         vsettings = view.settings()
         now = time.time()
-        if now - vsettings.get(LAST_RUN, 0) < get_settings().get('update_preview_every'):
+
+        if now - vsettings.get(LAST_UPDATE, 0) < get_settings().get('update_preview_every'):
             return
-        vsettings.set(LAST_RUN, now)
+        vsettings.set(LAST_UPDATE, now)
         if not vsettings.get(PREVIEW_ENABLED):
             return
         id = vsettings.get(PREVIEW_ID)
@@ -63,10 +64,10 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         show_html(view, preview)
         return view, preview
 
-    def on_modified_async(self, view):
+    def on_modified(self, view):
         if not is_markdown_view(view): # faster than getting the settings
             return
-        self.update(view)
+        sublime.set_timeout_async(lambda: self.update(view), get_settings().get('update_preview_every') * 1000)
 
     def on_window_command(self, window, command, args):
         if command == 'close' and window.settings().get(PREVIEW_WINDOW):
