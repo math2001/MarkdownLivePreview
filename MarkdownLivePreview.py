@@ -48,9 +48,10 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
     def update(self, view):
         vsettings = view.settings()
         now = time.time()
-        if now - vsettings.get(LAST_RUN, 0) < get_settings().get('update_preview_every'):
+
+        if now - vsettings.get(LAST_UPDATE, 0) < get_settings().get('update_preview_every'):
             return
-        vsettings.set(LAST_RUN, now)
+        vsettings.set(LAST_UPDATE, now)
         if not vsettings.get(PREVIEW_ENABLED):
             return
         id = vsettings.get(PREVIEW_ID)
@@ -66,7 +67,11 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
     def on_modified_async(self, view):
         if not is_markdown_view(view): # faster than getting the settings
             return
-        self.update(view)
+        delay = get_settings().get('update_preview_every')
+        if not delay:
+            self.update(view)
+        else:
+            sublime.set_timeout(lambda: self.update(view), delay * 1000)
 
     def on_window_command(self, window, command, args):
         if command == 'close' and window.settings().get(PREVIEW_WINDOW):
@@ -83,7 +88,6 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
                                            '.hidden-tmLanguage'
             and not any(filter(lambda window: window.settings().get(PREVIEW_WINDOW) is True,
                                sublime.windows()))):
-            # print("MarkdownLivePreview.py:81", 'open window')
             sublime.run_command('new_markdown_live_preview')
 
 
