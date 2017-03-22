@@ -48,7 +48,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
     def update(self, view):
         vsettings = view.settings()
         now = time.time()
-        if now - vsettings.get(LAST_RUN, 0) < 0.8:
+        if now - vsettings.get(LAST_RUN, 0) < get_settings().get('update_preview_every'):
             return
         vsettings.set(LAST_RUN, now)
         if not vsettings.get(PREVIEW_ENABLED):

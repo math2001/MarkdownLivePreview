@@ -12,5 +12,8 @@
 
     // Choose what to do with YAML/TOML (---/+++ respectively) headers
     // Valid values: "wrap_in_pre", "remove".
-    "header_action": "wrap_in_pre"
+    "header_action": "wrap_in_pre",
+
+    // Wait at least the specified *seconds* before updating the preview.
+    "update_preview_every": 0
 }
