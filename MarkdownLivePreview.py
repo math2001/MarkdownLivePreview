@@ -2,6 +2,7 @@
 
 import sublime
 import sublime_plugin
+import time
 
 from .MLPApi import *
 from .setting_names import *
@@ -46,6 +47,10 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
     def update(self, view):
         vsettings = view.settings()
+        now = time.time()
+        if now - vsettings.get(LAST_RUN, 0) < 0.8:
+            return
+        vsettings.set(LAST_RUN, now)
         if not vsettings.get(PREVIEW_ENABLED):
             return
         id = vsettings.get(PREVIEW_ID)
@@ -58,7 +63,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         show_html(view, preview)
         return view, preview
 
-    def on_modified(self, view):
+    def on_modified_async(self, view):
         if not is_markdown_view(view): # faster than getting the settings
             return
         self.update(view)
