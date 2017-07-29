@@ -10,7 +10,7 @@ hope: You'll enjoy using it!
 
 And `<!-- vicious ones ;) -->`
 
-Some `inline code` with *italic* and **bold** text.
+Some `inline code` with *italic*, **bold** text, and ~~strike through~~.
 
 ```python
 import this

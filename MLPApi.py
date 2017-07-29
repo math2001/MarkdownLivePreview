@@ -42,7 +42,7 @@ def markdown2html(md, basepath, color_scheme):
 
     # the option no-code-highlighting does not exists in the official version of markdown2 for now
     # I personaly edited the file (markdown2.py:1743)
-    html += md2.markdown(md, extras=['fenced-code-blocks', 'tables'])
+    html += md2.markdown(md, extras=['fenced-code-blocks', 'tables', 'strike'])
 
     # tables aren't supported by the Phantoms
     # This function transforms them into aligned ASCII tables and displays them in a <pre> block
@@ -68,6 +68,7 @@ def markdown2html(md, basepath, color_scheme):
 
     # BeautifulSoup uses the <br/> but the sublime phantoms do not support them...
     html = html.replace('<br/>', '<br />').replace('<hr/>', '<hr />')
+    sublime.set_clipboard(html)
 
     return html
 
