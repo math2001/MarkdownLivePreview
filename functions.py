@@ -133,7 +133,7 @@ def get_style(color_scheme):
 
 def get_resource(resource):
     if os.path.exists(os.path.join(sublime.packages_path(), '..', resource)):
-        with open(os.path.join(sublime.packages_path(), '..', resource)) as fp:
+        with open(os.path.join(sublime.packages_path(), '..', resource), encoding='utf-8') as fp:
             return fp.read()
     else:
         return sublime.load_resource(resource)
