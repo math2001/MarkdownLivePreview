@@ -1,3 +1,17 @@
+> This is the stable branch. It is used to provide a fallback in case [v3][]
+> doesn't work for you.
+
+You can very easily switch by doing:
+
+```bash
+$ git clone https://github.com/math2001/MarkdownLivePreview
+$ git checkout v2
+```
+
+[v3]: https://github.com/math2001/MarkdownLivePreview/milestone/1
+
+---
+
 # MarkdownLivePreview
 
 This is a sublime text **3** plugin that allows you to preview your markdown instantly *in* it!
