@@ -127,7 +127,7 @@ def get_style(color_scheme):
     if os.path.exists(USER_STYLE_FILE):
         with open(USER_STYLE_FILE) as fp:
             css += '\n' + fp.read() + '\n'
-    if color_scheme:
+    if color_scheme and color_scheme.endswith('.tmTheme'):
         css += pygments_from_theme(get_resource(color_scheme))
     return ''.join([line.strip() + ' ' for line in css.splitlines()])
 
