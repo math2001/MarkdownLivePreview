@@ -2,6 +2,12 @@
 
 This is a sublime text **3** plugin that allows you to preview your markdown instantly *in* it!
 
+## Unmaintained
+
+I am now using vim. I don't have the energy or the time to maintain this plugin anymore.
+
+If anyone is interested in maintaining it, fork it, and submit a PR to package control to make it point to your fork.
+
 ### Dependencies
 
 **None! There is no dependency!** It uses [markdown2](https://github.com/trentm/python-markdown2) but it's a one file plugin, so it's included in the package.
