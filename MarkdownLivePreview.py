@@ -34,19 +34,17 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
         syntax_file = original_view.settings().get('syntax')
 
 
-        if file_name is None:
-
+        if file_name:
+            original_view.close()
+        else:
             # the file isn't saved, we need to restore the content manually
             total_region = sublime.Region(0, original_view.size())
             content = original_view.substr(total_region)
             original_view.erase(edit, total_region)
             original_view.close()
-
             # FIXME: save the document to a temporary file, so that if we crash,
             #        the user doesn't lose what he wrote
 
-        else:
-            original_view.close()
 
         sublime.run_command('new_window')
         preview_window = sublime.active_window()
@@ -63,6 +61,7 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
         else:
             markdown_view = preview_window.new_file()
             markdown_view.run_command('mdlp_insert', {'point': 0, 'string': content})
+            markdown_view.set_scratch(True)
 
         markdown_view.set_syntax_file(syntax_file)
         markdown_view.settings().set(SETTING_MDLP, {
@@ -81,8 +80,6 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         """ Close the view in the preview window, and store information for the on_close
         listener (see doc there)
         """
-        print('pre close')
-
         if not markdown_view.settings().get(SETTING_MDLP):
             return
 
@@ -113,13 +110,16 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         # find the window with the right id
         original_window = next(window for window in sublime.windows() \
                                if window.id() == infos['original_window_id'])
-        print(original_window.id(), self.preview_window.id(), infos)
         if self.file_name:
             original_window.open_file(self.file_name)
         else:
+            assert markdown_view.is_scratch(), "markdown view of an unsaved file should " \
+            "be a scratch"
             # note here that this is called original_view, because it's what semantically
             # makes sense, but this original_view.id() will be different than the one
             # that we closed first to reopen in the preview window
             # shouldn't cause any trouble though
             original_view = original_window.new_file()
             original_view.run_command('mdlp_insert', {'point': 0, 'string': self.content})
+
+            original_view.set_syntax_file(markdown_view.settings().get('syntax'))
