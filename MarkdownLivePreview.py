@@ -72,9 +72,6 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
             markdown_view.run_command('mdlp_insert', {'point': 0, 'string': content})
             markdown_view.set_scratch(True)
 
-        MarkdownLivePreviewListener.phantom_sets[markdown_view.id()] = sublime.PhantomSet(preview_view)
-        MarkdownLivePreviewListener._update_preview(MarkdownLivePreviewListener, markdown_view)
-
         markdown_view.set_syntax_file(syntax_file)
         markdown_view.settings().set(MARKDOWN_VIEW_INFOS, {
             "original_window_id": original_window_id
@@ -112,6 +109,16 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             markdown_view.erase(edit, total_region)
         else:
             self.content = None
+
+    def on_load_async(self, markdown_view):
+        infos = markdown_view.settings().get(MARKDOWN_VIEW_INFOS)
+        if not infos:
+            return
+
+        preview_view = markdown_view.window().active_view_in_group(1)
+
+        self.phantom_sets[markdown_view.id()] = sublime.PhantomSet(preview_view)
+        self._update_preview(markdown_view)
 
     def on_close(self, markdown_view):
         """ Use the information saved to restore the markdown_view as an original_view
@@ -154,10 +161,12 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         self._update_preview(markdown_view)
 
     def _update_preview(self, markdown_view):
+        print('update markdown view', markdown_view.is_loading())
         total_region = sublime.Region(0, markdown_view.size())
         markdown = markdown_view.substr(total_region)
 
         html = self.markdowner.convert(markdown)
+        print(html)
 
         # FIXME: replace images
 
