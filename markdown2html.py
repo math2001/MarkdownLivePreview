@@ -62,13 +62,15 @@ def markdown2html(markdown, basepath, re_render):
 
         img_element['src'] = base64
 
+    # remove comments, because they pollute the console with error messages
+    for comment_element in soup.find_all(text=lambda text: isinstance(text, bs4.Comment)):
+        comment_element.extract()
+
     # FIXME: how do tables look? should we use ascii tables?
 
     # FIXME: pre aren't handled by ST3. The require manual adjustment
 
     # FIXME: include a stylesheet
-
-    # FIXME: remove the comments, because they pollute the console with error messages
 
     return str(soup)
 

@@ -15,6 +15,7 @@ PREVIEW_VIEW_INFOS = "preview_view_infos"
 # FIXME: put this as a setting for the user to choose?
 DELAY = 500 # ms
 
+# Terminology
 # original_view: the view in the regular editor, without it's own window
 # markdown_view: the markdown view, in the special window
 # preview_view: the preview view, in the special window
@@ -92,6 +93,8 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         # markdown_view.id(): phantom set
     }
 
+    # FIXME: maybe we shouldn't restore the file in the original window...
+
     def on_pre_close(self, markdown_view):
         """ Close the view in the preview window, and store information for the on_close
         listener (see doc there)
@@ -118,6 +121,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
         preview_view = markdown_view.window().active_view_in_group(1)
 
+        # FIXME: set the preview title
         self.phantom_sets[markdown_view.id()] = sublime.PhantomSet(preview_view)
         self._update_preview(markdown_view)
 
@@ -130,6 +134,8 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
         assert markdown_view.id() == self.markdown_view.id(), \
         "pre_close view.id() != close view.id()"
+
+        del self.phantom_sets[markdown_view.id()]
 
         self.preview_window.run_command('close_window')
 
@@ -150,11 +156,15 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
             original_view.set_syntax_file(markdown_view.settings().get('syntax'))
 
+
     # here, views are NOT treated independently, which is theoretically wrong
     # but in practice, you can only edit one markdown file at a time, so it doesn't really
     # matter.
     # @min_time_between_call(.5)
     def on_modified_async(self, markdown_view):
+
+        # FIXME: it keeps on flickering, it's really annoying
+
         infos = markdown_view.settings().get(MARKDOWN_VIEW_INFOS)
         if not infos:
             return
