@@ -14,7 +14,6 @@ This is the first image from the local file system, *relative* path!
 
 This is the first image from the internet!
 
-
-![The sublime text logo!](https://www.sublimehq.com/images/sublime_text.png)
+![some paysage](https://4.bp.blogspot.com/-RHTlwmd9EBw/Tn84-JEW8NI/AAAAAAAAAD0/6ugjklUMbtY/s1600/acapulco-8-704125.jpg)
 
 [prev]: https://github.com/math2001/MarkdownLivePreview/tree/d4c477749ce7e77b8e9fc85464a2488f003c45bc

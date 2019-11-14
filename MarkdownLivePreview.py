@@ -150,7 +150,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
             original_view.set_syntax_file(markdown_view.settings().get('syntax'))
 
-    # here, views are NOT treated independently, which is theoratically wrong
+    # here, views are NOT treated independently, which is theoretically wrong
     # but in practice, you can only edit one markdown file at a time, so it doesn't really
     # matter.
     # @min_time_between_call(.5)
