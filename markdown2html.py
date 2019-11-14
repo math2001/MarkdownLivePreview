@@ -1,15 +1,16 @@
+import os.path
 import concurrent.futures
 import urllib.request
 import base64
-import os.path
+import bs4
 
 from functools import lru_cache, partial
-from bs4 import BeautifulSoup
+
 from .lib.markdown2 import Markdown
 
 __all__ = ('markdown2html', )
 
-markdowner = Markdown()
+markdowner = Markdown(extras=['fenced-code-blocks'])
 
 # FIXME: how do I choose how many workers I want? Does thread pool reuse threads or
 #        does it stupidly throw them out? (we could implement something of our own)
@@ -32,7 +33,7 @@ def markdown2html(markdown, basepath, re_render):
     """
     html = markdowner.convert(markdown)
 
-    soup = BeautifulSoup(html, "html.parser")
+    soup = bs4.BeautifulSoup(html, "html.parser")
     for img_element in soup.find_all('img'):
         src = img_element['src']
 
@@ -54,7 +55,6 @@ def markdown2html(markdown, basepath, re_render):
         try:
             base64 = get_base64_image(path, re_render)
         except FileNotFoundError as e:
-            print("{!r} not found {!r}".format(path, e))
             base64 = BASE64_404_IMAGE
         except LoadingError:
             # the image is loading
@@ -63,6 +63,12 @@ def markdown2html(markdown, basepath, re_render):
         img_element['src'] = base64
 
     # FIXME: how do tables look? should we use ascii tables?
+
+    # FIXME: pre aren't handled by ST3. The require manual adjustment
+
+    # FIXME: include a stylesheet
+
+    # FIXME: remove the comments, because they pollute the console with error messages
 
     return str(soup)
 
@@ -83,7 +89,7 @@ def get_base64_image(path, re_render):
         if path in images_cache:
             return images_cache[path]
         executor.submit(load_image, path).add_done_callback(partial(callback, path))
-        return 'loading of the internet!'
+        raise LoadingError()
 
     with open(path, 'rb') as fp:
         return 'data:image/png;base64,' + base64.b64encode(fp.read()).decode('utf-8')

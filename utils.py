@@ -21,7 +21,3 @@ def min_time_between_call(timeout, on_block=lambda *args, **kwargs: None):
             return func(*args, **kwargs)
         return wrapper
     return outer
-
-@min_time_between_call(1)
-def hello():
-    print(time.time())
