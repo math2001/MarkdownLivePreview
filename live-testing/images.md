@@ -3,7 +3,7 @@ I'm not sure that it **actually** going to work, but it seems nicer than the [pr
 This is the first image from the local file system (absolute path, sorry, it's not going
 to work on your system unless your username is math2001):
 
-![The sublime text logo!](file:///home/math2001/.config/sublime-text-3/Packages/MarkdownLivePreview2/live-testing/sublime_text.png)
+![The sublime text logo!](file:///home/math2001/.config/sublime-text-3/Packages/MarkdownLivePreview/live-testing/sublime_text.png)
 
 This is the first image from the local file system, *relative* path!
 

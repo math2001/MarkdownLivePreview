@@ -6,6 +6,7 @@ from functools import partial
 
 from .markdown2html import markdown2html
 from .utils import *
+from .resources import resources
 
 def plugin_loaded():
     pass
@@ -51,7 +52,6 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
             original_view.close()
             # FIXME: save the document to a temporary file, so that if we crash,
             #        the user doesn't lose what he wrote
-
 
         sublime.run_command('new_window')
         preview_window = sublime.active_window()
@@ -183,8 +183,12 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         markdown = markdown_view.substr(total_region)
 
         basepath = os.path.dirname(markdown_view.file_name())
-        html = markdown2html(markdown, basepath, partial(self._update_preview,
-                                                         markdown_view))
+        html = markdown2html(
+            markdown,
+            basepath,
+            partial(self._update_preview, markdown_view),
+            resources
+        )
 
         self.phantom_sets[markdown_view.id()].update([
             sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,

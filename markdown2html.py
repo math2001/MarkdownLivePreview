@@ -16,16 +16,12 @@ markdowner = Markdown(extras=['fenced-code-blocks'])
 #        does it stupidly throw them out? (we could implement something of our own)
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
 
-# FIXME: put a nice picture please :^)
-BASE64_LOADING_IMAGE = 'loading image!'
-BASE64_404_IMAGE = '404 not found :-('
-
 images_cache = {}
 
 class LoadingError(Exception):
     pass
 
-def markdown2html(markdown, basepath, re_render):
+def markdown2html(markdown, basepath, re_render, resources):
     """ converts the markdown to html, loads the images and puts in base64 for sublime
     to understand them correctly. That means that we are responsible for loading the
     images from the internet. Hence, we take in re_render, which is just a function we 
@@ -55,10 +51,9 @@ def markdown2html(markdown, basepath, re_render):
         try:
             base64 = get_base64_image(path, re_render)
         except FileNotFoundError as e:
-            base64 = BASE64_404_IMAGE
+            base64 = resources['base64_404_image']
         except LoadingError:
-            # the image is loading
-            base64 = BASE64_LOADING_IMAGE
+            base64 = resources['base64_loading_image']
 
         img_element['src'] = base64
 
@@ -72,7 +67,7 @@ def markdown2html(markdown, basepath, re_render):
 
     # FIXME: include a stylesheet
 
-    return str(soup)
+    return "<style>\n{}\n</style>\n\n{}".format(resources['stylesheet'], soup)
 
 def get_base64_image(path, re_render):
 
@@ -93,6 +88,8 @@ def get_base64_image(path, re_render):
         executor.submit(load_image, path).add_done_callback(partial(callback, path))
         raise LoadingError()
 
+    # FIXME: use some kind of cache for this as well, because it decodes on every
+    #        keystroke here...
     with open(path, 'rb') as fp:
         return 'data:image/png;base64,' + base64.b64encode(fp.read()).decode('utf-8')
 
