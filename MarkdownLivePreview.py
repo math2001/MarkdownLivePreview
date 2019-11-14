@@ -1,12 +1,16 @@
 import sublime
 import sublime_plugin
 
+from .lib.markdown2 import Markdown
 from .utils import *
 
 def plugin_loaded():
     pass
 
-SETTING_MDLP = "markdown_live_preview"
+MARKDOWN_VIEW_INFOS = "markdown_view_infos"
+PREVIEW_VIEW_INFOS = "preview_view_infos"
+# FIXME: put this as a setting for the user to choose?
+DELAY = 500 # ms
 
 # original_view: the view in the regular editor, without it's own window
 # markdown_view: the markdown view, in the special window
@@ -33,7 +37,6 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
 
         syntax_file = original_view.settings().get('syntax')
 
-
         if file_name:
             original_view.close()
         else:
@@ -55,6 +58,12 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
             'cells': [[0, 0, 1, 1], [1, 0, 2, 1]]
         })
 
+        preview_window.focus_group(1)
+        preview_view = preview_window.new_file()
+        preview_view.set_scratch(True)
+        preview_view.settings().set(PREVIEW_VIEW_INFOS, {})
+
+
         preview_window.focus_group(0)
         if file_name:
             markdown_view = preview_window.open_file(file_name)
@@ -63,8 +72,11 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
             markdown_view.run_command('mdlp_insert', {'point': 0, 'string': content})
             markdown_view.set_scratch(True)
 
+        MarkdownLivePreviewListener.phantom_sets[markdown_view.id()] = sublime.PhantomSet(preview_view)
+        MarkdownLivePreviewListener._update_preview(MarkdownLivePreviewListener, markdown_view)
+
         markdown_view.set_syntax_file(syntax_file)
-        markdown_view.settings().set(SETTING_MDLP, {
+        markdown_view.settings().set(MARKDOWN_VIEW_INFOS, {
             "original_window_id": original_window_id
         })
 
@@ -76,11 +88,17 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
 
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
+    markdowner = Markdown()
+
+    phantom_sets = {
+        # markdown_view.id(): phantom set
+    }
+
     def on_pre_close(self, markdown_view):
         """ Close the view in the preview window, and store information for the on_close
         listener (see doc there)
         """
-        if not markdown_view.settings().get(SETTING_MDLP):
+        if not markdown_view.settings().get(MARKDOWN_VIEW_INFOS):
             return
 
         self.markdown_view = markdown_view
@@ -98,7 +116,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
     def on_close(self, markdown_view):
         """ Use the information saved to restore the markdown_view as an original_view
         """
-        infos = markdown_view.settings().get(SETTING_MDLP)
+        infos = markdown_view.settings().get(MARKDOWN_VIEW_INFOS)
         if not infos:
             return
 
@@ -123,3 +141,28 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             original_view.run_command('mdlp_insert', {'point': 0, 'string': self.content})
 
             original_view.set_syntax_file(markdown_view.settings().get('syntax'))
+
+    # here, views are NOT treated independently, which is theoratically wrong
+    # but in practice, you can only edit one markdown file at a time, so it doesn't really
+    # matter.
+    # @min_time_between_call(.5)
+    def on_modified_async(self, markdown_view):
+        infos = markdown_view.settings().get(MARKDOWN_VIEW_INFOS)
+        if not infos:
+            return
+
+        self._update_preview(markdown_view)
+
+    def _update_preview(self, markdown_view):
+        total_region = sublime.Region(0, markdown_view.size())
+        markdown = markdown_view.substr(total_region)
+
+        html = self.markdowner.convert(markdown)
+
+        # FIXME: replace images
+
+        self.phantom_sets[markdown_view.id()].update([
+            sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
+                lambda href: sublime.run_command('open_url', {'url': href}))
+            ])
+
