@@ -1,7 +1,10 @@
+import os.path
 import sublime
 import sublime_plugin
 
-from .lib.markdown2 import Markdown
+from functools import partial
+
+from .markdown2html import markdown2html
 from .utils import *
 
 def plugin_loaded():
@@ -85,8 +88,6 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
 
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
-    markdowner = Markdown()
-
     phantom_sets = {
         # markdown_view.id(): phantom set
     }
@@ -161,17 +162,23 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         self._update_preview(markdown_view)
 
     def _update_preview(self, markdown_view):
-        print('update markdown view', markdown_view.is_loading())
+        # if the buffer id is 0, that means that the markdown_view has been closed
+        # This check is needed since a this function is used as a callback for when images
+        # are loaded from the internet (ie. it could finish loading *after* the user
+        # closes the markdown_view)
+        if markdown_view.buffer_id() == 0:
+            return
+
         total_region = sublime.Region(0, markdown_view.size())
         markdown = markdown_view.substr(total_region)
 
-        html = self.markdowner.convert(markdown)
-        print(html)
-
-        # FIXME: replace images
+        basepath = os.path.dirname(markdown_view.file_name())
+        html = markdown2html(markdown, basepath, partial(self._update_preview,
+                                                         markdown_view))
 
         self.phantom_sets[markdown_view.id()].update([
             sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
                 lambda href: sublime.run_command('open_url', {'url': href}))
             ])
 
+        
