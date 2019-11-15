@@ -1,3 +1,4 @@
+import copy
 import os.path
 import concurrent.futures
 import urllib.request
@@ -65,7 +66,15 @@ def markdown2html(markdown, basepath, re_render, resources):
 
     # FIXME: pre aren't handled by ST3. The require manual adjustment
 
-    # FIXME: include a stylesheet
+    br = soup.new_tag('br')
+    for pre_element in soup.find_all('pre'):
+        # select the first child, <code>
+        code_element = next(pre_element.children)
+        # FIXME: this line sucks, but can we do better?
+        code_element.replace_with(
+            bs4.BeautifulSoup(str(code_element).replace('\n', '<br>'), "html.parser"))
+
+    # FIXME: highlight the code using Sublime's syntax
 
     return "<style>\n{}\n</style>\n\n{}".format(resources['stylesheet'], soup)
 
