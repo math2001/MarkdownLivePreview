@@ -1,0 +1,44 @@
+html {
+    --light-bg: color(var(--background) blend(#fff 90%));
+    --very-light-bg: color(var(--background) blend(#fff 85%));
+}
+
+body {
+    font-family: "Ubuntu", "DejaVu Sans", "Open Sans", sans-serif;
+    font-size: 15px;
+}
+
+blockquote {
+    font-style: italic;
+    display: block;
+    margin-left: 30px;
+}
+
+pre {
+	display: block;
+	background-color: var(--very-light-bg);
+}
+
+code {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    margin: 0;
+    border-radius: 3px;
+    background-color: red;
+}
+
+code {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    background-color: var(--very-light-bg);
+    margin: 0;
+    border-radius: 3px;
+}
+
+pre code {
+    padding: 0;
+}
+
+i.space {
+    color: var(--very-light-bg);
+}
