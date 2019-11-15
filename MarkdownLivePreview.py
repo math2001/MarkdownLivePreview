@@ -10,22 +10,26 @@ from .utils import *
 MARKDOWN_VIEW_INFOS = "markdown_view_infos"
 PREVIEW_VIEW_INFOS = "preview_view_infos"
 # FIXME: put this as a setting for the user to choose?
-DELAY = 100 # ms
+DELAY = 100  # ms
+
 
 def get_resource(resource):
-    path = 'Packages/MarkdownLivePreview/resources/' + resource
-    abs_path = os.path.join(sublime.packages_path(), '..', path)
+    path = "Packages/MarkdownLivePreview/resources/" + resource
+    abs_path = os.path.join(sublime.packages_path(), "..", path)
     if os.path.isfile(abs_path):
-        with open(abs_path, 'r') as fp:
+        with open(abs_path, "r") as fp:
             return fp.read()
     return sublime.load_resource(path)
 
+
 resources = {}
 
+
 def plugin_loaded():
-    resources["base64_loading_image"] = get_resource('loading.base64')
-    resources["base64_404_image"] = get_resource('404.base64')
-    resources["stylesheet"] = get_resource('stylesheet.css')
+    resources["base64_loading_image"] = get_resource("loading.base64")
+    resources["base64_404_image"] = get_resource("404.base64")
+    resources["stylesheet"] = get_resource("stylesheet.css")
+
 
 # try to reload the resources if we save this file
 try:
@@ -40,13 +44,13 @@ except OSError:
 # original_window: the regular window
 # preview_window: the window with the markdown file and the preview
 
-class MdlpInsertCommand(sublime_plugin.TextCommand):
 
+class MdlpInsertCommand(sublime_plugin.TextCommand):
     def run(self, edit, point, string):
         self.view.insert(edit, point, string)
 
-class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
 
+class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
     def run(self, edit):
 
         """ If the file is saved exists on disk, we close it, and reopen it in a new
@@ -57,7 +61,7 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
         original_window_id = original_view.window().id()
         file_name = original_view.file_name()
 
-        syntax_file = original_view.settings().get('syntax')
+        syntax_file = original_view.settings().get("syntax")
 
         if file_name:
             original_view.close()
@@ -70,41 +74,44 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
             # FIXME: save the document to a temporary file, so that if we crash,
             #        the user doesn't lose what he wrote
 
-        sublime.run_command('new_window')
+        sublime.run_command("new_window")
         preview_window = sublime.active_window()
 
-        preview_window.run_command('set_layout', {
-            'cols': [0.0, 0.5, 1.0],
-            'rows': [0.0, 1.0],
-            'cells': [[0, 0, 1, 1], [1, 0, 2, 1]]
-        })
+        preview_window.run_command(
+            "set_layout",
+            {
+                "cols": [0.0, 0.5, 1.0],
+                "rows": [0.0, 1.0],
+                "cells": [[0, 0, 1, 1], [1, 0, 2, 1]],
+            },
+        )
 
         preview_window.focus_group(1)
         preview_view = preview_window.new_file()
         preview_view.set_scratch(True)
         preview_view.settings().set(PREVIEW_VIEW_INFOS, {})
-        preview_view.set_name('Preview')
-
+        preview_view.set_name("Preview")
 
         preview_window.focus_group(0)
         if file_name:
             markdown_view = preview_window.open_file(file_name)
         else:
             markdown_view = preview_window.new_file()
-            markdown_view.run_command('mdlp_insert', {'point': 0, 'string': content})
+            markdown_view.run_command("mdlp_insert", {"point": 0, "string": content})
             markdown_view.set_scratch(True)
 
         markdown_view.set_syntax_file(syntax_file)
-        markdown_view.settings().set(MARKDOWN_VIEW_INFOS, {
-            "original_window_id": original_window_id
-        })
+        markdown_view.settings().set(
+            MARKDOWN_VIEW_INFOS, {"original_window_id": original_window_id}
+        )
 
     def is_enabled(self):
         # FIXME: is this the best way there is to check if the current syntax is markdown?
         #        should we only support default markdown?
         #        what about "md"?
         # FIXME: what about other languages, where markdown preview roughly works?
-        return 'markdown' in self.view.settings().get('syntax').lower()
+        return "markdown" in self.view.settings().get("syntax").lower()
+
 
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
@@ -153,30 +160,36 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         if not infos:
             return
 
-        assert markdown_view.id() == self.markdown_view.id(), \
-        "pre_close view.id() != close view.id()"
+        assert (
+            markdown_view.id() == self.markdown_view.id()
+        ), "pre_close view.id() != close view.id()"
 
         del self.phantom_sets[markdown_view.id()]
 
-        self.preview_window.run_command('close_window')
+        self.preview_window.run_command("close_window")
 
         # find the window with the right id
-        original_window = next(window for window in sublime.windows() \
-                               if window.id() == infos['original_window_id'])
+        original_window = next(
+            window
+            for window in sublime.windows()
+            if window.id() == infos["original_window_id"]
+        )
         if self.file_name:
             original_window.open_file(self.file_name)
         else:
-            assert markdown_view.is_scratch(), "markdown view of an unsaved file should " \
-            "be a scratch"
+            assert markdown_view.is_scratch(), (
+                "markdown view of an unsaved file should " "be a scratch"
+            )
             # note here that this is called original_view, because it's what semantically
             # makes sense, but this original_view.id() will be different than the one
             # that we closed first to reopen in the preview window
             # shouldn't cause any trouble though
             original_view = original_window.new_file()
-            original_view.run_command('mdlp_insert', {'point': 0, 'string': self.content})
+            original_view.run_command(
+                "mdlp_insert", {"point": 0, "string": self.content}
+            )
 
-            original_view.set_syntax_file(markdown_view.settings().get('syntax'))
-
+            original_view.set_syntax_file(markdown_view.settings().get("syntax"))
 
     # here, views are NOT treated independently, which is theoretically wrong
     # but in practice, you can only edit one markdown file at a time, so it doesn't really
@@ -188,7 +201,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         if not infos:
             return
 
-        # we schedule an update, which won't run if an 
+        # we schedule an update, which won't run if an
         sublime.set_timeout(partial(self._update_preview, markdown_view), DELAY)
 
     def _update_preview(self, markdown_view):
@@ -209,15 +222,16 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
         basepath = os.path.dirname(markdown_view.file_name())
         html = markdown2html(
-            markdown,
-            basepath,
-            partial(self._update_preview, markdown_view),
-            resources
+            markdown, basepath, partial(self._update_preview, markdown_view), resources
         )
 
-        self.phantom_sets[markdown_view.id()].update([
-            sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
-                lambda href: sublime.run_command('open_url', {'url': href}))
-            ])
-
-        
+        self.phantom_sets[markdown_view.id()].update(
+            [
+                sublime.Phantom(
+                    sublime.Region(0),
+                    html,
+                    sublime.LAYOUT_BLOCK,
+                    lambda href: sublime.run_command("open_url", {"url": href}),
+                )
+            ]
+        )

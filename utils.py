@@ -1,8 +1,10 @@
 # import sublime
 import time
 
+
 def get_settings():
     return sublime.get_settings("MarkdownLivePreview.sublime-settings")
+
 
 def min_time_between_call(timeout, on_block=lambda *args, **kwargs: None):
     """ Enforces a timeout between each call to the function
@@ -19,5 +21,7 @@ def min_time_between_call(timeout, on_block=lambda *args, **kwargs: None):
 
             last_call = time.time()
             return func(*args, **kwargs)
+
         return wrapper
+
     return outer
