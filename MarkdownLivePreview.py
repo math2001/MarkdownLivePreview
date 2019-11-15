@@ -83,6 +83,7 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
         preview_view = preview_window.new_file()
         preview_view.set_scratch(True)
         preview_view.settings().set(PREVIEW_VIEW_INFOS, {})
+        preview_view.set_name('Preview')
 
 
         preview_window.focus_group(0)
@@ -142,7 +143,6 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
         preview_view = markdown_view.window().active_view_in_group(1)
 
-        # FIXME: set the preview title
         self.phantom_sets[markdown_view.id()] = sublime.PhantomSet(preview_view)
         self._update_preview(markdown_view)
 
