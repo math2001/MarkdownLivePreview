@@ -1,4 +1,4 @@
-# hello world  
+# hello world
 
 This is a *test*. Some inline `[2]code()`.
 
@@ -12,7 +12,5 @@ if input("answer yes") != 'yes':
 ```
 
 this flickering is really annoying...
-
-this
 
 It looks like it's gone... Oh wait nah, it's still here...

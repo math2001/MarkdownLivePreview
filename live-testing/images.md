@@ -1,5 +1,7 @@
 I'm not sure that it **actually** going to work, but it seems nicer than the [previous version][prev]
 
+this is a test, hello world
+
 This is the first image from the local file system (absolute path, sorry, it's not going
 to work on your system unless your username is math2001):
 

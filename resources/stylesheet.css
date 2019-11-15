@@ -4,7 +4,8 @@ html {
 }
 
 body {
-	font-family: "Ubuntu", "DejaVu Sans", "Open Sans", sans-serif;
+    font-family: "Ubuntu", "DejaVu Sans", "Open Sans", sans-serif;
+    font-size: 15px;
 }
 
 blockquote {

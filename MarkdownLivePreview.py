@@ -10,7 +10,7 @@ from .utils import *
 MARKDOWN_VIEW_INFOS = "markdown_view_infos"
 PREVIEW_VIEW_INFOS = "preview_view_infos"
 # FIXME: put this as a setting for the user to choose?
-DELAY = 500 # ms
+DELAY = 100 # ms
 
 def get_resource(resource):
     path = 'Packages/MarkdownLivePreview/resources/' + resource
@@ -102,6 +102,7 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
         # FIXME: is this the best way there is to check if the current syntax is markdown?
         #        should we only support default markdown?
         #        what about "md"?
+        # FIXME: what about other languages, where markdown preview roughly works?
         return 'markdown' in self.view.settings().get('syntax').lower()
 
 class MarkdownLivePreviewListener(sublime_plugin.EventListener):
@@ -109,6 +110,10 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
     phantom_sets = {
         # markdown_view.id(): phantom set
     }
+
+    # we schedule an update for every key stroke, with a delay of DELAY
+    # then, we update only if now() - last_update > DELAY
+    last_update = 0
 
     # FIXME: maybe we shouldn't restore the file in the original window...
 
@@ -124,7 +129,6 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         self.file_name = markdown_view.file_name()
 
         if self.file_name is None:
-            # FIXME: this is duplicated code. How should it be generalized?
             total_region = sublime.Region(0, markdown_view.size())
             self.content = markdown_view.substr(total_region)
             markdown_view.erase(edit, total_region)
@@ -180,21 +184,25 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
     # @min_time_between_call(.5)
     def on_modified_async(self, markdown_view):
 
-        # FIXME: it keeps on flickering, it's really annoying
-
         infos = markdown_view.settings().get(MARKDOWN_VIEW_INFOS)
         if not infos:
             return
 
-        self._update_preview(markdown_view)
+        # we schedule an update, which won't run if an 
+        sublime.set_timeout(partial(self._update_preview, markdown_view), DELAY)
 
     def _update_preview(self, markdown_view):
         # if the buffer id is 0, that means that the markdown_view has been closed
         # This check is needed since a this function is used as a callback for when images
         # are loaded from the internet (ie. it could finish loading *after* the user
         # closes the markdown_view)
+        if time.time() - self.last_update < DELAY / 1000:
+            return
+
         if markdown_view.buffer_id() == 0:
             return
+
+        self.last_update = time.time()
 
         total_region = sublime.Region(0, markdown_view.size())
         markdown = markdown_view.substr(total_region)
