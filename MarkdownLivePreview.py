@@ -207,8 +207,6 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             resources
         )
 
-        print(repr(html))
-
         self.phantom_sets[markdown_view.id()].update([
             sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
                 lambda href: sublime.run_command('open_url', {'url': href}))

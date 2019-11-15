@@ -71,14 +71,15 @@ def markdown2html(markdown, basepath, re_render, resources):
 
         # FIXME: this method sucks, but can we do better?
         fixed_pre = str(code_element) \
-            .replace('\n', '<br>')\
-            .replace(' ', '<i class="space">.</i>')
+            .replace(' ', '<i class="space">.</i>') \
+            .replace('\n', '<br />')
 
         code_element.replace_with(bs4.BeautifulSoup(fixed_pre, "html.parser"))
 
     # FIXME: highlight the code using Sublime's syntax
 
-    return "<style>\n{}\n</style>\n\n{}".format(resources['stylesheet'], soup)
+    # FIXME: report that ST doesn't support <br/> but does work with <br />... WTF?
+    return "<style>\n{}\n</style>\n\n{}".format(resources['stylesheet'], soup).replace('<br/>', '<br />')
 
 def get_base64_image(path, re_render):
 
