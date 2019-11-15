@@ -64,15 +64,17 @@ def markdown2html(markdown, basepath, re_render, resources):
 
     # FIXME: how do tables look? should we use ascii tables?
 
-    # FIXME: pre aren't handled by ST3. The require manual adjustment
-
-    br = soup.new_tag('br')
+    # pre aren't handled by ST3. The require manual adjustment
     for pre_element in soup.find_all('pre'):
         # select the first child, <code>
         code_element = next(pre_element.children)
-        # FIXME: this line sucks, but can we do better?
-        code_element.replace_with(
-            bs4.BeautifulSoup(str(code_element).replace('\n', '<br>'), "html.parser"))
+
+        # FIXME: this method sucks, but can we do better?
+        fixed_pre = str(code_element) \
+            .replace('\n', '<br>')\
+            .replace(' ', '<i class="space">.</i>')
+
+        code_element.replace_with(bs4.BeautifulSoup(fixed_pre, "html.parser"))
 
     # FIXME: highlight the code using Sublime's syntax
 

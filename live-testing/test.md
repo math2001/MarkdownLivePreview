@@ -6,7 +6,9 @@ what the hell...
 
 ```python
 import this
-# you should try this
+
+if input("answer yes") != 'yes':
+	print("Really?")
 ```
 
 this flickering is really annoying...

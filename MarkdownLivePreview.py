@@ -207,7 +207,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             resources
         )
 
-        # print(html)
+        print(repr(html))
 
         self.phantom_sets[markdown_view.id()].update([
             sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
