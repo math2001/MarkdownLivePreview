@@ -17,7 +17,7 @@ from .lib.markdown2 import Markdown
 
 __all__ = ("markdown2html",)
 
-markdowner = Markdown(extras=["fenced-code-blocks"])
+markdowner = Markdown(extras=["fenced-code-blocks", "cuddled-lists"])
 
 # FIXME: how do I choose how many workers I want? Does thread pool reuse threads or
 #        does it stupidly throw them out? (we could implement something of our own)
