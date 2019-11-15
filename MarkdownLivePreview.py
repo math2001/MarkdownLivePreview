@@ -6,15 +6,32 @@ from functools import partial
 
 from .markdown2html import markdown2html
 from .utils import *
-from .resources import resources
-
-def plugin_loaded():
-    pass
 
 MARKDOWN_VIEW_INFOS = "markdown_view_infos"
 PREVIEW_VIEW_INFOS = "preview_view_infos"
 # FIXME: put this as a setting for the user to choose?
 DELAY = 500 # ms
+
+def get_resource(resource):
+    path = 'Packages/MarkdownLivePreview/resources/' + resource
+    abs_path = os.path.join(sublime.packages_path(), '..', path)
+    if os.path.isfile(abs_path):
+        with open(abs_path, 'r') as fp:
+            return fp.read()
+    return sublime.load_resource(path)
+
+resources = {}
+
+def plugin_loaded():
+    resources["base64_loading_image"] = get_resource('loading.base64')
+    resources["base64_404_image"] = get_resource('404.base64')
+    resources["stylesheet"] = get_resource('stylesheet.css')
+
+# try to reload the resources if we save this file
+try:
+    plugin_loaded()
+except OSError:
+    pass
 
 # Terminology
 # original_view: the view in the regular editor, without it's own window
@@ -189,6 +206,8 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
             partial(self._update_preview, markdown_view),
             resources
         )
+
+        print(html)
 
         self.phantom_sets[markdown_view.id()].update([
             sublime.Phantom(sublime.Region(0), html, sublime.LAYOUT_BLOCK,
