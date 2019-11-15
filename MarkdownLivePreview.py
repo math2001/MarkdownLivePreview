@@ -26,8 +26,8 @@ resources = {}
 
 
 def plugin_loaded():
-    resources["base64_loading_image"] = get_resource("loading.base64")
     resources["base64_404_image"] = get_resource("404.base64")
+    resources["base64_loading_image"] = get_resource("loading.base64")
     resources["stylesheet"] = get_resource("stylesheet.css")
 
 
@@ -222,7 +222,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
 
         basepath = os.path.dirname(markdown_view.file_name())
         html = markdown2html(
-            markdown, basepath, partial(self._update_preview, markdown_view), resources
+            markdown, basepath, partial(self._update_preview, markdown_view), resources,
         )
 
         self.phantom_sets[markdown_view.id()].update(

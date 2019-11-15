@@ -23,5 +23,4 @@ in `MarkdownLivePreview.py` and `markdown2html.py` (GitHub only shows the top
 3. All your code should be formated by black.
 4. Send a PR!
 
-
-
+FIXME: add a git hook to format using black (can the git hook be added on github?)
