@@ -1,0 +1,4 @@
+{
+	// minimum number of milliseconds to wait before updating the preview again
+	"delay_between_updates": 100
+}

@@ -1,3 +1,12 @@
+"""
+Terminology
+original_view: the view in the regular editor, without it's own window
+markdown_view: the markdown view, in the special window
+preview_view: the preview view, in the special window
+original_window: the regular window
+preview_window: the window with the markdown file and the preview
+"""
+
 import os.path
 import sublime
 import sublime_plugin
@@ -5,44 +14,22 @@ import sublime_plugin
 from functools import partial
 
 from .markdown2html import markdown2html
-from .utils import *
 
 MARKDOWN_VIEW_INFOS = "markdown_view_infos"
 PREVIEW_VIEW_INFOS = "preview_view_infos"
-# FIXME: put this as a setting for the user to choose?
-DELAY = 100  # ms
-
-
-def get_resource(resource):
-    path = "Packages/MarkdownLivePreview/resources/" + resource
-    abs_path = os.path.join(sublime.packages_path(), "..", path)
-    if os.path.isfile(abs_path):
-        with open(abs_path, "r") as fp:
-            return fp.read()
-    return sublime.load_resource(path)
-
+SETTING_DELAY_BETWEEN_UPDATES = "delay_between_updates"
 
 resources = {}
 
 
 def plugin_loaded():
+    global DELAY
     resources["base64_404_image"] = get_resource("404.base64")
     resources["base64_loading_image"] = get_resource("loading.base64")
     resources["stylesheet"] = get_resource("stylesheet.css")
-
-
-# try to reload the resources if we save this file
-try:
-    plugin_loaded()
-except OSError:
-    pass
-
-# Terminology
-# original_view: the view in the regular editor, without it's own window
-# markdown_view: the markdown view, in the special window
-# preview_view: the preview view, in the special window
-# original_window: the regular window
-# preview_window: the window with the markdown file and the preview
+    # FIXME: how could we make this setting update without restarting sublime text
+    #        and not loading it every update as well
+    DELAY = get_settings().get(SETTING_DELAY_BETWEEN_UPDATES)
 
 
 class MdlpInsertCommand(sublime_plugin.TextCommand):
@@ -237,3 +224,23 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
                 )
             ]
         )
+
+
+def get_settings():
+    return sublime.load_settings("MarkdownLivePreview.sublime-settings")
+
+
+def get_resource(resource):
+    path = "Packages/MarkdownLivePreview/resources/" + resource
+    abs_path = os.path.join(sublime.packages_path(), "..", path)
+    if os.path.isfile(abs_path):
+        with open(abs_path, "r") as fp:
+            return fp.read()
+    return sublime.load_resource(path)
+
+
+# try to reload the resources if we save this file
+try:
+    plugin_loaded()
+except OSError:
+    pass

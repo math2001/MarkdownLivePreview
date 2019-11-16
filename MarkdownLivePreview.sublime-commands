@@ -3,5 +3,13 @@
 	{
 		"caption": "MarkdownLivePreview: Open Preview",
 		"command": "open_markdown_preview"
+	},
+	{
+		"caption": "MarkdownLivePreview: Open Settings",
+		"command": "edit_settings", "args":
+		{
+			"base_file": "${packages}/MarkdownLivePreview/MarkdownLivePreview.sublime-settings",
+			"default": "{\n\t$0\n}\n"
+		},
 	}
 ]
