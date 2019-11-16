@@ -136,3 +136,12 @@ def load_image(url):
                 )
             )
         return "data:image/png;base64," + base64.b64encode(conn.read()).decode("utf-8")
+
+
+def independent_markdown2html(markdown):
+    return markdown2html(
+        markdown,
+        ".",
+        lambda: None,
+        {"base64_404_image": "", "base64_loading_image": "", "stylesheet": ""},
+    )

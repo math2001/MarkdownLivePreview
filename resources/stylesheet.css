@@ -15,8 +15,9 @@ blockquote {
 }
 
 pre {
-	display: block;
-	background-color: var(--very-light-bg);
+    display: block;
+    background-color: var(--very-light-bg);
+    margin: 10px 0;
 }
 
 code {

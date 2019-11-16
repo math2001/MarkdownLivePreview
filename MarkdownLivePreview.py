@@ -91,6 +91,7 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
         preview_view.set_scratch(True)
         preview_view.settings().set(PREVIEW_VIEW_INFOS, {})
         preview_view.set_name("Preview")
+        # FIXME: hide number lines on preview
 
         preview_window.focus_group(0)
         if file_name:
@@ -224,6 +225,7 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         html = markdown2html(
             markdown, basepath, partial(self._update_preview, markdown_view), resources,
         )
+        print(html)
 
         self.phantom_sets[markdown_view.id()].update(
             [
