@@ -5,6 +5,8 @@ and makes it a lot easier to think about, and for anyone who would want to, test
 markdown2html is just a pure function
 """
 
+import io
+import struct
 import os.path
 import concurrent.futures
 import urllib.request
@@ -30,7 +32,7 @@ class LoadingError(Exception):
     pass
 
 
-def markdown2html(markdown, basepath, re_render, resources):
+def markdown2html(markdown, basepath, re_render, resources, viewport_width):
     """ converts the markdown to html, loads the images and puts in base64 for sublime
     to understand them correctly. That means that we are responsible for loading the
     images from the internet. Hence, we take in re_render, which is just a function we 
@@ -58,13 +60,16 @@ def markdown2html(markdown, basepath, re_render, resources):
             path = os.path.realpath(os.path.expanduser(os.path.join(basepath, src)))
 
         try:
-            base64 = get_base64_image(path, re_render)
+            base64, (width, height) = get_base64_image(path, re_render)
         except FileNotFoundError as e:
-            base64 = resources["base64_404_image"]
+            base64, (width, height) = resources["base64_404_image"]
         except LoadingError:
-            base64 = resources["base64_loading_image"]
+            base64, (width, height) = resources["base64_loading_image"]
 
         img_element["src"] = base64
+        if width > viewport_width:
+            img_element["width"] = viewport_width
+            img_element["height"] = viewport_width * (height / width)
 
     # remove comments, because they pollute the console with error messages
     for comment_element in soup.find_all(
@@ -100,10 +105,12 @@ def get_base64_image(path, re_render):
     """ Gets the base64 for the image (local and remote images). re_render is a
     callback which is called when we finish loading an image from the internet
     to trigger an update of the preview (the image will then be loaded from the cache)
+
+    return base64_data, (width, height)
     """
 
     def callback(path, future):
-        # altering image_cache is "safe" to do because callback is called in the same
+        # altering images_cache is "safe" to do because callback is called in the same
         # thread as add_done_callback:
         # > Added callables are called in the order that they were added and are always
         # > called in a thread belonging to the process that added them
@@ -120,14 +127,23 @@ def get_base64_image(path, re_render):
         executor.submit(load_image, path).add_done_callback(partial(callback, path))
         raise LoadingError()
 
-    with open(path, "rb") as fp:
-        image = "data:image/png;base64," + base64.b64encode(fp.read()).decode("utf-8")
-        images_cache[path] = image
-        return image
+    with open(path, "rb") as fhandle:
+        image_content = fhandle.read()
+        width, height = get_image_size(io.BytesIO(image_content), path)
+
+        image = "data:image/png;base64," + base64.b64encode(image_content).decode(
+            "utf-8"
+        )
+        images_cache[path] = image, (width, height)
+        return images_cache[path]
 
 
 def load_image(url):
     with urllib.request.urlopen(url, timeout=60) as conn:
+
+        image_content = conn.read()
+        width, height = get_image_size(io.BytesIO(image_content), url)
+
         content_type = conn.info().get_content_type()
         if "image" not in content_type:
             raise ValueError(
@@ -135,7 +151,60 @@ def load_image(url):
                     url, content_type
                 )
             )
-        return "data:image/png;base64," + base64.b64encode(conn.read()).decode("utf-8")
+        return (
+            "data:image/png;base64," + base64.b64encode(image_content).decode("utf-8"),
+            (width, height),
+        )
+
+
+def get_image_size(fhandle, pathlike):
+    """ Thanks to https://stackoverflow.com/a/20380514/6164984 for providing the basis
+        of a working solution.
+
+    fhandle should be a seekable stream. It's not the best for non-seekable streams,
+    but in our case, we have to load the whole stream into memory anyway because base64
+    library only accepts bytes-like objects, and not streams.
+
+    pathlike is the filename/path/url of the image so that we can guess the file format
+    """
+
+    format_ = os.path.splitext(os.path.basename(pathlike))[1][1:]
+
+    head = fhandle.read(24)
+    if len(head) != 24:
+        return "invalid head"
+    if format_ == "png":
+        check = struct.unpack(">i", head[4:8])[0]
+        if check != 0x0D0A1A0A:
+            return
+        width, height = struct.unpack(">ii", head[16:24])
+    elif format_ == "gif":
+        width, height = struct.unpack("<HH", head[6:10])
+    elif format_ == "jpeg":
+        try:
+            fhandle.seek(0)  # Read 0xff next
+
+            size = 2
+            ftype = 0
+            while not 0xC0 <= ftype <= 0xCF:
+                fhandle.seek(size, 1)
+                byte = fhandle.read(1)
+                if byte == b"":
+                    fhandle = end
+                    byte = fhandle.read(1)
+
+                while ord(byte) == 0xFF:
+                    byte = fhandle.read(1)
+                ftype = ord(byte)
+                size = struct.unpack(">H", fhandle.read(2))[0] - 2
+            # We are at a SOFn block
+            fhandle.seek(1, 1)  # Skip `precision' byte.
+            height, width = struct.unpack(">HH", fhandle.read(4))
+        except Exception as e:  # IGNORE:W0703
+            raise e
+    else:
+        return "unknown format {!r}".format(format_)
+    return width, height
 
 
 def independent_markdown2html(markdown):
@@ -143,5 +212,10 @@ def independent_markdown2html(markdown):
         markdown,
         ".",
         lambda: None,
-        {"base64_404_image": "", "base64_loading_image": "", "stylesheet": ""},
+        {
+            "base64_404_image": ("", (0, 0)),
+            "base64_loading_image": ("", (0, 0)),
+            "stylesheet": "",
+        },
+        960,
     )

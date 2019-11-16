@@ -7,7 +7,9 @@ original_window: the regular window
 preview_window: the window with the markdown file and the preview
 """
 
+import time
 import os.path
+import struct
 import sublime
 import sublime_plugin
 
@@ -24,8 +26,10 @@ resources = {}
 
 def plugin_loaded():
     global DELAY
-    resources["base64_404_image"] = get_resource("404.base64")
-    resources["base64_loading_image"] = get_resource("loading.base64")
+    resources["base64_404_image"] = parse_image_resource(get_resource("404.base64"))
+    resources["base64_loading_image"] = parse_image_resource(
+        get_resource("loading.base64")
+    )
     resources["stylesheet"] = get_resource("stylesheet.css")
     # FIXME: how could we make this setting update without restarting sublime text
     #        and not loading it every update as well
@@ -90,7 +94,7 @@ class OpenMarkdownPreviewCommand(sublime_plugin.TextCommand):
 
         markdown_view.set_syntax_file(syntax_file)
         markdown_view.settings().set(
-            MARKDOWN_VIEW_INFOS, {"original_window_id": original_window_id}
+            MARKDOWN_VIEW_INFOS, {"original_window_id": original_window_id,},
         )
 
     def is_enabled(self):
@@ -208,11 +212,17 @@ class MarkdownLivePreviewListener(sublime_plugin.EventListener):
         total_region = sublime.Region(0, markdown_view.size())
         markdown = markdown_view.substr(total_region)
 
+        preview_view = markdown_view.window().active_view_in_group(1)
+        viewport_width = preview_view.viewport_extent()[0]
+
         basepath = os.path.dirname(markdown_view.file_name())
         html = markdown2html(
-            markdown, basepath, partial(self._update_preview, markdown_view), resources,
+            markdown,
+            basepath,
+            partial(self._update_preview, markdown_view),
+            resources,
+            viewport_width,
         )
-        print(html)
 
         self.phantom_sets[markdown_view.id()].update(
             [
@@ -237,6 +247,11 @@ def get_resource(resource):
         with open(abs_path, "r") as fp:
             return fp.read()
     return sublime.load_resource(path)
+
+
+def parse_image_resource(text):
+    width, height, base64_image = text.splitlines()
+    return base64_image, (int(width), int(height))
 
 
 # try to reload the resources if we save this file
