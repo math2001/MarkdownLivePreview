@@ -1,7 +1,7 @@
 # Why?
 Why do you want to use fancy symbols in your standard monospace font? Obviously to have a fancy prompt like mine :-)
 
-![prompt](https://github.com/gabrielelana/awesome-terminal-fonts/raw/master/why.png)
+<!-- ![prompt](https://github.com/gabrielelana/awesome-terminal-fonts/raw/master/why.png) -->
 
 And because when you live in a terminal a symbol can convey more informations in less space creating a dense and beautiful (for those who have a certain aesthetic taste) informative workspace
 

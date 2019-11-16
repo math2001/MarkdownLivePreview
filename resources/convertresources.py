@@ -26,6 +26,7 @@ def make_cache(image_name):
         width, height = get_image_size(png)
         png.seek(0)
         base64.write(bytes("{}\n{}\n".format(width, height), encoding="utf-8"))
+        base64.write(b'data:image/png;base64,')
         base64.write(b64encode(png.read()))
 
 

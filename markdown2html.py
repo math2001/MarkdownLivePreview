@@ -25,13 +25,6 @@ markdowner = Markdown(extras=["fenced-code-blocks", "cuddled-lists"])
 #        does it stupidly throw them out? (we could implement something of our own)
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
 
-images_cache = {}
-
-
-class LoadingError(Exception):
-    pass
-
-
 def markdown2html(markdown, basepath, re_render, resources, viewport_width):
     """ converts the markdown to html, loads the images and puts in base64 for sublime
     to understand them correctly. That means that we are responsible for loading the
@@ -59,12 +52,7 @@ def markdown2html(markdown, basepath, re_render, resources, viewport_width):
             # realpath: simplify that paths so that we don't have duplicated caches
             path = os.path.realpath(os.path.expanduser(os.path.join(basepath, src)))
 
-        try:
-            base64, (width, height) = get_base64_image(path, re_render)
-        except FileNotFoundError as e:
-            base64, (width, height) = resources["base64_404_image"]
-        except LoadingError:
-            base64, (width, height) = resources["base64_loading_image"]
+        base64, (width, height) = get_base64_image(path, re_render, resources)
 
         img_element["src"] = base64
         if width > viewport_width:
@@ -100,8 +88,10 @@ def markdown2html(markdown, basepath, re_render, resources, viewport_width):
         "<br/>", "<br />"
     )
 
+images_cache = {}
+images_loading = []
 
-def get_base64_image(path, re_render):
+def get_base64_image(path, re_render, resources):
     """ Gets the base64 for the image (local and remote images). re_render is a
     callback which is called when we finish loading an image from the internet
     to trigger an update of the preview (the image will then be loaded from the cache)
@@ -109,13 +99,20 @@ def get_base64_image(path, re_render):
     return base64_data, (width, height)
     """
 
-    def callback(path, future):
+    def callback(path, resources, future):
         # altering images_cache is "safe" to do because callback is called in the same
         # thread as add_done_callback:
         # > Added callables are called in the order that they were added and are always
         # > called in a thread belonging to the process that added them
         # > --- Python docs
-        images_cache[path] = future.result()
+        try:
+            images_cache[path] = future.result()
+        except urllib.error.HTTPError as e:
+            images_cache[path] = resources['base64_404_image']
+            print("Error loading {!r}: {!r}".format(path, e))
+
+        images_loading.remove(path)
+
         # we render, which means this function will be called again, but this time, we
         # will read from the cache
         re_render()
@@ -124,8 +121,11 @@ def get_base64_image(path, re_render):
         return images_cache[path]
 
     if path.startswith("http://") or path.startswith("https://"):
-        executor.submit(load_image, path).add_done_callback(partial(callback, path))
-        raise LoadingError()
+        # FIXME: submiting a load of loaders, we should only have one
+        if path not in images_loading:
+            executor.submit(load_image, path).add_done_callback(partial(callback, path, resources))
+            images_loading.append(path)
+        return resources['base64_loading_image']
 
     with open(path, "rb") as fhandle:
         image_content = fhandle.read()
