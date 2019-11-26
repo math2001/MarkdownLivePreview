@@ -8,31 +8,66 @@ body {
     max-width: 100%;
     width: 640px;
     margin: auto;
-    font-family: monospace;
+    font-family: "DejaVu Sans Mono", "Consolas", "Menlo", monospace;
     font-size: 14px;
+    line-height: 1.5;
+    color: #232424;
+}
+code {
+    background-color: #dee3e6;
+    border-radius: 3px;
+    padding: 2px 5px;
+}
+pre {
+    background-color: #dee3e6;
+    border-radius: 3px;
+    padding: 10px;
 }
 .links {
+    text-align: center;
+}
+h1 {
+    text-align: center;
+    text-decoration: underline;
+}
+footer {
+    margin-top: 50px;
     text-align: center;
 }
 </style>
 </head>
 
 <body>
-    <h1>MarkdownLivePreview</h1>
-    <p class="links">
-        <a href="https://github.com/math2001/MarkdownLivePreview">GitHub</a>
-    </p>
+    <header>
+        <h1>MarkdownLivePreview</h1>
+        <p class="links">
+            <a href="https://github.com/math2001/MarkdownLivePreview">GitHub</a>
+            <a href="https://packagecontrol.io/packages/MarkdownLivePreview">Package Control</a>
+        </p>
+    </header>
     <p>This is the plugin MarkdownLivePreview. I have recently (16 November
     2019) rewritten everything so that it is easier for people to
     contribute.</p>
 
     <p>Hopefully, I'll get around writting a blog post about it soon.</p>
 
+    <p>To install it, it's on Package Control</p>
+
     <p>To open the preview, just open a markdown file, and in the command
     palette, you should find <code>MarkdownLivePreview: Open Preview</code></p>
 
-    <pre>FIXME: explain how to set a key binding</pre>
+    <p>If you want to use a keybinding, just add this to your keybinding file</p>
 
-    <pre>FIXME: upload a quick demo.</pre>
+    <pre>
+{
+    "keys": ["alt+m"],
+    "command": "open_markdown_preview"
+}</pre>
+
+    <p>FIXME: upload a quick demo gif. (wanna <a href="https://github.com/math2001/MarkdownLivePreview/compare">send a pull request?</a>)</p>
+
+    <footer>
+        <p>Made by <a href="https://github.com/math2001">@math2001</a></p>
+    </footer>
 </body>
 </html>
