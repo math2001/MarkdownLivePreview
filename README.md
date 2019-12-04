@@ -43,3 +43,23 @@ $ grep -R FIXME
    implementing eg. `improve-tables`, `fix-crash-on-multiple-preview`
 3. All your code should be formated by black.
 4. Send a PR!
+
+### Known limitations
+
+#### Numbered lists are rendered as unordered lists
+
+```md
+1. first
+2. second
+3. third
+```
+
+will be previewed the exact same way as
+
+```md
+- first
+- second
+- third
+```
+
+The issue comes from [Sublime Text's minihtml](https://www.sublimetext.com/docs/3/minihtml.html) which [doesn't support ordered lists](https://github.com/sublimehq/sublime_text/issues/1767). If you think feel like implementing a workaround, feel free to contribute, but it's not something I'm planning on doing. It isn't a critical feature, and support should come with time...
